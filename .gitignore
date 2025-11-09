@@ -1,0 +1,28 @@
+# =========================
+# Angular / frontend
+# =========================
+client/node_modules/          # dependencies (if any)
+client/.angular/              # Angular cache files
+client/*.log                  # logs
+
+# =========================
+# .NET / backend
+# =========================
+server/bin/                   # build output
+server/obj/                   # temporary files
+*.user                        # Visual Studio user files
+*.suo
+*.cache
+*.pdb
+
+# =========================
+# IDE / editor
+# =========================
+.vscode/                      # VS Code settings
+*.code-workspace
+
+# =========================
+# Environment / secrets
+# =========================
+*.env
+appsettings.*.json
