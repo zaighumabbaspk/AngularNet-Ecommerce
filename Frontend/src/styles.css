@@ -1,0 +1,6 @@
+body {
+  background: linear-gradient(135deg, #f4f7f9 0%, #e7ecf0 100%);
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+}

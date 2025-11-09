@@ -1,0 +1,617 @@
+2025-10-26 22:46:20.299 +05:00 [INF] Application is building...
+2025-10-26 22:46:20.565 +05:00 [FTL] Application startup failed!
+Microsoft.Extensions.Hosting.HostAbortedException: The host was aborted.
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.ThrowHostAborted()
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.OnNext(KeyValuePair`2 value)
+   at System.Diagnostics.DiagnosticListener.Write(String name, Object value)
+   at Microsoft.Extensions.Hosting.HostBuilder.ResolveHost(IServiceProvider serviceProvider, DiagnosticListener diagnosticListener)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host\Program.cs:line 49
+2025-10-26 22:47:46.146 +05:00 [INF] Application is building...
+2025-10-26 22:47:46.255 +05:00 [FTL] Application startup failed!
+Microsoft.Extensions.Hosting.HostAbortedException: The host was aborted.
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.ThrowHostAborted()
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.OnNext(KeyValuePair`2 value)
+   at System.Diagnostics.DiagnosticListener.Write(String name, Object value)
+   at Microsoft.Extensions.Hosting.HostBuilder.ResolveHost(IServiceProvider serviceProvider, DiagnosticListener diagnosticListener)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host\Program.cs:line 49
+2025-10-26 22:48:10.817 +05:00 [INF] Application is building...
+2025-10-26 22:48:10.933 +05:00 [FTL] Application startup failed!
+Microsoft.Extensions.Hosting.HostAbortedException: The host was aborted.
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.ThrowHostAborted()
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.OnNext(KeyValuePair`2 value)
+   at System.Diagnostics.DiagnosticListener.Write(String name, Object value)
+   at Microsoft.Extensions.Hosting.HostBuilder.ResolveHost(IServiceProvider serviceProvider, DiagnosticListener diagnosticListener)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host\Program.cs:line 49
+2025-10-26 22:49:49.892 +05:00 [INF] Application is building...
+2025-10-26 22:49:50.006 +05:00 [FTL] Application startup failed!
+Microsoft.Extensions.Hosting.HostAbortedException: The host was aborted.
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.ThrowHostAborted()
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.OnNext(KeyValuePair`2 value)
+   at System.Diagnostics.DiagnosticListener.Write(String name, Object value)
+   at Microsoft.Extensions.Hosting.HostBuilder.ResolveHost(IServiceProvider serviceProvider, DiagnosticListener diagnosticListener)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host\Program.cs:line 49
+2025-10-26 22:49:51.709 +05:00 [INF] Application is building...
+2025-10-26 22:49:51.835 +05:00 [FTL] Application startup failed!
+Microsoft.Extensions.Hosting.HostAbortedException: The host was aborted.
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.ThrowHostAborted()
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.OnNext(KeyValuePair`2 value)
+   at System.Diagnostics.DiagnosticListener.Write(String name, Object value)
+   at Microsoft.Extensions.Hosting.HostBuilder.ResolveHost(IServiceProvider serviceProvider, DiagnosticListener diagnosticListener)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host\Program.cs:line 49
+2025-10-26 22:52:44.907 +05:00 [INF] Application is building...
+2025-10-26 22:52:45.016 +05:00 [FTL] Application startup failed!
+Microsoft.Extensions.Hosting.HostAbortedException: The host was aborted.
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.ThrowHostAborted()
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.OnNext(KeyValuePair`2 value)
+   at System.Diagnostics.DiagnosticListener.Write(String name, Object value)
+   at Microsoft.Extensions.Hosting.HostBuilder.ResolveHost(IServiceProvider serviceProvider, DiagnosticListener diagnosticListener)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host\Program.cs:line 49
+2025-10-26 22:52:56.524 +05:00 [INF] Application is building...
+2025-10-26 22:52:56.628 +05:00 [FTL] Application startup failed!
+Microsoft.Extensions.Hosting.HostAbortedException: The host was aborted.
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.ThrowHostAborted()
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.OnNext(KeyValuePair`2 value)
+   at System.Diagnostics.DiagnosticListener.Write(String name, Object value)
+   at Microsoft.Extensions.Hosting.HostBuilder.ResolveHost(IServiceProvider serviceProvider, DiagnosticListener diagnosticListener)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host\Program.cs:line 49
+2025-10-26 22:56:23.042 +05:00 [INF] Application is building...
+2025-10-26 22:56:24.200 +05:00 [INF] User profile is available. Using 'C:\Users\hp\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-26 22:56:24.359 +05:00 [INF] Application is running...
+2025-10-26 22:56:24.623 +05:00 [INF] Now listening on: https://localhost:7137
+2025-10-26 22:56:24.624 +05:00 [INF] Now listening on: http://localhost:5217
+2025-10-26 22:56:24.671 +05:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-26 22:56:24.672 +05:00 [INF] Hosting environment: Development
+2025-10-26 22:56:24.673 +05:00 [INF] Content root path: C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host
+2025-10-26 22:56:35.186 +05:00 [INF] Application is building...
+2025-10-26 22:56:35.995 +05:00 [INF] User profile is available. Using 'C:\Users\hp\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-26 22:56:36.158 +05:00 [INF] Application is running...
+2025-10-26 22:56:36.369 +05:00 [INF] Now listening on: https://localhost:7137
+2025-10-26 22:56:36.370 +05:00 [INF] Now listening on: http://localhost:5217
+2025-10-26 22:56:36.418 +05:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-26 22:56:36.420 +05:00 [INF] Hosting environment: Development
+2025-10-26 22:56:36.421 +05:00 [INF] Content root path: C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host
+2025-10-26 22:56:37.714 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7137/swagger/index.html - null null
+2025-10-26 22:56:38.074 +05:00 [INF] HTTP GET /swagger/index.html responded 200 in 175.8409 ms
+2025-10-26 22:56:38.086 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7137/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-26 22:56:38.086 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7137/_vs/browserLink - null null
+2025-10-26 22:56:38.092 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7137/swagger/index.html - 200 null text/html;charset=utf-8 386.506ms
+2025-10-26 22:56:38.101 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7137/_framework/aspnetcore-browser-refresh.js - 200 16513 application/javascript; charset=utf-8 15.3423ms
+2025-10-26 22:56:38.145 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7137/_vs/browserLink - 200 null text/javascript; charset=UTF-8 59.3087ms
+2025-10-26 22:56:38.191 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7137/swagger/v1/swagger.json - null null
+2025-10-26 22:56:38.216 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7137/swagger/favicon-32x32.png - null null
+2025-10-26 22:56:38.216 +05:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 21.4556 ms
+2025-10-26 22:56:38.220 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7137/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 28.6382ms
+2025-10-26 22:56:38.234 +05:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2025-10-26 22:56:38.235 +05:00 [INF] HTTP GET /swagger/favicon-32x32.png responded 200 in 16.0231 ms
+2025-10-26 22:56:38.237 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7137/swagger/favicon-32x32.png - 200 628 image/png 20.6775ms
+2025-10-26 22:57:48.962 +05:00 [INF] Request starting HTTP/2 POST https://localhost:7137/api/Authentication/create - application/json 113
+2025-10-26 22:57:48.980 +05:00 [INF] CORS policy execution failed.
+2025-10-26 22:57:48.981 +05:00 [INF] Request origin https://localhost:7137 does not have permission to access the resource.
+2025-10-26 22:57:48.987 +05:00 [INF] Executing endpoint 'eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host)'
+2025-10-26 22:57:49.019 +05:00 [INF] Route matched with {action = "CreateUser", controller = "Authentication", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateUser(eCommerceApp.Application.DTOs.Identity.CreateUser) on controller eCommerce.Host.Controllers.AuthenticationController (eCommerce.Host).
+2025-10-26 22:57:49.463 +05:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-10-26 22:57:49.490 +05:00 [INF] Executed action eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host) in 462.4746ms
+2025-10-26 22:57:49.492 +05:00 [INF] Executed endpoint 'eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host)'
+2025-10-26 22:57:49.495 +05:00 [INF] HTTP POST /api/Authentication/create responded 400 in 517.7270 ms
+2025-10-26 22:57:49.500 +05:00 [INF] Request finished HTTP/2 POST https://localhost:7137/api/Authentication/create - 400 null application/problem+json; charset=utf-8 537.4449ms
+2025-10-26 22:58:21.619 +05:00 [INF] Request starting HTTP/2 POST https://localhost:7137/api/Authentication/create - application/json 114
+2025-10-26 22:58:21.634 +05:00 [INF] CORS policy execution failed.
+2025-10-26 22:58:21.635 +05:00 [INF] Request origin https://localhost:7137 does not have permission to access the resource.
+2025-10-26 22:58:21.637 +05:00 [INF] Executing endpoint 'eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host)'
+2025-10-26 22:58:21.639 +05:00 [INF] Route matched with {action = "CreateUser", controller = "Authentication", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateUser(eCommerceApp.Application.DTOs.Identity.CreateUser) on controller eCommerce.Host.Controllers.AuthenticationController (eCommerce.Host).
+2025-10-26 22:58:21.684 +05:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-10-26 22:58:21.690 +05:00 [INF] Executed action eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host) in 48.4954ms
+2025-10-26 22:58:21.692 +05:00 [INF] Executed endpoint 'eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host)'
+2025-10-26 22:58:21.692 +05:00 [INF] HTTP POST /api/Authentication/create responded 400 in 58.4909 ms
+2025-10-26 22:58:21.694 +05:00 [INF] Request finished HTTP/2 POST https://localhost:7137/api/Authentication/create - 400 null application/problem+json; charset=utf-8 75.0159ms
+2025-10-26 22:59:34.522 +05:00 [INF] Request starting HTTP/2 POST https://localhost:7137/api/Authentication/create - application/json 115
+2025-10-26 22:59:34.541 +05:00 [INF] CORS policy execution failed.
+2025-10-26 22:59:34.542 +05:00 [INF] Request origin https://localhost:7137 does not have permission to access the resource.
+2025-10-26 22:59:34.543 +05:00 [INF] Executing endpoint 'eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host)'
+2025-10-26 22:59:34.544 +05:00 [INF] Route matched with {action = "CreateUser", controller = "Authentication", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateUser(eCommerceApp.Application.DTOs.Identity.CreateUser) on controller eCommerce.Host.Controllers.AuthenticationController (eCommerce.Host).
+2025-10-26 22:59:46.259 +05:00 [INF] Executed action eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host) in 11711.9071ms
+2025-10-26 22:59:46.262 +05:00 [INF] Executed endpoint 'eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host)'
+2025-10-26 22:59:46.263 +05:00 [ERR] HTTP POST /api/Authentication/create responded 500 in 11721.4141 ms
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at eCommerce.Application.Services.implementation.Authentication.AuthenticationService.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Application\Services\implementation\Authentication\AuthenticationService.cs:line 50
+   at eCommerce.Host.Controllers.AuthenticationController.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host\Controllers\AuthenticationController.cs:line 23
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2025-10-26 22:59:47.734 +05:00 [ERR] An unhandled exception occurred.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at eCommerce.Application.Services.implementation.Authentication.AuthenticationService.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Application\Services\implementation\Authentication\AuthenticationService.cs:line 50
+   at eCommerce.Host.Controllers.AuthenticationController.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host\Controllers\AuthenticationController.cs:line 23
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at eCommerce.Infrastructure.Middleware.ExceptionMiddleware.InvokeAsync(HttpContext context) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.infrastructure\Middleware\ExceptionMiddleware.cs:line 27
+2025-10-26 22:59:47.754 +05:00 [INF] Request finished HTTP/2 POST https://localhost:7137/api/Authentication/create - 500 null application/json 13241.4533ms
+2025-10-26 22:59:56.432 +05:00 [INF] Request starting HTTP/2 POST https://localhost:7137/api/Authentication/create - application/json 115
+2025-10-26 22:59:56.437 +05:00 [INF] CORS policy execution failed.
+2025-10-26 22:59:56.438 +05:00 [INF] Request origin https://localhost:7137 does not have permission to access the resource.
+2025-10-26 22:59:56.439 +05:00 [INF] Executing endpoint 'eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host)'
+2025-10-26 22:59:56.442 +05:00 [INF] Route matched with {action = "CreateUser", controller = "Authentication", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateUser(eCommerceApp.Application.DTOs.Identity.CreateUser) on controller eCommerce.Host.Controllers.AuthenticationController (eCommerce.Host).
+2025-10-26 23:09:40.141 +05:00 [INF] Executed action eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host) in 583668.1856ms
+2025-10-26 23:09:40.146 +05:00 [INF] Executed endpoint 'eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host)'
+2025-10-26 23:09:40.156 +05:00 [ERR] HTTP POST /api/Authentication/create responded 500 in 583691.1151 ms
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at eCommerce.Application.Services.implementation.Authentication.AuthenticationService.CreateUser(CreateUser user)
+   at eCommerce.Host.Controllers.AuthenticationController.CreateUser(CreateUser user)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2025-10-26 23:09:41.352 +05:00 [ERR] An unhandled exception occurred.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at eCommerce.Application.Services.implementation.Authentication.AuthenticationService.CreateUser(CreateUser user)
+   at eCommerce.Host.Controllers.AuthenticationController.CreateUser(CreateUser user)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at eCommerce.Infrastructure.Middleware.ExceptionMiddleware.InvokeAsync(HttpContext context) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.infrastructure\Middleware\ExceptionMiddleware.cs:line 27
+2025-10-26 23:09:41.363 +05:00 [INF] Request finished HTTP/2 POST https://localhost:7137/api/Authentication/create - 500 null application/json 584903.3164ms
+2025-10-26 23:10:06.436 +05:00 [INF] Application is building...
+2025-10-26 23:10:07.178 +05:00 [INF] User profile is available. Using 'C:\Users\hp\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-26 23:10:07.366 +05:00 [INF] Application is running...
+2025-10-26 23:10:07.604 +05:00 [INF] Now listening on: https://localhost:7137
+2025-10-26 23:10:07.606 +05:00 [INF] Now listening on: http://localhost:5217
+2025-10-26 23:10:07.663 +05:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-26 23:10:07.665 +05:00 [INF] Hosting environment: Development
+2025-10-26 23:10:07.667 +05:00 [INF] Content root path: C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host
+2025-10-26 23:10:08.725 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7137/swagger/index.html - null null
+2025-10-26 23:10:09.065 +05:00 [INF] HTTP GET /swagger/index.html responded 200 in 170.8914 ms
+2025-10-26 23:10:09.083 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7137/_vs/browserLink - null null
+2025-10-26 23:10:09.083 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7137/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-26 23:10:09.084 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7137/swagger/index.html - 200 null text/html;charset=utf-8 367.9606ms
+2025-10-26 23:10:09.119 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7137/_framework/aspnetcore-browser-refresh.js - 200 16513 application/javascript; charset=utf-8 36.0653ms
+2025-10-26 23:10:09.176 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7137/_vs/browserLink - 200 null text/javascript; charset=UTF-8 93.6859ms
+2025-10-26 23:10:09.230 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7137/swagger/v1/swagger.json - null null
+2025-10-26 23:10:09.258 +05:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 22.8919 ms
+2025-10-26 23:10:09.266 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7137/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 36.4538ms
+2025-10-26 23:10:47.788 +05:00 [INF] Request starting HTTP/2 POST https://localhost:7137/api/Authentication/create - application/json 115
+2025-10-26 23:10:47.828 +05:00 [INF] CORS policy execution failed.
+2025-10-26 23:10:47.832 +05:00 [INF] Request origin https://localhost:7137 does not have permission to access the resource.
+2025-10-26 23:10:47.847 +05:00 [INF] Executing endpoint 'eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host)'
+2025-10-26 23:10:47.905 +05:00 [INF] Route matched with {action = "CreateUser", controller = "Authentication", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateUser(eCommerceApp.Application.DTOs.Identity.CreateUser) on controller eCommerce.Host.Controllers.AuthenticationController (eCommerce.Host).
+2025-10-26 23:10:57.405 +05:00 [INF] Executed action eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host) in 9486.945ms
+2025-10-26 23:10:57.410 +05:00 [INF] Executed endpoint 'eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host)'
+2025-10-26 23:10:57.414 +05:00 [ERR] HTTP POST /api/Authentication/create responded 500 in 9590.3479 ms
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at eCommerce.Application.Services.implementation.Authentication.AuthenticationService.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Application\Services\implementation\Authentication\AuthenticationService.cs:line 50
+   at eCommerce.Host.Controllers.AuthenticationController.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host\Controllers\AuthenticationController.cs:line 23
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2025-10-26 23:11:00.500 +05:00 [ERR] An unhandled exception occurred.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at eCommerce.Application.Services.implementation.Authentication.AuthenticationService.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Application\Services\implementation\Authentication\AuthenticationService.cs:line 50
+   at eCommerce.Host.Controllers.AuthenticationController.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host\Controllers\AuthenticationController.cs:line 23
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at eCommerce.Infrastructure.Middleware.ExceptionMiddleware.InvokeAsync(HttpContext context) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.infrastructure\Middleware\ExceptionMiddleware.cs:line 27
+2025-10-26 23:11:00.527 +05:00 [INF] Request finished HTTP/2 POST https://localhost:7137/api/Authentication/create - 500 null application/json 12750.4878ms
+2025-10-26 23:11:07.907 +05:00 [INF] Request starting HTTP/2 POST https://localhost:7137/api/Authentication/create - application/json 115
+2025-10-26 23:11:07.915 +05:00 [INF] CORS policy execution failed.
+2025-10-26 23:11:07.918 +05:00 [INF] Request origin https://localhost:7137 does not have permission to access the resource.
+2025-10-26 23:11:07.921 +05:00 [INF] Executing endpoint 'eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host)'
+2025-10-26 23:11:07.923 +05:00 [INF] Route matched with {action = "CreateUser", controller = "Authentication", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateUser(eCommerceApp.Application.DTOs.Identity.CreateUser) on controller eCommerce.Host.Controllers.AuthenticationController (eCommerce.Host).
+2025-10-26 23:11:36.371 +05:00 [INF] Executed action eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host) in 28443.8348ms
+2025-10-26 23:11:36.373 +05:00 [INF] Executed endpoint 'eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host)'
+2025-10-26 23:11:36.375 +05:00 [ERR] HTTP POST /api/Authentication/create responded 500 in 28458.9210 ms
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at eCommerce.Application.Services.implementation.Authentication.AuthenticationService.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Application\Services\implementation\Authentication\AuthenticationService.cs:line 50
+   at eCommerce.Host.Controllers.AuthenticationController.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host\Controllers\AuthenticationController.cs:line 23
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2025-10-26 23:11:41.727 +05:00 [ERR] An unhandled exception occurred.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at eCommerce.Application.Services.implementation.Authentication.AuthenticationService.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Application\Services\implementation\Authentication\AuthenticationService.cs:line 50
+   at eCommerce.Host.Controllers.AuthenticationController.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host\Controllers\AuthenticationController.cs:line 23
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at eCommerce.Infrastructure.Middleware.ExceptionMiddleware.InvokeAsync(HttpContext context) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.infrastructure\Middleware\ExceptionMiddleware.cs:line 27
+2025-10-26 23:11:41.736 +05:00 [INF] Request finished HTTP/2 POST https://localhost:7137/api/Authentication/create - 500 null application/json 33828.3117ms
+2025-10-26 23:12:31.629 +05:00 [INF] Application is building...
+2025-10-26 23:12:32.248 +05:00 [INF] User profile is available. Using 'C:\Users\hp\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-26 23:12:32.407 +05:00 [INF] Application is running...
+2025-10-26 23:12:32.625 +05:00 [INF] Now listening on: https://localhost:7137
+2025-10-26 23:12:32.628 +05:00 [INF] Now listening on: http://localhost:5217
+2025-10-26 23:12:32.687 +05:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-26 23:12:32.689 +05:00 [INF] Hosting environment: Development
+2025-10-26 23:12:32.690 +05:00 [INF] Content root path: C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host
+2025-10-26 23:12:34.693 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7137/swagger/index.html - null null
+2025-10-26 23:12:35.021 +05:00 [INF] HTTP GET /swagger/index.html responded 200 in 150.3010 ms
+2025-10-26 23:12:35.040 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7137/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-26 23:12:35.040 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7137/_vs/browserLink - null null
+2025-10-26 23:12:35.044 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7137/swagger/index.html - 200 null text/html;charset=utf-8 361.7527ms
+2025-10-26 23:12:35.054 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7137/_framework/aspnetcore-browser-refresh.js - 200 16513 application/javascript; charset=utf-8 14.2979ms
+2025-10-26 23:12:35.107 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7137/_vs/browserLink - 200 null text/javascript; charset=UTF-8 67.3989ms
+2025-10-26 23:12:35.148 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7137/swagger/v1/swagger.json - null null
+2025-10-26 23:12:35.179 +05:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 24.5706 ms
+2025-10-26 23:12:35.186 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7137/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 37.7125ms
+2025-10-26 23:12:49.389 +05:00 [INF] Request starting HTTP/2 POST https://localhost:7137/api/Authentication/create - application/json 115
+2025-10-26 23:12:49.429 +05:00 [INF] CORS policy execution failed.
+2025-10-26 23:12:49.433 +05:00 [INF] Request origin https://localhost:7137 does not have permission to access the resource.
+2025-10-26 23:12:49.448 +05:00 [INF] Executing endpoint 'eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host)'
+2025-10-26 23:12:49.503 +05:00 [INF] Route matched with {action = "CreateUser", controller = "Authentication", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateUser(eCommerceApp.Application.DTOs.Identity.CreateUser) on controller eCommerce.Host.Controllers.AuthenticationController (eCommerce.Host).
+2025-10-26 23:13:02.923 +05:00 [INF] Executed action eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host) in 13405.3092ms
+2025-10-26 23:13:02.930 +05:00 [INF] Executed endpoint 'eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host)'
+2025-10-26 23:13:02.934 +05:00 [ERR] HTTP POST /api/Authentication/create responded 500 in 13510.2152 ms
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at eCommerce.Application.Services.implementation.Authentication.AuthenticationService.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Application\Services\implementation\Authentication\AuthenticationService.cs:line 50
+   at eCommerce.Host.Controllers.AuthenticationController.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host\Controllers\AuthenticationController.cs:line 23
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2025-10-26 23:13:05.708 +05:00 [ERR] An unhandled exception occurred.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at eCommerce.Application.Services.implementation.Authentication.AuthenticationService.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Application\Services\implementation\Authentication\AuthenticationService.cs:line 50
+   at eCommerce.Host.Controllers.AuthenticationController.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host\Controllers\AuthenticationController.cs:line 23
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at eCommerce.Infrastructure.Middleware.ExceptionMiddleware.InvokeAsync(HttpContext context) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.infrastructure\Middleware\ExceptionMiddleware.cs:line 27
+2025-10-26 23:13:05.744 +05:00 [INF] Request finished HTTP/2 POST https://localhost:7137/api/Authentication/create - 500 null application/json 16355.3298ms
+2025-10-26 23:15:06.966 +05:00 [INF] Request starting HTTP/2 POST https://localhost:7137/api/Authentication/create - application/json 115
+2025-10-26 23:15:06.981 +05:00 [INF] CORS policy execution failed.
+2025-10-26 23:15:06.982 +05:00 [INF] Request origin https://localhost:7137 does not have permission to access the resource.
+2025-10-26 23:15:06.985 +05:00 [INF] Executing endpoint 'eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host)'
+2025-10-26 23:15:06.988 +05:00 [INF] Route matched with {action = "CreateUser", controller = "Authentication", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateUser(eCommerceApp.Application.DTOs.Identity.CreateUser) on controller eCommerce.Host.Controllers.AuthenticationController (eCommerce.Host).
+2025-10-26 23:15:13.525 +05:00 [INF] Executed action eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host) in 6532.7604ms
+2025-10-26 23:15:13.529 +05:00 [INF] Executed endpoint 'eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host)'
+2025-10-26 23:15:13.533 +05:00 [ERR] HTTP POST /api/Authentication/create responded 500 in 6551.9716 ms
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at eCommerce.Application.Services.implementation.Authentication.AuthenticationService.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Application\Services\implementation\Authentication\AuthenticationService.cs:line 50
+   at eCommerce.Host.Controllers.AuthenticationController.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host\Controllers\AuthenticationController.cs:line 23
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2025-10-26 23:15:21.972 +05:00 [ERR] An unhandled exception occurred.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at eCommerce.Application.Services.implementation.Authentication.AuthenticationService.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Application\Services\implementation\Authentication\AuthenticationService.cs:line 50
+   at eCommerce.Host.Controllers.AuthenticationController.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host\Controllers\AuthenticationController.cs:line 23
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at eCommerce.Infrastructure.Middleware.ExceptionMiddleware.InvokeAsync(HttpContext context) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.infrastructure\Middleware\ExceptionMiddleware.cs:line 27
+2025-10-26 23:15:21.983 +05:00 [INF] Request finished HTTP/2 POST https://localhost:7137/api/Authentication/create - 500 null application/json 15016.4562ms
+2025-10-26 23:22:46.759 +05:00 [INF] Application is building...
+2025-10-26 23:22:47.412 +05:00 [INF] User profile is available. Using 'C:\Users\hp\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-26 23:22:47.589 +05:00 [INF] Application is running...
+2025-10-26 23:22:47.847 +05:00 [INF] Now listening on: https://localhost:7137
+2025-10-26 23:22:47.849 +05:00 [INF] Now listening on: http://localhost:5217
+2025-10-26 23:22:47.905 +05:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-26 23:22:47.907 +05:00 [INF] Hosting environment: Development
+2025-10-26 23:22:47.909 +05:00 [INF] Content root path: C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host
+2025-10-26 23:22:48.964 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7137/swagger/index.html - null null
+2025-10-26 23:22:49.305 +05:00 [INF] HTTP GET /swagger/index.html responded 200 in 166.7330 ms
+2025-10-26 23:22:49.321 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7137/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-26 23:22:49.321 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7137/_vs/browserLink - null null
+2025-10-26 23:22:49.325 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7137/swagger/index.html - 200 null text/html;charset=utf-8 364.2145ms
+2025-10-26 23:22:49.347 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7137/_framework/aspnetcore-browser-refresh.js - 200 16513 application/javascript; charset=utf-8 20.4783ms
+2025-10-26 23:22:49.431 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7137/_vs/browserLink - 200 null text/javascript; charset=UTF-8 109.9872ms
+2025-10-26 23:22:49.488 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7137/swagger/v1/swagger.json - null null
+2025-10-26 23:22:49.527 +05:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 35.7747 ms
+2025-10-26 23:22:49.536 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7137/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 47.5329ms
+2025-10-26 23:23:39.576 +05:00 [INF] Request starting HTTP/2 POST https://localhost:7137/api/Authentication/create - application/json 115
+2025-10-26 23:23:39.615 +05:00 [INF] CORS policy execution failed.
+2025-10-26 23:23:39.619 +05:00 [INF] Request origin https://localhost:7137 does not have permission to access the resource.
+2025-10-26 23:23:39.634 +05:00 [INF] Executing endpoint 'eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host)'
+2025-10-26 23:23:39.703 +05:00 [INF] Route matched with {action = "CreateUser", controller = "Authentication", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateUser(eCommerceApp.Application.DTOs.Identity.CreateUser) on controller eCommerce.Host.Controllers.AuthenticationController (eCommerce.Host).
+2025-10-26 23:23:43.570 +05:00 [INF] Executed DbCommand (138ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2025-10-26 23:23:43.935 +05:00 [INF] Executing BadRequestObjectResult, writing value of type 'eCommerce.Application.DTOs.ServiceResponse'.
+2025-10-26 23:23:43.959 +05:00 [INF] Executed action eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host) in 4240.6833ms
+2025-10-26 23:23:43.966 +05:00 [INF] Executed endpoint 'eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host)'
+2025-10-26 23:23:43.972 +05:00 [INF] HTTP POST /api/Authentication/create responded 400 in 4361.8327 ms
+2025-10-26 23:23:43.997 +05:00 [INF] Request finished HTTP/2 POST https://localhost:7137/api/Authentication/create - 400 null application/json; charset=utf-8 4421.0792ms
+2025-10-26 23:24:06.753 +05:00 [INF] Request starting HTTP/2 POST https://localhost:7137/api/Authentication/create - application/json 114
+2025-10-26 23:24:06.766 +05:00 [INF] CORS policy execution failed.
+2025-10-26 23:24:06.769 +05:00 [INF] Request origin https://localhost:7137 does not have permission to access the resource.
+2025-10-26 23:24:06.771 +05:00 [INF] Executing endpoint 'eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host)'
+2025-10-26 23:24:06.774 +05:00 [INF] Route matched with {action = "CreateUser", controller = "Authentication", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateUser(eCommerceApp.Application.DTOs.Identity.CreateUser) on controller eCommerce.Host.Controllers.AuthenticationController (eCommerce.Host).
+2025-10-26 23:24:06.942 +05:00 [INF] Executed DbCommand (10ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2025-10-26 23:24:07.130 +05:00 [INF] Executed DbCommand (14ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2025-10-26 23:24:07.556 +05:00 [INF] Executed DbCommand (16ms) [Parameters=[@p0='?' (Size = 450), @p1='?' (DbType = Int32), @p2='?' (Size = 4000), @p3='?' (Size = 256), @p4='?' (DbType = Boolean), @p5='?' (Size = 4000), @p6='?' (DbType = Boolean), @p7='?' (DbType = DateTimeOffset), @p8='?' (Size = 256), @p9='?' (Size = 256), @p10='?' (Size = 4000), @p11='?' (Size = 4000), @p12='?' (DbType = Boolean), @p13='?' (Size = 4000), @p14='?' (DbType = Boolean), @p15='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [AspNetUsers] ([Id], [AccessFailedCount], [ConcurrencyStamp], [Email], [EmailConfirmed], [FullName], [LockoutEnabled], [LockoutEnd], [NormalizedEmail], [NormalizedUserName], [PasswordHash], [PhoneNumber], [PhoneNumberConfirmed], [SecurityStamp], [TwoFactorEnabled], [UserName])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15);
+2025-10-26 23:24:07.600 +05:00 [INF] Executed DbCommand (10ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2025-10-26 23:24:07.674 +05:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+2025-10-26 23:24:07.718 +05:00 [INF] Executed DbCommand (7ms) [Parameters=[@__normalizedRoleName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedRoleName_0
+2025-10-26 23:24:07.740 +05:00 [INF] Executed DbCommand (2ms) [Parameters=[@__normalizedRoleName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedRoleName_0
+2025-10-26 23:24:08.146 +05:00 [INF] Executed action eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host) in 1366.6628ms
+2025-10-26 23:24:08.150 +05:00 [INF] Executed endpoint 'eCommerce.Host.Controllers.AuthenticationController.CreateUser (eCommerce.Host)'
+2025-10-26 23:24:08.156 +05:00 [ERR] HTTP POST /api/Authentication/create responded 500 in 1390.6272 ms
+System.InvalidOperationException: Role ADMIN does not exist.
+   at Microsoft.AspNetCore.Identity.EntityFrameworkCore.UserStore`9.AddToRoleAsync(TUser user, String normalizedRoleName, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Identity.UserManager`1.AddToRoleAsync(TUser user, String role)
+   at eCommerce.infrastructure.Respositories.Authentication.RoleManagement.AddUserToRole(AppUser user, String roleName) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.infrastructure\Respositories\Authentication\RoleManagement.cs:line 25
+   at eCommerce.Application.Services.implementation.Authentication.AuthenticationService.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Application\Services\implementation\Authentication\AuthenticationService.cs:line 61
+   at eCommerce.Host.Controllers.AuthenticationController.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host\Controllers\AuthenticationController.cs:line 23
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2025-10-26 23:24:08.599 +05:00 [ERR] Invalid Operation Exception occurred.
+System.InvalidOperationException: Role ADMIN does not exist.
+   at Microsoft.AspNetCore.Identity.EntityFrameworkCore.UserStore`9.AddToRoleAsync(TUser user, String normalizedRoleName, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Identity.UserManager`1.AddToRoleAsync(TUser user, String role)
+   at eCommerce.infrastructure.Respositories.Authentication.RoleManagement.AddUserToRole(AppUser user, String roleName) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.infrastructure\Respositories\Authentication\RoleManagement.cs:line 25
+   at eCommerce.Application.Services.implementation.Authentication.AuthenticationService.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Application\Services\implementation\Authentication\AuthenticationService.cs:line 61
+   at eCommerce.Host.Controllers.AuthenticationController.CreateUser(CreateUser user) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.Host\Controllers\AuthenticationController.cs:line 23
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at eCommerce.Infrastructure.Middleware.ExceptionMiddleware.InvokeAsync(HttpContext context) in C:\Users\hp\source\repos\eCommerceApp\eCommerce.infrastructure\Middleware\ExceptionMiddleware.cs:line 27
+2025-10-26 23:24:08.623 +05:00 [INF] Request finished HTTP/2 POST https://localhost:7137/api/Authentication/create - 400 null application/json 1870.716ms

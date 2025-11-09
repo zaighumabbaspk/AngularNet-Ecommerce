@@ -1,0 +1,126 @@
+/* ===============================
+   Image Showcase Section
+================================= */
+.image-showcase {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 25px;
+  padding: 60px 40px;
+  background: linear-gradient(135deg, #f8f9fb 0%, #edf0f3 100%);
+  flex-wrap: wrap;
+}
+
+/* Image Box */
+.image-box {
+  position: relative;
+  flex: 1 1 30%;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: transform 0.5s ease, box-shadow 0.4s ease;
+}
+
+.image-box img {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+/* Hover Effects */
+.image-box:hover img {
+  transform: scale(1.08);
+}
+.image-box:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* ===============================
+   Overlay Content
+================================= */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 30px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.image-box:hover .overlay {
+  opacity: 1;
+}
+
+/* Text */
+.overlay h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.overlay p {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  opacity: 0.95;
+}
+
+/* ===============================
+   CTA Button
+================================= */
+.cta-btn {
+  background: rgba(255, 255, 255, 0.85);
+  color: #111;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 26px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-self: flex-start;
+}
+
+.cta-btn:hover {
+  background: #111;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+/* ===============================
+   Responsive Design
+================================= */
+@media (max-width: 992px) {
+  .image-showcase {
+    gap: 20px;
+    padding: 40px 20px;
+  }
+  .image-box img {
+    height: 320px;
+  }
+}
+
+@media (max-width: 768px) {
+  .image-showcase {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .image-box img {
+    height: 260px;
+  }
+  .overlay {
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+  }
+  .cta-btn {
+    align-self: center;
+  }
+}

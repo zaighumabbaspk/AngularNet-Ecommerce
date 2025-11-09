@@ -1,0 +1,52 @@
+2025-10-21 21:27:47.908 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7137/api/Product/all - null null
+2025-10-21 21:27:47.973 +05:00 [INF] CORS policy execution successful.
+2025-10-21 21:27:47.975 +05:00 [INF] Executing endpoint 'eCommerce.Host.Controllers.ProductController.GetAll (eCommerce.Host)'
+2025-10-21 21:27:47.978 +05:00 [INF] Route matched with {action = "GetAll", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller eCommerce.Host.Controllers.ProductController (eCommerce.Host).
+2025-10-21 21:27:48.116 +05:00 [INF] Executed DbCommand (44ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[CategoryId], [p].[Description], [p].[Image], [p].[Name], [p].[Price], [p].[Quantity], [c].[Id], [c].[Name]
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+2025-10-21 21:27:48.158 +05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[eCommerce.Application.DTOs.Product.GetProduct, eCommerce.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-21 21:27:48.199 +05:00 [INF] Executed action eCommerce.Host.Controllers.ProductController.GetAll (eCommerce.Host) in 211.9925ms
+2025-10-21 21:27:48.223 +05:00 [INF] Executed endpoint 'eCommerce.Host.Controllers.ProductController.GetAll (eCommerce.Host)'
+2025-10-21 21:27:48.227 +05:00 [INF] HTTP GET /api/Product/all responded 200 in 256.1705 ms
+2025-10-21 21:27:48.233 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7137/api/Product/all - 200 null application/json; charset=utf-8 329.2898ms
+2025-10-21 21:35:30.923 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7137/api/Product/all - null null
+2025-10-21 21:35:30.935 +05:00 [INF] CORS policy execution successful.
+2025-10-21 21:35:30.936 +05:00 [INF] Executing endpoint 'eCommerce.Host.Controllers.ProductController.GetAll (eCommerce.Host)'
+2025-10-21 21:35:30.937 +05:00 [INF] Route matched with {action = "GetAll", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller eCommerce.Host.Controllers.ProductController (eCommerce.Host).
+2025-10-21 21:35:30.986 +05:00 [INF] Executed DbCommand (26ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[CategoryId], [p].[Description], [p].[Image], [p].[Name], [p].[Price], [p].[Quantity], [c].[Id], [c].[Name]
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+2025-10-21 21:35:30.998 +05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[eCommerce.Application.DTOs.Product.GetProduct, eCommerce.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-21 21:35:31.046 +05:00 [INF] Executed action eCommerce.Host.Controllers.ProductController.GetAll (eCommerce.Host) in 107.1689ms
+2025-10-21 21:35:31.048 +05:00 [INF] Executed endpoint 'eCommerce.Host.Controllers.ProductController.GetAll (eCommerce.Host)'
+2025-10-21 21:35:31.049 +05:00 [INF] HTTP GET /api/Product/all responded 200 in 114.5360 ms
+2025-10-21 21:35:31.052 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7137/api/Product/all - 200 null application/json; charset=utf-8 129.1264ms
+2025-10-21 21:38:14.517 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7137/api/Product/all - null null
+2025-10-21 21:38:14.530 +05:00 [INF] CORS policy execution successful.
+2025-10-21 21:38:14.532 +05:00 [INF] Executing endpoint 'eCommerce.Host.Controllers.ProductController.GetAll (eCommerce.Host)'
+2025-10-21 21:38:14.534 +05:00 [INF] Route matched with {action = "GetAll", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller eCommerce.Host.Controllers.ProductController (eCommerce.Host).
+2025-10-21 21:38:14.554 +05:00 [INF] Executed DbCommand (14ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[CategoryId], [p].[Description], [p].[Image], [p].[Name], [p].[Price], [p].[Quantity], [c].[Id], [c].[Name]
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+2025-10-21 21:38:14.569 +05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[eCommerce.Application.DTOs.Product.GetProduct, eCommerce.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-21 21:38:14.586 +05:00 [INF] Executed action eCommerce.Host.Controllers.ProductController.GetAll (eCommerce.Host) in 48.0114ms
+2025-10-21 21:38:14.601 +05:00 [INF] Executed endpoint 'eCommerce.Host.Controllers.ProductController.GetAll (eCommerce.Host)'
+2025-10-21 21:38:14.603 +05:00 [INF] HTTP GET /api/Product/all responded 200 in 72.5000 ms
+2025-10-21 21:38:14.609 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7137/api/Product/all - 200 null application/json; charset=utf-8 92.4381ms
+2025-10-21 21:38:15.965 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7137/api/Product/all - null null
+2025-10-21 21:38:15.971 +05:00 [INF] CORS policy execution successful.
+2025-10-21 21:38:15.972 +05:00 [INF] Executing endpoint 'eCommerce.Host.Controllers.ProductController.GetAll (eCommerce.Host)'
+2025-10-21 21:38:15.973 +05:00 [INF] Route matched with {action = "GetAll", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller eCommerce.Host.Controllers.ProductController (eCommerce.Host).
+2025-10-21 21:38:15.978 +05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[CategoryId], [p].[Description], [p].[Image], [p].[Name], [p].[Price], [p].[Quantity], [c].[Id], [c].[Name]
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+2025-10-21 21:38:15.988 +05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[eCommerce.Application.DTOs.Product.GetProduct, eCommerce.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-21 21:38:15.992 +05:00 [INF] Executed action eCommerce.Host.Controllers.ProductController.GetAll (eCommerce.Host) in 17.2169ms
+2025-10-21 21:38:15.996 +05:00 [INF] Executed endpoint 'eCommerce.Host.Controllers.ProductController.GetAll (eCommerce.Host)'
+2025-10-21 21:38:15.998 +05:00 [INF] HTTP GET /api/Product/all responded 200 in 26.3764 ms
+2025-10-21 21:38:16.009 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7137/api/Product/all - 200 null application/json; charset=utf-8 44.0635ms

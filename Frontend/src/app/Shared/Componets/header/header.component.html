@@ -1,0 +1,55 @@
+<div class="hero-header">
+  <!-- Background Image -->
+  <img src="back.png" alt="Modern Furniture" class="hero-bg" />
+
+  <!-- Glassmorphism Navbar -->
+  <header class="glass-navbar navbar navbar-expand-lg fixed-top">
+    <div class="container-fluid">
+      <!-- Brand -->
+      <a routerLink="/" class="navbar-brand">LuxeLiving</a>
+
+      <!-- Toggle Button -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarMenu"
+        aria-controls="navbarMenu"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Nav Menu -->
+      <div class="collapse navbar-collapse justify-content-center" id="navbarMenu">
+        <ul class="navbar-nav mb-2 mb-lg-0 text-center">
+          <li class="nav-item"><a routerLink="/" class="nav-link active">Home</a></li>
+          <li class="nav-item"><a routerLink="/products" class="nav-link">Products</a></li>
+          <li class="nav-item"><a routerLink="/category" class="nav-link">Category</a></li>
+          <li class="nav-item"><a routerLink="/about" class="nav-link">About Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Icons -->
+      <div class="d-flex align-items-center ms-auto">
+        <a class="header-icon"><i class="fa-regular fa-user"></i></a>
+        <a class="header-icon" (click)="toggleSearch()"><i class="fa-solid fa-magnifying-glass"></i></a>
+        <a class="header-icon"><i class="fa-solid fa-cart-plus"></i></a>
+      </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar" *ngIf="searchOpen">
+      <input type="text" placeholder="Search products..." autofocus />
+      <i class="fa-solid fa-xmark close-icon" (click)="toggleSearch()"></i>
+    </div>
+  </header>
+
+  <!-- Hero Text Overlay -->
+  <div class="hero-text">
+    <h1>Transform Your Space with Timeless Elegance</h1>
+    <p>Discover modern furniture crafted with luxury, comfort, and style.</p>
+    <button class="btn btn-dark px-4 py-2 mt-3">Shop Now</button>
+  </div>
+</div>

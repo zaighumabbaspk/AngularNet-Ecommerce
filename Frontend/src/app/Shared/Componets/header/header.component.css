@@ -1,0 +1,125 @@
+/* ---------- Background & Layout ---------- */
+.hero-header {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.hero-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(65%);
+}
+  .glass-navbar {
+  backdrop-filter: blur(18px) saturate(180%);
+  background: rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* ---------- Glassmorphism Sticky Navbar ---------- */
+.glass-navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  backdrop-filter: blur(15px);
+  background: rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 999;
+  transition: all 0.3s ease;
+}
+
+.navbar-brand {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  color: #fff;
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+}
+
+.nav-link {
+  color: #fff !important;
+  font-weight: 500;
+  margin: 0 1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #ffc107 !important;
+}
+
+/* ---------- Header Icons ---------- */
+.header-icon {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-left: 1rem;
+  transition: color 0.3s ease;
+}
+
+.header-icon:hover {
+  color: #ffc107;
+}
+
+/* ---------- Search Bar ---------- */
+.search-bar {
+  position: absolute;
+  top: 100%;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  border-radius: 50px;
+  padding: 5px 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: white;
+  width: 200px;
+}
+
+.close-icon {
+  margin-left: 10px;
+  cursor: pointer;
+  color: #fff;
+}
+
+/* ---------- Hero Text ---------- */
+.hero-text {
+  position: absolute;
+  top: 50%;
+  left: 8%;
+  transform: translateY(-50%);
+  color: #fff;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  max-width: 550px;
+}
+
+.hero-text h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  font-family: 'Playfair Display', serif;
+}
+
+.hero-text p {
+  font-size: 1.1rem;
+  margin-top: 1rem;
+  opacity: 0.9;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 992px) {
+  .hero-text h1 {
+    font-size: 2.2rem;
+  }
+  .hero-text p {
+    font-size: 1rem;
+  }
+  .search-bar input {
+    width: 150px;
+  }
+}

@@ -1,0 +1,19 @@
+<div class="testimonial-section">
+  <div class="testimonial-grid">
+    <div class="testimonial-card" *ngFor="let t of testimonials">
+      <div class="stars">
+        <ng-container *ngFor="let star of [].constructor(t.rating)">
+          <i class="bi bi-star-fill"></i>
+        </ng-container>
+      </div>
+      <p class="testimonial-text">{{ t.text }}</p>
+      <div class="author-info">
+        <img [src]="t.image" class="avatar" />
+        <div>
+          <strong>{{ t.name }}</strong><br />
+          <span>{{ t.role }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

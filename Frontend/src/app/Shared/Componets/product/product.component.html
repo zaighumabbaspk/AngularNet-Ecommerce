@@ -1,0 +1,36 @@
+<!-- ✅ Body Background -->
+<body style="background-color: #fff; font-family: 'Poppins', sans-serif;">
+
+<section class="premium-products py-5">
+  <div class="container">
+    <!-- Section Header -->
+    <div class="text-center mb-5">
+      <h2 class="section-title">Our Signature Collection</h2>
+      <p class="section-subtitle">Experience craftsmanship that defines modern luxury.</p>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="row g-4 justify-content-center">
+      
+      <!-- Product Card -->
+      <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let p of products">
+        <div class="product-card">
+          <div class="product-image">
+            <img [src]="p.image" [alt]="p.name" />
+            <div class="product-overlay">
+              <h5>{{ p.name }}</h5>
+              <p class="price">${{ p.price }}</p>
+              <div class="btn-group">
+                <button class="btn btn-outline-light">View Details</button>
+                <button class="btn btn-light">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</body>
