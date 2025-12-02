@@ -1,5 +1,3 @@
-﻿
-
 namespace eCommerce.Application.DTOs
 {
     public record LoginResponse
@@ -9,7 +7,4 @@ namespace eCommerce.Application.DTOs
         string Token = null!,
         string RefreshToken = null!
         );
-
-        
-    
 }
