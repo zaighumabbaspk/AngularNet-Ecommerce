@@ -1,6 +1,7 @@
 ﻿using eCommerce.Application.DependencyInjection;
 using eCommerce.Infrastructure.DependencyInjection;
 using Serilog;
+using System.Text.Json.Serialization; // Add this
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,12 +25,16 @@ Log.Information("Application is building...");
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 
+// FIX: Add JSON configuration to handle circular references
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.WriteIndented = true;
+    });
 
-
-builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 
 builder.Services.AddCors(options =>
 {
@@ -38,23 +43,20 @@ builder.Services.AddCors(options =>
         policy
             .AllowAnyOrigin()
             .AllowAnyMethod()
-            .AllowAnyHeader()
-            .WithOrigins("http://localhost:7137");
+            .AllowAnyHeader();
     });
 });
-
 
 try
 {
     var app = builder.Build();
 
-    app.UseInfrastructureService();      
-    app.UseSerilogRequestLogging();      
+    app.UseInfrastructureService();
+    app.UseSerilogRequestLogging();
     app.UseCors("AllowAll");
 
-
     app.UseHttpsRedirection();
-    app.UseAuthentication();            
+    app.UseAuthentication();
     app.UseAuthorization();
 
     // ---------------------

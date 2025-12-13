@@ -1,6 +1,4 @@
-﻿
-
-using AutoMapper;
+﻿using AutoMapper;
 using eCommerce.Application.DTOs;
 using eCommerce.Application.Services.Interfaces.Logging;
 using eCommerce.Application.Validations.Authenticaton;
@@ -30,7 +28,7 @@ namespace eCommerce.Application.Services.implementation.Authentication
 
         public AuthenticationService(IUserManagement userManagement, ITokenManagement tokenManagement,
             IRoleManagement roleManagement , IAppLogger<AuthenticationService> logger, IValidator<CreateUser>
-            createUserValiator , IValidationService validationService, IMapper mapper , IValidator<LoginUser> _loginUserValidator)
+            createUserValiator , IValidationService validationService, IMapper mapper , IValidator<LoginUser> loginUserValidator)
         {
             _userManagement = userManagement;
             _tokenManagement = tokenManagement;
@@ -38,72 +36,99 @@ namespace eCommerce.Application.Services.implementation.Authentication
             _logger = logger;
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _createUserValidator = createUserValiator;
-            _loginUserValidator = _loginUserValidator;
+            _loginUserValidator = loginUserValidator;
             _validationService = validationService;
 
 
         }
         public async Task<ServiceResponse> CreateUser(CreateUser user)
         {
-            var _Validator = await _validationService.ValidateAsync<CreateUser>(user, _createUserValidator);
-            if (!_Validator.Success) return _Validator;
-
-            var MappedModel = _mapper.Map<AppUser>(user);
-            MappedModel.UserName = user.Email;
-            MappedModel.PasswordHash = user.Password;
-
-            var result = await _userManagement.CreateUser(MappedModel, user.Password);
-            if (!result)
-                return new ServiceResponse(false, "Email Already Exists or Unknown Error Occured");
-
-            var _user = await _userManagement.GetUserByEmail(user.Email);
-            var Users = await _userManagement.GetAllUsers();
-            bool AssignedUser = await _roleManagement.AddUserToRole(_user, Users.Count() > 1 ? "User" : "Admin");
-
-            if (!AssignedUser)
+            try
             {
-                var RemovedUser = await _userManagement.RemoveUserByEmail(user.Email);
-                if (RemovedUser <= 0)
-                    _logger.LogError("User Could not be assigned role",
-                        new Exception($"User with email {user.Email} unable to remove as a result of role assigning issue"));
+                var _Validator = await _validationService.ValidateAsync<CreateUser>(user, _createUserValidator);
+                if (!_Validator.Success) return _Validator;
 
-                return new ServiceResponse(false, "Error occurred in Creating Account");
+                var MappedModel = _mapper.Map<AppUser>(user);
+                MappedModel.UserName = user.Email;
+                MappedModel.PasswordHash = user.Password;
+
+                var result = await _userManagement.CreateUser(MappedModel, user.Password);
+                if (!result)
+                    return new ServiceResponse(false, "Email Already Exists or Unknown Error Occured");
+
+                var _user = await _userManagement.GetUserByEmail(user.Email);
+                var Users = await _userManagement.GetAllUsers();
+                bool AssignedUser = await _roleManagement.AddUserToRole(_user, Users.Count() > 1 ? "User" : "Admin");
+
+                if (!AssignedUser)
+                {
+                    var RemovedUser = await _userManagement.RemoveUserByEmail(user.Email);
+                    if (RemovedUser <= 0)
+                        _logger.LogError("User Could not be assigned role",
+                            new Exception($"User with email {user.Email} unable to remove as a result of role assigning issue"));
+
+                    return new ServiceResponse(false, "Error occurred in Creating Account");
+                }
+                return new ServiceResponse(true, "User Created Successfully");
             }
-            return new ServiceResponse(true, "User Created Successfully");
+            catch (Exception ex)
+            {
+                _logger.LogError("An error occurred while creating a user", ex);
+                return new ServiceResponse(false, "An unexpected error occurred while creating the user");
+            }
+            ;
         }
-
 
 
         public async Task<LoginResponse> LoginUser(LoginUser user)
         {
-            var _Validator = await _validationService.ValidateAsync(user, _loginUserValidator);
-            if (!_Validator.Success)
-                return new LoginResponse(Message: _Validator.Message);
+            try
+            {
+                var _Validator = await _validationService.ValidateAsync(user, _loginUserValidator);
+                if (!_Validator.Success)
+                    return new LoginResponse(_Validator.Message);
 
-            var MappedModel = _mapper.Map<AppUser>(user);
-            MappedModel.PasswordHash = user.Password;
-            bool LoginResult = await _userManagement.LoginUser(MappedModel , user.Password);
-            if (!LoginResult)
-                return new LoginResponse(Message: "Invalid Email or Password");
+                var MappedModel = _mapper.Map<AppUser>(user);
+                MappedModel.PasswordHash = user.Password;
+                bool LoginResult = await _userManagement.LoginUser(MappedModel, user.Password);
+                if (!LoginResult)
+                    return new LoginResponse("Invalid Email or Password");
 
-            var _user = await _userManagement.GetUserByEmail(user.Email);
-            var Claims = await _userManagement.GetUserByClaims(_user.Email!);
+                var _user = await _userManagement.GetUserByEmail(user.Email);
+              
+                if (_user == null)
+                {
+                    return new LoginResponse(false, "Invalid Email or Password");
+                }
 
-            string JwtToken =  _tokenManagement.GenerateToken(Claims);
-            string RefreshToken = _tokenManagement.GetRefreshToken();
+                var Claims = await _userManagement.GetUserByClaims(_user.Email!);
 
-            int saveToken = await _tokenManagement.AddRefreshToken(_user.Id, RefreshToken);
-            return saveToken > 0 
-                ? new LoginResponse(true, "Login Successful", JwtToken, RefreshToken) 
-                : new LoginResponse( false, "Error Occurred while saving refresh token");
+                string JwtToken = _tokenManagement.GenerateToken(Claims);
+                string RefreshToken = _tokenManagement.GetRefreshToken();
+
+                int saveToken = await _tokenManagement.AddRefreshToken(_user.Id, RefreshToken);
+                return saveToken > 0
+                    ? new LoginResponse(true, "Login Successful", JwtToken, RefreshToken)
+                    : new LoginResponse(false, "Error Occurred while saving refresh token");
+
+            }
+           
+            
+         catch (Exception Ex)
+            {
+                Console.WriteLine(Ex.Message);
+                return new LoginResponse(false, $"An unexpected error occurred: {Ex.Message}");
+            }
+
 
         }
+        
 
         public async Task<LoginResponse> ReviveToken(string refreshToken)
         {
             bool ValidateToken = await _tokenManagement.ValidateRefreshToken(refreshToken);
             if (!ValidateToken)
-                return new LoginResponse(Message: "Invalid Refresh Token");
+                return new LoginResponse("Invalid Refresh Token");
 
             string UserId = await _tokenManagement.GetUserIdByRefreshToken(refreshToken);
             AppUser? user = await _userManagement.GetUserById(UserId);
@@ -111,7 +136,7 @@ namespace eCommerce.Application.Services.implementation.Authentication
             string newJwtToken = _tokenManagement.GenerateToken(claims);
             string newRefreshToken = _tokenManagement.GetRefreshToken();
             await _tokenManagement.UpdateRefreshToken(UserId,newRefreshToken);
-            return new LoginResponse(true, Token : newJwtToken, RefreshToken :newRefreshToken);
+            return new LoginResponse(true, "Token refreshed successfully", newJwtToken, newRefreshToken);
 
         }
     }

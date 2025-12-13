@@ -24,9 +24,6 @@ public class Mappingconfig : Profile
         CreateMap<Product, GetProduct>();
         CreateMap<GetProduct, Product>();
 
-        //CreateMap<CreateUser, AppUser>();
-        //CreateMap<LoginUser, AppUser>();
-
         CreateMap<CreateUser, AppUser>();
         CreateMap<LoginUser, AppUser>();
 
