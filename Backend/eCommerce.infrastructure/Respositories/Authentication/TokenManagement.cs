@@ -45,14 +45,14 @@ namespace eCommerce.infrastructure.Respositories.Authentication
         public string GenerateToken(List<Claim> claims)
         {
             var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!)
+                Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]!)
             );
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
+                issuer: _configuration["JWT:ValidIssuer"],
+                audience: _configuration["JWT:ValidAudience"],
                 claims: claims,
                 expires: DateTime.UtcNow.AddMinutes(30),
                 signingCredentials: creds
