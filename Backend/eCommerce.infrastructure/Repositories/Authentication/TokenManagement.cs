@@ -13,7 +13,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eCommerce.infrastructure.Respositories.Authentication
+namespace eCommerce.infrastructure.Repositories.Authentication
 {
     public class TokenManagement : ITokenManagement
     {

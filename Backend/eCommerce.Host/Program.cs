@@ -1,12 +1,12 @@
 ﻿using eCommerce.Application.DependencyInjection;
 using eCommerce.Infrastructure.DependencyInjection;
 using Serilog;
-using System.Text.Json.Serialization; // Add this
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // ---------------------
-// Serilog configuration
+// Serilog
 // ---------------------
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
@@ -17,15 +17,12 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-Log.Information("Application is building...");
-
 // ---------------------
-// Dependency Injection
+// Services
 // ---------------------
 builder.Services.AddInfrastructureServices(builder.Configuration);
-builder.Services.AddApplicationServices();
+builder.Services.AddApplicationServices(builder.Configuration);
 
-// FIX: Add JSON configuration to handle circular references
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -40,42 +37,41 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
-        policy
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader();
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
     });
 });
 
+// ---------------------
+// App Pipeline
+// ---------------------
 try
 {
     var app = builder.Build();
 
-    app.UseInfrastructureService();
+    // ❌ NO Database.Migrate() here
     app.UseSerilogRequestLogging();
+
     app.UseCors("AllowAll");
 
-    app.UseHttpsRedirection();
-    app.UseAuthentication();
-    app.UseAuthorization();
-
-    // ---------------------
-    // Swagger in dev
-    // ---------------------
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
         app.UseSwaggerUI();
     }
 
+    app.UseHttpsRedirection();
+    app.UseAuthentication();
+    app.UseAuthorization();
+
     app.MapControllers();
 
-    Log.Information("Application is running...");
     app.Run();
 }
 catch (Exception ex)
 {
-    Log.Fatal(ex, "Application startup failed!");
+    Log.Fatal(ex, "Application startup failed");
 }
 finally
 {

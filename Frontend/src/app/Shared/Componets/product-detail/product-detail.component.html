@@ -1,29 +1,100 @@
-<section class="product-detail-section py-5" *ngIf="product">
-  <div class="container">
-    <div class="row align-items-center">
+<section class="product-detail-section py-5">
 
-      <!-- Product Image -->
-      <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
-        <div class="product-image-wrapper">
-          <img [src]="product.imageUrl || '/placeholder.jpg'" [alt]="product.name" class="product-detail-image" />
-        </div>
-      </div>
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary"></div>
+  </div>
 
-      <!-- Product Info -->
-      <div class="col-lg-6 col-md-12">
-        <div class="product-detail-info">
-          <h2 class="product-title">{{ product.name }}</h2>
-          <p class="product-category">{{ product.categoryName || 'Furniture' }}</p>
-          <p class="product-price">${{ product.price }}</p>
-          <p class="product-description">{{ product.description }}</p>
+  <!-- Error State -->
+  <div *ngIf="!isLoading && !product" class="text-center py-5">
+    <h4>Product not found</h4>
+    <button class="btn btn-dark mt-3" routerLink="/products">
+      Back to Products
+    </button>
+  </div>
 
-          <div class="product-actions mt-4">
-            <button class="btn btn-dark btn-lg me-3">Add to Cart</button>
-            <button class="btn btn-outline-dark btn-lg" routerLink="/products">Back to Products</button>
+  <!-- Product Content -->
+  <div class="container" *ngIf="!isLoading && product">
+    <div class="product-detail-card">
+      <div class="row align-items-center">
+
+        <!-- Product Image -->
+        <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
+          <div class="product-image-wrapper">
+            <img
+              [src]="product.image || '/placeholder.jpg'"
+              [alt]="product.name"
+              class="product-detail-image"
+            />
           </div>
         </div>
-      </div>
 
+        <!-- Product Info -->
+        <div class="col-lg-6 col-md-12">
+          <div class="product-detail-info">
+
+            <h2 class="product-title">{{ product.name }}</h2>
+
+            <p class="product-price">
+              {{ product.price | currency }}
+            </p>
+
+            <!-- Stock Status -->
+            <div class="product-stock mb-3">
+              <span *ngIf="product.quantity > 0" class="badge bg-success">
+                In Stock ({{ product.quantity }} available)
+              </span>
+
+              <span *ngIf="product.quantity === 0" class="badge bg-danger">
+                Out of Stock
+              </span>
+            </div>
+
+            <p class="product-description">
+              {{ product.description }}
+            </p>
+
+            <!-- Quantity Selector -->
+            <div class="quantity-selector d-flex align-items-center mt-4">
+              <button
+                class="btn btn-outline-secondary btn-sm"
+                (click)="decreaseQuantity()"
+                [disabled]="selectedQuantity <= 1"
+              >−</button>
+
+              <span class="mx-3 quantity-value">
+                {{ selectedQuantity }}
+              </span>
+
+              <button
+                class="btn btn-outline-secondary btn-sm"
+                (click)="increaseQuantity()"
+                [disabled]="selectedQuantity >= product.quantity"
+              >+</button>
+            </div>
+
+            <!-- Buttons -->
+            <div class="product-actions mt-4">
+              <button
+                class="btn btn-dark btn-lg me-3"
+                [disabled]="product.quantity === 0"
+              >
+                Add to Cart
+              </button>
+
+              <button
+                class="btn btn-outline-dark btn-lg"
+                routerLink="/products"
+              >
+                Back to Products
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
+
 </section>

@@ -1,41 +1,42 @@
-.site-footer {
-  background-color: #000000; /* your background color */
-  color: #f1f1f1;
+.footer {
+  background-color: #111;
+  color: #ddd;
 }
 
-.site-footer .footer-heading {
-  font-size: 1.25rem;
+.footer-title {
   font-weight: 600;
-  margin-bottom: 1rem;
+  margin-bottom: 15px;
+  color: #fff;
 }
 
-.site-footer .footer-text {
-  font-size: 0.9rem;
+.footer-text {
+  font-size: 0.95rem;
   line-height: 1.6;
+  color: #aaa;
 }
 
-.site-footer .footer-links .footer-link {
-  color: #dcd6d0;
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 8px;
+}
+
+.footer-links a {
+  color: #aaa;
   text-decoration: none;
-  display: block;
-  margin-bottom: 0.5rem;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-.site-footer .footer-links .footer-link:hover {
-  color: #ffffff;
+.footer-links a:hover {
+  color: #fff;
+  padding-left: 5px;
 }
 
-.site-footer .footer-bottom {
-  border-color: rgba(255,255,255,0.2);
-}
-
-@media (max-width: 767px) {
-  .site-footer .footer-heading {
-    font-size: 1.1rem;
-  }
-  .site-footer .footer-text,
-  .site-footer .footer-links .footer-link {
-    font-size: 0.85rem;
-  }
+.footer-bottom {
+  background-color: #000;
+  font-size: 0.9rem;
+  color: #777;
 }

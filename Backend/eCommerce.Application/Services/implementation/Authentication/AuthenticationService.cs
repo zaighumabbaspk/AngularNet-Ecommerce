@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using eCommerce.Application.DTOs;
+using eCommerce.Application.Services.Interfaces;
 using eCommerce.Application.Services.Interfaces.Logging;
 using eCommerce.Application.Validations.Authenticaton;
 using eCommerce.Domain.Entities.Identity;
@@ -7,6 +8,7 @@ using eCommerce.Domain.Services.Interfaces.Authentication;
 using eCommerceApp.Application.DTOs.Identity;
 using eCommerceApp.Application.Validations;
 using FluentValidation;
+using Microsoft.Extensions.Configuration;
 
 
 namespace eCommerce.Application.Services.implementation.Authentication
@@ -23,12 +25,15 @@ namespace eCommerce.Application.Services.implementation.Authentication
         private readonly IValidator<CreateUser> _createUserValidator;
         private readonly IValidator<LoginUser> _loginUserValidator;
         private readonly IMapper _mapper;
-        private readonly IValidationService _validationService; 
+        private readonly IValidationService _validationService;
+        private readonly IEmailService _emailService;
+        private readonly IConfiguration _configuration; 
 
 
         public AuthenticationService(IUserManagement userManagement, ITokenManagement tokenManagement,
             IRoleManagement roleManagement , IAppLogger<AuthenticationService> logger, IValidator<CreateUser>
-            createUserValiator , IValidationService validationService, IMapper mapper , IValidator<LoginUser> loginUserValidator)
+            createUserValiator , IValidationService validationService, IMapper mapper , IValidator<LoginUser> loginUserValidator,
+            IEmailService emailService, IConfiguration configuration)
         {
             _userManagement = userManagement;
             _tokenManagement = tokenManagement;
@@ -38,6 +43,8 @@ namespace eCommerce.Application.Services.implementation.Authentication
             _createUserValidator = createUserValiator;
             _loginUserValidator = loginUserValidator;
             _validationService = validationService;
+            _emailService = emailService;
+            _configuration = configuration;
 
 
         }
@@ -57,8 +64,9 @@ namespace eCommerce.Application.Services.implementation.Authentication
                     return new ServiceResponse(false, "Email Already Exists or Unknown Error Occured");
 
                 var _user = await _userManagement.GetUserByEmail(user.Email);
-                var Users = await _userManagement.GetAllUsers();
-                bool AssignedUser = await _roleManagement.AddUserToRole(_user, Users.Count() > 1 ? "User" : "Admin");
+                // All users are assigned "User" role by default
+                // Admin role must be assigned manually in the database
+                bool AssignedUser = await _roleManagement.AddUserToRole(_user, "User");
 
                 if (!AssignedUser)
                 {
@@ -138,6 +146,69 @@ namespace eCommerce.Application.Services.implementation.Authentication
             await _tokenManagement.UpdateRefreshToken(UserId,newRefreshToken);
             return new LoginResponse(true, "Token refreshed successfully", newJwtToken, newRefreshToken);
 
+        }
+
+        public async Task<ServiceResponse> ForgotPassword(ForgotPasswordRequest request)
+        {
+            try
+            {
+                var user = await _userManagement.GetUserByEmail(request.Email);
+                if (user == null)
+                {
+                    // Don't reveal that the user doesn't exist for security reasons
+                    return new ServiceResponse(true, "If your email exists in our system, you will receive a password reset link.");
+                }
+
+                // Generate password reset token
+                var resetToken = await _userManagement.GeneratePasswordResetToken(user);
+                
+                // Create reset link
+                var frontendUrl = _configuration["FrontendUrl"] ?? "http://localhost:4200";
+                var resetLink = $"{frontendUrl}/reset-password?token={Uri.EscapeDataString(resetToken)}&email={Uri.EscapeDataString(request.Email)}";
+
+                // Send email
+                var emailSent = await _emailService.SendPasswordResetEmailAsync(request.Email, resetLink);
+
+                if (!emailSent)
+                {
+                    _logger.LogError("Failed to send password reset email", new Exception($"Email to {request.Email} failed"));
+                    return new ServiceResponse(false, "Failed to send password reset email. Please try again later.");
+                }
+
+                return new ServiceResponse(true, "If your email exists in our system, you will receive a password reset link.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error in ForgotPassword", ex);
+                return new ServiceResponse(false, "An error occurred while processing your request.");
+            }
+        }
+
+        public async Task<ServiceResponse> ResetPassword(ResetPasswordRequest request)
+        {
+            try
+            {
+                var user = await _userManagement.GetUserByEmail(request.Email);
+                if (user == null)
+                {
+                    return new ServiceResponse(false, "Invalid password reset request.");
+                }
+
+                // Reset password using ASP.NET Identity
+                var result = await _userManagement.ResetPassword(user, request.Token, request.NewPassword);
+
+                if (!result)
+                {
+                    return new ServiceResponse(false, "Invalid or expired password reset token.");
+                }
+
+                return new ServiceResponse(true, "Password has been reset successfully. You can now login with your new password.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error in ResetPassword", ex);
+                return new ServiceResponse(false, "An error occurred while resetting your password.");
+            }
         }
     }
 }

@@ -52,7 +52,6 @@ namespace eCommerce.Infrastructure.Repositories
             return await _context.SaveChangesAsync();
         }
 
-        // New implementation for including related entities
         public async Task<IEnumerable<TEntity>> GetAllWithIncludesAsync(params Expression<Func<TEntity, object>>[] includeProperties)
         {
             IQueryable<TEntity> query = _context.Set<TEntity>();

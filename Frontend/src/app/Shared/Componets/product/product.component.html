@@ -1,36 +1,288 @@
-<!-- ✅ Body Background -->
-<body style="background-color: #fff; font-family: 'Poppins', sans-serif;">
-
 <section class="premium-products py-5">
-  <div class="container">
+  <div class="container-fluid">
+
     <!-- Section Header -->
     <div class="text-center mb-5">
       <h2 class="section-title">Our Signature Collection</h2>
       <p class="section-subtitle">Experience craftsmanship that defines modern luxury.</p>
+
+      <div class="header-actions">
+        <button *ngIf="authService.isAdmin()" class="add-btn" (click)="openAddForm()">
+          <i class="fa-solid fa-plus"></i> Add New Product
+        </button>
+
+        <div class="search-container">
+          <i class="fa-solid fa-search search-icon"></i>
+          <input 
+            type="text" 
+            class="search-input" 
+            placeholder="Search products by name or description..."
+            [(ngModel)]="searchQuery"
+            (input)="onSearchChange()"
+          />
+          <button 
+            *ngIf="searchQuery" 
+            class="clear-search-btn" 
+            (click)="clearSearch()"
+            title="Clear search"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
     </div>
 
-    <!-- Product Grid -->
-    <div class="row g-4 justify-content-center">
-      
-      <!-- Product Card -->
-      <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let p of products">
-        <div class="product-card">
-          <div class="product-image">
-            <img [src]="p.image" [alt]="p.name" />
-            <div class="product-overlay">
-              <h5>{{ p.name }}</h5>
-              <p class="price">${{ p.price }}</p>
-              <div class="btn-group">
-                <button class="btn btn-outline-light">View Details</button>
-                <button class="btn btn-light">Add to Cart</button>
+    <!-- Product Form (Add / Edit) -->
+    <div *ngIf="showForm" class="product-form-overlay">
+      <div class="product-form-modal">
+        <div class="form-header">
+          <h3 class="form-title">
+            <i class="fa-solid fa-box"></i>
+            {{ editMode ? 'Edit Product' : 'Add New Product' }}
+          </h3>
+          <button class="close-btn" (click)="cancelForm()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form [formGroup]="productForm" (ngSubmit)="submitForm()" class="product-form">
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label>
+                <i class="fa-solid fa-tag"></i>
+                Product Name
+              </label>
+              <input 
+                type="text" 
+                formControlName="name" 
+                placeholder="Enter product name"
+                class="form-input"
+              />
+              <span class="error-message" *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched">
+                Product name is required
+              </span>
+            </div>
+
+            <div class="form-group">
+              <label>
+                <i class="fa-solid fa-layer-group"></i>
+                Category
+              </label>
+              <select formControlName="categoryId" class="form-select">
+                <option value="">Select Category</option>
+                <option *ngFor="let c of categories" [value]="c.id">{{ c.name }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>
+              <i class="fa-solid fa-align-left"></i>
+              Description
+            </label>
+            <textarea 
+              formControlName="description" 
+              placeholder="Enter product description"
+              class="form-textarea"
+              rows="1"
+            ></textarea>
+            <span class="error-message" *ngIf="productForm.get('description')?.invalid && productForm.get('description')?.touched">
+              Description is required
+            </span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>
+                <i class="fa-solid fa-dollar-sign"></i>
+                Price
+              </label>
+              <input 
+                type="number" 
+                formControlName="price" 
+                placeholder="0.00"
+                class="form-input"
+                step="0.01"
+              />
+              <span class="error-message" *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched">
+                Valid price is required
+              </span>
+            </div>
+
+            <div class="form-group">
+              <label>
+                <i class="fa-solid fa-boxes-stacked"></i>
+                Quantity
+              </label>
+              <input 
+                type="number" 
+                formControlName="quantity" 
+                placeholder="0"
+                class="form-input"
+              />
+              <span class="error-message" *ngIf="productForm.get('quantity')?.invalid && productForm.get('quantity')?.touched">
+                Quantity is required
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>
+              <i class="fa-solid fa-image"></i>
+              Image URL
+            </label>
+            <input 
+              type="text" 
+              formControlName="image" 
+              placeholder="https://example.com/image.jpg"
+              class="form-input"
+            />
+            <span class="error-message" *ngIf="productForm.get('image')?.invalid && productForm.get('image')?.touched">
+              Image URL is required
+            </span>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-cancel" (click)="cancelForm()">
+              <i class="fa-solid fa-xmark"></i>
+              Cancel
+            </button>
+            <button type="submit" class="btn-submit" [disabled]="productForm.invalid">
+              <i class="fa-solid fa-check"></i>
+              {{ editMode ? 'Update Product' : 'Create Product' }}
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <!-- Sidebar -->
+      <div class="col-lg-2 mb-4">
+        <div class="category-sidebar">
+
+          <h3 class="category-title">Categories</h3>
+
+          <label class="category-item">
+            <span>All</span>
+            <input
+              type="checkbox"
+              [checked]="!selectedCategoryId"
+              (change)="filterByCategory('')"
+            />
+            <span class="custom-checkbox"></span>
+          </label>
+
+          <label *ngFor="let c of categories" class="category-item">
+            <span>{{ c.name }}</span>
+            <input
+              type="checkbox"
+              [checked]="selectedCategoryId === c.id"
+              (change)="filterByCategory(c.id)"
+            />
+            <span class="custom-checkbox"></span>
+          </label>
+
+          <!-- Price Filter -->
+          <div class="price-filter">
+            <h6 class="price-title">Price Range</h6>
+            <p class="price-range-display">${{ minPrice }} - ${{ maxPrice }}</p>
+
+            <div class="slider-wrapper">
+              <input
+                type="range"
+                [min]="priceMinLimit"
+                [max]="priceMaxLimit"
+                [value]="minPrice"
+                (input)="onMinSliderChange($event)"
+                class="range-slider"
+                id="minRange"
+              />
+              <input
+                type="range"
+                [min]="priceMinLimit"
+                [max]="priceMaxLimit"
+                [value]="maxPrice"
+                (input)="onMaxSliderChange($event)"
+                class="range-slider"
+                id="maxRange"
+              />
+              <div class="range-track"></div>
+              <div
+                class="range-fill"
+                [style.left.%]="rangeFillLeft"
+                [style.right.%]="100 - rangeFillRight"
+              ></div>
+            </div>
+
+            <div class="price-inputs">
+              <input
+                type="number"
+                [min]="priceMinLimit"
+                [max]="priceMaxLimit"
+                [(ngModel)]="minPrice"
+                (input)="onInputChange()"
+                placeholder="Min"
+              />
+              <span class="price-separator">-</span>
+              <input
+                type="number"
+                [min]="priceMinLimit"
+                [max]="priceMaxLimit"
+                [(ngModel)]="maxPrice"
+                (input)="onInputChange()"
+                placeholder="Max"
+              />
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Product Grid -->
+      <div class="col-lg-9">
+        <div class="row g-4">
+
+          <div *ngIf="filteredProducts.length === 0" class="no-products-message">
+            <p>No products found for the selected filters.</p>
+          </div>
+
+          <div class="col-lg-4 col-md-6" *ngFor="let p of filteredProducts">
+            <div class="product-card">
+
+              <div class="product-image">
+                <img [src]="p.image" [alt]="p.name" />
+
+                <div class="admin-buttons" *ngIf="authService.isAdmin()">
+                  <button class="admin-actions" (click)="openEditForm(p)">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                  </button>
+                  <button class="admin-actions" (click)="deleteProduct(p.id)">
+                    <i class="fa-regular fa-trash-can"></i>
+                  </button>
+                </div>
+
+                <div class="product-overlay">
+                  <h5>{{ p.name }}</h5>
+                  <p class="price">${{ p.price }}</p>
+
+                  <div class="btn-group">
+                    <button class="btn btn-outline-light" [routerLink]="['/product-detail', p.id]">View Details</button>
+                    <button class="btn btn-light" (click)="addToCart(p)">Add to Cart</button>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
+
         </div>
       </div>
 
     </div>
+
   </div>
 </section>
-
-</body>
