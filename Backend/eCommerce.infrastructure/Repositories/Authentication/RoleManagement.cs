@@ -7,7 +7,7 @@ using eCommerce.Domain.Services.Interfaces.Authentication;
 
 
 
-namespace eCommerce.infrastructure.Respositories.Authentication
+namespace eCommerce.infrastructure.Repositories.Authentication
 {
     public class RoleManagement(UserManager<AppUser> UserManager) : IRoleManagement
     {

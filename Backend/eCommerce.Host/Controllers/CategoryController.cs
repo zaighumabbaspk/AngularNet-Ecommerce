@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using eCommerce.Application.Services.Interfaces;
 using eCommerce.Application.DTOs.Category;
 using eCommerce.Application.DTOs;
@@ -10,6 +11,7 @@ namespace eCommerce.Host.Controllers
     public class CategoryController(ICategoryServices categoryService) : ControllerBase
     {
         [HttpGet("all")]
+        [AllowAnonymous]  // Everyone can view categories
         public async Task<IActionResult> GetAll()
         {
             var data = await categoryService.GetAllAsync();
@@ -17,6 +19,7 @@ namespace eCommerce.Host.Controllers
         }
 
         [HttpGet("ById/{id}")]
+        [AllowAnonymous]  // Everyone can view category details
         public async Task<IActionResult> ById(Guid id)
         {
             var data = await categoryService.GetAsync(id);
@@ -24,7 +27,7 @@ namespace eCommerce.Host.Controllers
         }
 
         [HttpPost("add")]
-        
+        [Authorize(Roles = "Admin")]  // Only Admin can add categories
         public async Task<IActionResult> Add(CreateCategory category)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -33,6 +36,7 @@ namespace eCommerce.Host.Controllers
         }
 
         [HttpPut("update")]
+        [Authorize(Roles = "Admin")]  // Only Admin can update categories
         public async Task<IActionResult> Update(UpdateCategory category)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -41,6 +45,7 @@ namespace eCommerce.Host.Controllers
         }
 
         [HttpDelete("delete/{id}")]
+        [Authorize(Roles = "Admin")]  // Only Admin can delete categories
         public async Task<IActionResult> Delete(Guid id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);

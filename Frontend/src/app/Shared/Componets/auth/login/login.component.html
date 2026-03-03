@@ -1,0 +1,90 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1 class="auth-title">Welcome Back</h1>
+      <p class="auth-subtitle">Sign in to your account</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+      
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="error-alert">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        {{ errorMessage }}
+      </div>
+
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email">
+          <i class="fa-solid fa-envelope"></i>
+          Email Address
+        </label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email"
+          class="form-input"
+          [class.error]="email?.invalid && email?.touched"
+        />
+        <span class="error-message" *ngIf="email?.invalid && email?.touched">
+          <span *ngIf="email?.errors?.['required']">Email is required</span>
+          <span *ngIf="email?.errors?.['email']">Please enter a valid email</span>
+        </span>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="password">
+          <i class="fa-solid fa-lock"></i>
+          Password
+        </label>
+        <div class="password-input-wrapper">
+          <input
+            id="password"
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            placeholder="Enter your password"
+            class="form-input"
+            [class.error]="password?.invalid && password?.touched"
+          />
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="togglePasswordVisibility()"
+          >
+            <i [class]="showPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
+          </button>
+        </div>
+        <span class="error-message" *ngIf="password?.invalid && password?.touched">
+          <span *ngIf="password?.errors?.['required']">Password is required</span>
+          <span *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters</span>
+        </span>
+        <div class="forgot-password-link">
+          <a routerLink="/forgot-password" class="auth-link">Forgot Password?</a>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="btn-submit"
+        [disabled]="isLoading"
+      >
+        <span *ngIf="!isLoading">
+          <i class="fa-solid fa-right-to-bracket"></i>
+          Sign In
+        </span>
+        <span *ngIf="isLoading">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          Signing in...
+        </span>
+      </button>
+
+      <!-- Signup Link -->
+      <div class="auth-footer">
+        <p>Don't have an account? <a routerLink="/signup" class="auth-link">Sign up</a></p>
+      </div>
+    </form>
+  </div>
+</div>

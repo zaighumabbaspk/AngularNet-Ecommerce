@@ -80,5 +80,16 @@ namespace eCommerce.Application.Services.Implementation.Authentication
             };
             return claims;
         }
+
+        public async Task<string> GeneratePasswordResetToken(AppUser user)
+        {
+            return await _userManager.GeneratePasswordResetTokenAsync(user);
+        }
+
+        public async Task<bool> ResetPassword(AppUser user, string token, string newPassword)
+        {
+            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+            return result.Succeeded;
+        }
     }
 }

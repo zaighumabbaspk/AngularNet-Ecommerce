@@ -51,13 +51,13 @@ namespace eCommerce.infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5661d40d-f04f-449b-a7aa-8560da636f54",
+                            Id = "9152d540-663b-48cb-8c6a-702120323119",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "2b0ab57e-abb4-464b-bd35-bc02fbe65289",
+                            Id = "a0f514ce-2513-467b-a6c0-9f78848b0379",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -167,6 +167,48 @@ namespace eCommerce.infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("eCommerce.Domain.Entities.Cart", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Carts");
+                });
+
+            modelBuilder.Entity("eCommerce.Domain.Entities.CartItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("eCommerce.Domain.Entities.Category", b =>
@@ -358,6 +400,34 @@ namespace eCommerce.infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("eCommerce.Domain.Entities.Cart", b =>
+                {
+                    b.HasOne("eCommerce.Domain.Entities.Identity.AppUser", null)
+                        .WithOne()
+                        .HasForeignKey("eCommerce.Domain.Entities.Cart", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("eCommerce.Domain.Entities.CartItem", b =>
+                {
+                    b.HasOne("eCommerce.Domain.Entities.Cart", "Cart")
+                        .WithMany("CartItems")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eCommerce.Domain.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("eCommerce.Domain.Entities.Product", b =>
                 {
                     b.HasOne("eCommerce.Domain.Entities.Category", "Category")
@@ -367,6 +437,11 @@ namespace eCommerce.infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("eCommerce.Domain.Entities.Cart", b =>
+                {
+                    b.Navigation("CartItems");
                 });
 
             modelBuilder.Entity("eCommerce.Domain.Entities.Category", b =>

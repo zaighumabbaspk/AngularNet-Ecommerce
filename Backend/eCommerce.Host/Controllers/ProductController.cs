@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using eCommerce.Application.Services.Interfaces;
 using eCommerce.Application.DTOs.Product;
 using eCommerce.Application.DTOs;
+
 namespace eCommerce.Host.Controllers
 {
     [Route("api/[controller]")]
@@ -10,7 +12,7 @@ namespace eCommerce.Host.Controllers
     public class ProductController(IProductServices productService) : ControllerBase
     {
         [HttpGet("all")]
-
+        [AllowAnonymous]  // Everyone can view products
         public async Task<IActionResult> GetAll()
         {
             var Data = await productService.GetAllAsync();
@@ -18,7 +20,7 @@ namespace eCommerce.Host.Controllers
         }
 
         [HttpGet("ById/{id}")]
-
+        [AllowAnonymous]  // Everyone can view product details
         public async Task<IActionResult> ById(Guid id)
         {
             var Data = await productService.GetAsync(id);
@@ -26,6 +28,7 @@ namespace eCommerce.Host.Controllers
         }
 
         [HttpPost("add")]
+        [Authorize(Roles = "Admin")]  // Only Admin can add products
         public async Task<IActionResult> Add(CreateProduct product)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -34,6 +37,7 @@ namespace eCommerce.Host.Controllers
         }
 
         [HttpPut("update")]
+        [Authorize(Roles = "Admin")]  // Only Admin can update products
         public async Task<IActionResult> Update(UpdateProduct product)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -42,7 +46,7 @@ namespace eCommerce.Host.Controllers
         }
 
         [HttpDelete("delete/{id}")]
-
+        [Authorize(Roles = "Admin")]  // Only Admin can delete products
         public async Task<IActionResult> Delete(Guid id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);

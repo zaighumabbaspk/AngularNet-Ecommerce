@@ -14,5 +14,7 @@ namespace eCommerce.Domain.Services.Interfaces.Authentication
         Task<IEnumerable<AppUser>> GetAllUsers();
         Task<int> RemoveUserByEmail(string email);
         Task<List<Claim>> GetUserByClaims(string email);
+        Task<string> GeneratePasswordResetToken(AppUser user);
+        Task<bool> ResetPassword(AppUser user, string token, string newPassword);
     }
 }

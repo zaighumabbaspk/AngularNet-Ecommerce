@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eCommerce.Domain.Entities
 {
@@ -8,17 +7,15 @@ namespace eCommerce.Domain.Entities
         [Key]
         public Guid Id { get; set; }
 
-        [ForeignKey("Cart")]
+        [Required]
         public Guid CartId { get; set; }
         public Cart Cart { get; set; }
 
-        [ForeignKey("Product")]
+        [Required]
         public Guid ProductId { get; set; }
         public Product Product { get; set; }
 
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal UnitPrice { get; set; }
-
+        [Required]
         public int Quantity { get; set; }
     }
 }

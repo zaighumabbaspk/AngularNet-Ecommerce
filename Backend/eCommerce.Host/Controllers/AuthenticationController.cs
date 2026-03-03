@@ -42,6 +42,26 @@ namespace eCommerce.Host.Controllers
             return result.success ? Ok(result) : BadRequest(result);
         }
 
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _authService.ForgotPassword(request);
+            return Ok(result);
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _authService.ResetPassword(request);
+            return result.Success ? Ok(result) : BadRequest(result);
+        }
+
     }
 
 }
