@@ -2,7 +2,7 @@ import { Component, AfterViewInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './Shared/Componets/header/header.component';
 import { FooterComponent } from './Shared/Componets/footer/footer.component';
-import feather from 'feather-icons';
+
 import { HeroComponent } from './Shared/Componets/hero/hero.component';
 import { ProductComponent } from './Shared/Componets/product/product.component';
 import { TestimonialsComponent } from './Shared/Componets/testimonials/testimonials.component';

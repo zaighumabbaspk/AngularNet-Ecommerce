@@ -1,4 +1,6 @@
-﻿using eCommerceApp.Application.DTOs.Identity;
+﻿using eCommerce.Application.DTOs;
+using eCommerce.Application.Services.Interfaces.Authentication;
+using eCommerceApp.Application.DTOs.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

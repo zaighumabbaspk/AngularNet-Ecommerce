@@ -80,8 +80,6 @@ namespace eCommerce.Application.Services.Implementation.Authentication
             };
             return claims;
         }
-<<<<<<< Updated upstream:Backend/eCommerce.infrastructure/Respositories/Authentication/UserManagement.cs
-=======
 
         public async Task<string> GeneratePasswordResetToken(AppUser user)
         {
@@ -109,6 +107,5 @@ namespace eCommerce.Application.Services.Implementation.Authentication
         {
             return await _userManager.IsEmailConfirmedAsync(user);
         }
->>>>>>> Stashed changes:Backend/eCommerce.infrastructure/Repositories/Authentication/UserManagement.cs
     }
 }

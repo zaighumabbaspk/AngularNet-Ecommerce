@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using eCommerce.Application.DTOs;
 using eCommerce.Application.Services.Interfaces;
+using eCommerce.Application.Services.Interfaces.Authentication;
 using eCommerce.Application.Services.Interfaces.Logging;
 using eCommerce.Application.Validations.Authenticaton;
 using eCommerce.Domain.Entities.Identity;
@@ -233,8 +234,6 @@ namespace eCommerce.Application.Services.implementation.Authentication
                 return new ServiceResponse(false, "An error occurred while resetting your password.");
             }
         }
-    }
-}
 
         public async Task<ServiceResponse> VerifyEmail(string email, string token)
         {
