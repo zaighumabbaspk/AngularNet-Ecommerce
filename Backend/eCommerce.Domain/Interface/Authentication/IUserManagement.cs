@@ -1,7 +1,5 @@
 ﻿using eCommerce.Domain.Entities.Identity;
-using System.Collections.Generic;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace eCommerce.Domain.Services.Interfaces.Authentication
 {
