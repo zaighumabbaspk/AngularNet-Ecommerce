@@ -1,0 +1,142 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1 class="auth-title">Create Account</h1>
+      <p class="auth-subtitle">Join us today</p>
+    </div>
+
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="auth-form">
+      
+      <!-- Success Message -->
+      <div *ngIf="successMessage" class="success-alert">
+        <i class="fa-solid fa-circle-check"></i>
+        {{ successMessage }}
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="error-alert">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        {{ errorMessage }}
+      </div>
+
+      <!-- Full Name Field -->
+      <div class="form-group">
+        <label for="fullname">
+          <i class="fa-solid fa-user"></i>
+          Full Name
+        </label>
+        <input
+          id="fullname"
+          type="text"
+          formControlName="fullname"
+          placeholder="Enter your full name"
+          class="form-input"
+          [class.error]="fullname?.invalid && fullname?.touched"
+        />
+        <span class="error-message" *ngIf="fullname?.invalid && fullname?.touched">
+          <span *ngIf="fullname?.errors?.['required']">Full name is required</span>
+          <span *ngIf="fullname?.errors?.['minlength']">Full name must be at least 3 characters</span>
+        </span>
+      </div>
+
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email">
+          <i class="fa-solid fa-envelope"></i>
+          Email Address
+        </label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email"
+          class="form-input"
+          [class.error]="email?.invalid && email?.touched"
+        />
+        <span class="error-message" *ngIf="email?.invalid && email?.touched">
+          <span *ngIf="email?.errors?.['required']">Email is required</span>
+          <span *ngIf="email?.errors?.['email']">Please enter a valid email</span>
+        </span>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="password">
+          <i class="fa-solid fa-lock"></i>
+          Password
+        </label>
+        <div class="password-input-wrapper">
+          <input
+            id="password"
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            placeholder="Enter your password"
+            class="form-input"
+            [class.error]="password?.invalid && password?.touched"
+          />
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="togglePasswordVisibility('password')"
+          >
+            <i [class]="showPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
+          </button>
+        </div>
+        <span class="error-message" *ngIf="password?.invalid && password?.touched">
+          <span *ngIf="password?.errors?.['required']">Password is required</span>
+          <span *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters</span>
+        </span>
+      </div>
+
+      <!-- Confirm Password Field -->
+      <div class="form-group">
+        <label for="confirmPassword">
+          <i class="fa-solid fa-lock"></i>
+          Confirm Password
+        </label>
+        <div class="password-input-wrapper">
+          <input
+            id="confirmPassword"
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            formControlName="confirmPassword"
+            placeholder="Confirm your password"
+            class="form-input"
+            [class.error]="confirmPassword?.invalid && confirmPassword?.touched"
+          />
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="togglePasswordVisibility('confirmPassword')"
+          >
+            <i [class]="showConfirmPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
+          </button>
+        </div>
+        <span class="error-message" *ngIf="confirmPassword?.invalid && confirmPassword?.touched">
+          <span *ngIf="confirmPassword?.errors?.['required']">Please confirm your password</span>
+          <span *ngIf="confirmPassword?.errors?.['passwordMismatch']">Passwords do not match</span>
+        </span>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="btn-submit"
+        [disabled]="isLoading"
+      >
+        <span *ngIf="!isLoading">
+          <i class="fa-solid fa-user-plus"></i>
+          Create Account
+        </span>
+        <span *ngIf="isLoading">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          Creating account...
+        </span>
+      </button>
+
+      <!-- Login Link -->
+      <div class="auth-footer">
+        <p>Already have an account? <a routerLink="/login" class="auth-link">Sign in</a></p>
+      </div>
+    </form>
+  </div>
+</div>

@@ -32,9 +32,24 @@
       </div>
 
       <!-- Icons -->
-      <div class="d-flex align-items-center ms-auto">
-        <a class="header-icon"><i class="fa-regular fa-user"></i></a>
-        <a class="header-icon" (click)="toggleSearch()"><i class="fa-solid fa-magnifying-glass"></i></a>
+      <div class="d-flex align-items-center ms-auto gap-2">
+        <!-- Auth Section -->
+        <div class="auth-section" *ngIf="(authService.authState$ | async) as authState">
+          <ng-container *ngIf="authState.isAuthenticated; else notLoggedIn">
+            <span class="user-name">{{ authState.user?.fullName }}</span>
+            <button class="btn-logout" (click)="logout()">
+              <i class="fa-solid fa-right-from-bracket"></i>
+            </button>
+          </ng-container>
+          
+          <ng-template #notLoggedIn>
+            <a routerLink="/login" class="btn-auth btn-login">Login</a>
+            <a routerLink="/signup" class="btn-auth btn-signup">Sign Up</a>
+          </ng-template>
+        </div>
+
+        <!-- <a class="header-icon"><i class="fa-regular fa-user"></i></a>
+        <a class="header-icon" (click)="toggleSearch()"><i class="fa-solid fa-magnifying-glass"></i></a> -->
         <a class="header-icon"><i class="fa-solid fa-cart-plus"></i></a>
       </div>
     </div>

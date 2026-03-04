@@ -16,6 +16,9 @@ namespace eCommerce.Infrastructure.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<RefreshToken> RefreshToken { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -35,6 +38,27 @@ namespace eCommerce.Infrastructure.Data
                     NormalizedName = "USER"
                 }
             );
+            builder.Entity<Cart>()
+                .HasOne<AppUser>()
+                .WithOne()
+                .HasForeignKey<Cart>(c => c.UserId);
+
+            builder.Entity<CartItem>()
+                .HasOne(ci => ci.Cart)
+                .WithMany(c => c.CartItems)
+                .HasForeignKey(ci => ci.CartId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<CartItem>()
+               .HasOne(ci => ci.Product)
+               .WithMany()
+               .HasForeignKey(ci => ci.ProductId)
+               .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Cart>()
+              .HasIndex(c => c.UserId)
+              .IsUnique();
+
         }
     }
 }

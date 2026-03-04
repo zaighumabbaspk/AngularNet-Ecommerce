@@ -1,35 +1,46 @@
-<footer class="site-footer text‑light">
-  <div class="container py‑5">
+<footer class="footer">
+  <div class="container py-5">
     <div class="row">
-      <div class="col-md‑4 mb‑4">
-        <h5 class="footer-heading">About Us</h5>
-        <p class="footer‑text">
-          We are committed to delivering the best products, top‑notch service, and a seamless customer experience.
+
+      <!-- About -->
+      <div class="col-lg-4 col-md-6 mb-4">
+        <h5 class="footer-title">About Us</h5>
+        <p class="footer-text">
+          We are committed to delivering high-quality products
+          and seamless shopping experiences.
         </p>
       </div>
-      <div class="col-md‑4 mb‑4">
-        <h5 class="footer-heading">Quick Links</h5>
-        <ul class="list‑unstyled footer‑links">
-          <li><a href="#" class="footer‑link">Home</a></li>
-          <li><a href="#" class="footer‑link">Shop</a></li>
-          <li><a href="#" class="footer‑link">Blog</a></li>
-          <li><a href="#" class="footer‑link">Contact</a></li>
+
+      <!-- Quick Links -->
+      <div class="col-lg-4 col-md-6 mb-4">
+        <h5 class="footer-title">Quick Links</h5>
+        <ul class="footer-links">
+          <li><a routerLink="/">Home</a></li>
+          <li><a routerLink="/products">Shop</a></li>
+          <li><a routerLink="/blog">Blog</a></li>
+          <li><a routerLink="/contact">Contact</a></li>
         </ul>
       </div>
-      <div class="col-md‑4 mb‑4">
-        <h5 class="footer-heading">Contact Us</h5>
-        <p class="footer‑text mb‑1"><i class="bi bi-geo-alt-fill me‑2"></i> 123 Technology Ave, Lahore, PK</p>
-        <p class="footer‑text mb‑1"><i class="bi bi-envelope-fill me‑2"></i>   support&#64;example.com</p>
-        <p class="footer‑text"><i class="bi bi-phone-fill me‑2"></i> +92 42 1234 5678</p>
-      </div>
-    </div>
 
-    <div class="footer-bottom mt‑4 pt‑4 border‑top">
-      <div class="row">
-        <div class="col‑12 text‑center">
-          <small>© 2025 YourCompany. All Rights Reserved.</small>
-        </div>
+      <!-- Contact -->
+      <div class="col-lg-4 col-md-12 mb-4">
+        <h5 class="footer-title">Contact</h5>
+        <p class="footer-text">
+          123 Technology Ave, Lahore, PK
+        </p>
+        <p class="footer-text">
+         <a [href]="'mailto:' + 'support@example.com'">
+          {{ 'support@example.com' }}
+         </a>
+        </p>
+        <p class="footer-text">+92 42 1234 5678</p>
       </div>
+
     </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="footer-bottom text-center py-3">
+    © 2025 YourCompany. All Rights Reserved.
   </div>
 </footer>
