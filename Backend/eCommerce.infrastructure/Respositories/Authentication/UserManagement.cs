@@ -80,5 +80,35 @@ namespace eCommerce.Application.Services.Implementation.Authentication
             };
             return claims;
         }
+<<<<<<< Updated upstream:Backend/eCommerce.infrastructure/Respositories/Authentication/UserManagement.cs
+=======
+
+        public async Task<string> GeneratePasswordResetToken(AppUser user)
+        {
+            return await _userManager.GeneratePasswordResetTokenAsync(user);
+        }
+
+        public async Task<bool> ResetPassword(AppUser user, string token, string newPassword)
+        {
+            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+            return result.Succeeded;
+        }
+
+        public async Task<string> GenerateEmailConfirmationToken(AppUser user)
+        {
+            return await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        }
+
+        public async Task<bool> ConfirmEmail(AppUser user, string token)
+        {
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            return result.Succeeded;
+        }
+
+        public async Task<bool> IsEmailConfirmed(AppUser user)
+        {
+            return await _userManager.IsEmailConfirmedAsync(user);
+        }
+>>>>>>> Stashed changes:Backend/eCommerce.infrastructure/Repositories/Authentication/UserManagement.cs
     }
 }

@@ -69,7 +69,23 @@ namespace eCommerce.Application.Services.implementation.Authentication
 
                     return new ServiceResponse(false, "Error occurred in Creating Account");
                 }
-                return new ServiceResponse(true, "User Created Successfully");
+
+                // Generate email confirmation token
+                var emailToken = await _userManagement.GenerateEmailConfirmationToken(_user);
+                
+                // Create verification link
+                var frontendUrl = _configuration["FrontendUrl"] ?? "http://localhost:4200";
+                var verificationLink = $"{frontendUrl}/verify-email?token={Uri.EscapeDataString(emailToken)}&email={Uri.EscapeDataString(user.Email)}";
+
+                // Send verification email
+                var emailSent = await _emailService.SendEmailVerificationAsync(user.Email, verificationLink);
+
+                if (!emailSent)
+                {
+                    _logger.LogError("Failed to send verification email", new Exception($"Email to {user.Email} failed"));
+                }
+
+                return new ServiceResponse(true, "Account created successfully! Please check your email to verify your account.");
             }
             catch (Exception ex)
             {
@@ -99,6 +115,13 @@ namespace eCommerce.Application.Services.implementation.Authentication
                 if (_user == null)
                 {
                     return new LoginResponse(false, "Invalid Email or Password");
+                }
+
+                // Check if email is confirmed
+                var isEmailConfirmed = await _userManagement.IsEmailConfirmed(_user);
+                if (!isEmailConfirmed)
+                {
+                    return new LoginResponse(false, "Please verify your email address before logging in. Check your inbox for the verification link.");
                 }
 
                 var Claims = await _userManagement.GetUserByClaims(_user.Email!);
@@ -138,6 +161,85 @@ namespace eCommerce.Application.Services.implementation.Authentication
             await _tokenManagement.UpdateRefreshToken(UserId,newRefreshToken);
             return new LoginResponse(true, "Token refreshed successfully", newJwtToken, newRefreshToken);
 
+        }
+    }
+}
+
+        public async Task<ServiceResponse> VerifyEmail(string email, string token)
+        {
+            try
+            {
+                var user = await _userManagement.GetUserByEmail(email);
+                if (user == null)
+                {
+                    return new ServiceResponse(false, "Invalid verification request.");
+                }
+
+                // Check if already verified
+                var isAlreadyVerified = await _userManagement.IsEmailConfirmed(user);
+                if (isAlreadyVerified)
+                {
+                    return new ServiceResponse(true, "Email is already verified. You can now login.");
+                }
+
+                // Confirm email
+                var result = await _userManagement.ConfirmEmail(user, token);
+
+                if (!result)
+                {
+                    return new ServiceResponse(false, "Invalid or expired verification token. Please request a new verification email.");
+                }
+
+                return new ServiceResponse(true, "Email verified successfully! You can now login to your account.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error in VerifyEmail", ex);
+                return new ServiceResponse(false, "An error occurred while verifying your email.");
+            }
+        }
+
+        public async Task<ServiceResponse> ResendVerificationEmail(string email)
+        {
+            try
+            {
+                var user = await _userManagement.GetUserByEmail(email);
+                if (user == null)
+                {
+                    // Don't reveal that user doesn't exist
+                    return new ServiceResponse(true, "If your email exists in our system, you will receive a verification link.");
+                }
+
+                // Check if already verified
+                var isAlreadyVerified = await _userManagement.IsEmailConfirmed(user);
+                if (isAlreadyVerified)
+                {
+                    return new ServiceResponse(false, "Email is already verified. You can login to your account.");
+                }
+
+                // Generate new token
+                var emailToken = await _userManagement.GenerateEmailConfirmationToken(user);
+                
+                // Create verification link
+                var frontendUrl = _configuration["FrontendUrl"] ?? "http://localhost:4200";
+                var verificationLink = $"{frontendUrl}/verify-email?token={Uri.EscapeDataString(emailToken)}&email={Uri.EscapeDataString(email)}";
+
+                // Send email
+                var emailSent = await _emailService.SendEmailVerificationAsync(email, verificationLink);
+
+                if (!emailSent)
+                {
+                    _logger.LogError("Failed to resend verification email", new Exception($"Email to {email} failed"));
+                    return new ServiceResponse(false, "Failed to send verification email. Please try again later.");
+                }
+
+                return new ServiceResponse(true, "Verification email sent! Please check your inbox.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error in ResendVerificationEmail", ex);
+                return new ServiceResponse(false, "An error occurred while sending verification email.");
+            }
         }
     }
 }

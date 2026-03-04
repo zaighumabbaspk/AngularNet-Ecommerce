@@ -34,14 +34,50 @@ namespace eCommerce.Host.Controllers
         }
 
         [HttpGet("refreshToken/{refreshToken}")]
-
-
-        public async Task<IActionResult> ReviveToken( string refreshToken)
+        public async Task<IActionResult> ReviveToken(string refreshToken)
         {
             var result = await _authService.ReviveToken(refreshToken);
             return result.success ? Ok(result) : BadRequest(result);
         }
 
-    }
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
+            var result = await _authService.ForgotPassword(request);
+            return Ok(result);
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _authService.ResetPassword(request);
+            return result.Success ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("verify-email")]
+        public async Task<IActionResult> VerifyEmail([FromQuery] string email, [FromQuery] string token)
+        {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(token))
+                return BadRequest(new ServiceResponse(false, "Invalid verification request."));
+
+            var result = await _authService.VerifyEmail(email, token);
+            return result.Success ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("resend-verification")]
+        public async Task<IActionResult> ResendVerificationEmail([FromBody] ForgotPasswordRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _authService.ResendVerificationEmail(request.Email);
+            return Ok(result);
+        }
+    }
 }
