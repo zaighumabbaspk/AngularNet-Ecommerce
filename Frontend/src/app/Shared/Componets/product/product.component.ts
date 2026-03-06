@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ProductService } from '../../../Core/Services/product.service';
 import { CategoryService } from '../../../Core/Services/category.service';
 import { AuthService } from '../../../Core/Services/auth.service';
+import { CartService } from '../../../Core/Services/cart.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -51,6 +52,7 @@ export class ProductComponent implements OnInit {
     private productService: ProductService,
     private categoryService: CategoryService,
     public authService: AuthService,
+    private cartService: CartService,
     private fb: FormBuilder,
     private Toastr: ToastrService
   ) {
@@ -188,7 +190,36 @@ export class ProductComponent implements OnInit {
   }
 
   addToCart(product: any): void {
-    console.log('Added to cart:', product);
+    if (!this.authService.isAuthenticated()) {
+      this.Toastr.warning('Please login to add items to cart', 'Login Required', {
+        timeOut: 3000,
+        progressBar: true
+      });
+      return;
+    }
+
+    const request = {
+      productId: product.id,
+      quantity: 1
+    };
+
+    this.cartService.addToCart(request).subscribe({
+      next: () => {
+        this.Toastr.success(`${product.name} added to cart!`, 'Success', {
+          timeOut: 2000,
+          progressBar: true
+        });
+        // Reload cart to update badge
+        this.cartService.loadCart();
+      },
+      error: (err) => {
+        this.Toastr.error('Failed to add item to cart', 'Error', {
+          timeOut: 3000,
+          progressBar: true
+        });
+        console.error('Error adding to cart:', err);
+      }
+    });
   }
 
   openAddForm(): void {

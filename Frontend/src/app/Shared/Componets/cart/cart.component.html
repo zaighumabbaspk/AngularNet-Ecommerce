@@ -1,0 +1,130 @@
+<div class="cart-container">
+  <!-- Header -->
+  <div class="cart-header">
+    <h1>Shopping Cart</h1>
+    <p class="breadcrumb"><a routerLink="/">Home</a> / Cart</p>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-spinner">
+    <i class="fa-solid fa-spinner fa-spin"></i>
+    <p>Loading cart...</p>
+  </div>
+
+  <!-- Empty Cart -->
+  <div *ngIf="!isLoading && (!cart || cart.cartItems.length === 0)" class="empty-cart">
+    <i class="fa-solid fa-shopping-cart"></i>
+    <h2>Your cart is empty</h2>
+    <p>Start shopping to add items to your cart</p>
+    <button class="btn-continue" (click)="continueShopping()">
+      <i class="fa-solid fa-arrow-left"></i> Continue Shopping
+    </button>
+  </div>
+
+  <!-- Cart Content -->
+  <div *ngIf="!isLoading && cart && cart.cartItems.length > 0" class="cart-content">
+    <div class="cart-items-section">
+      <h2>Cart Items ({{ cart.totalItems }})</h2>
+      
+      <div class="cart-items">
+        <div *ngFor="let item of cart.cartItems" class="cart-item">
+          <!-- Product Image -->
+          <div class="item-image">
+            <img [src]="item.productImage" [alt]="item.productName" />
+          </div>
+
+          <!-- Product Details -->
+          <div class="item-details">
+            <h3>{{ item.productName }}</h3>
+            <p class="category">{{ item.categoryName }}</p>
+            <p class="price">${{ item.productPrice.toFixed(2) }}</p>
+            <p class="stock" [class.low-stock]="item.availableStock < 5">
+              Stock: {{ item.availableStock }}
+            </p>
+          </div>
+
+          <!-- Quantity Control -->
+          <div class="quantity-control">
+            <button 
+              class="qty-btn" 
+              (click)="updateQuantity(item.id, item.quantity - 1)"
+              [disabled]="item.quantity <= 1"
+            >
+              <i class="fa-solid fa-minus"></i>
+            </button>
+            <input 
+              type="number" 
+              class="qty-input" 
+              [value]="item.quantity"
+              (change)="updateQuantity(item.id, parseInt(($event.target as HTMLInputElement).value))"
+              min="1"
+            />
+            <button 
+              class="qty-btn" 
+              (click)="updateQuantity(item.id, item.quantity + 1)"
+              [disabled]="item.quantity >= item.availableStock"
+            >
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+
+          <!-- Subtotal -->
+          <div class="item-subtotal">
+            <p class="subtotal-label">Subtotal</p>
+            <p class="subtotal-price">${{ item.subtotal.toFixed(2) }}</p>
+          </div>
+
+          <!-- Remove Button -->
+          <button class="btn-remove" (click)="removeItem(item.id)" title="Remove item">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Clear Cart Button -->
+      <button class="btn-clear-cart" (click)="clearCart()">
+        <i class="fa-solid fa-trash-can"></i> Clear Cart
+      </button>
+    </div>
+
+    <!-- Cart Summary -->
+    <div class="cart-summary">
+      <h2>Order Summary</h2>
+      
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span>${{ cart.total.toFixed(2) }}</span>
+      </div>
+
+      <div class="summary-row">
+        <span>Shipping</span>
+        <span class="shipping-free">FREE</span>
+      </div>
+
+      <div class="summary-row">
+        <span>Tax</span>
+        <span>${{ (cart.total * 0.1).toFixed(2) }}</span>
+      </div>
+
+      <div class="summary-divider"></div>
+
+      <div class="summary-row total">
+        <span>Total</span>
+        <span>${{ (cart.total * 1.1).toFixed(2) }}</span>
+      </div>
+
+      <button class="btn-checkout" (click)="checkout()">
+        <i class="fa-solid fa-credit-card"></i> Proceed to Checkout
+      </button>
+
+      <button class="btn-continue-shopping" (click)="continueShopping()">
+        <i class="fa-solid fa-arrow-left"></i> Continue Shopping
+      </button>
+    </div>
+  </div>
+</div>

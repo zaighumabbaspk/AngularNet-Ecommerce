@@ -5,6 +5,7 @@ using eCommerce.Application.Services.Interfaces.Logging;
 using eCommerce.Domain.Entities.Identity;
 using eCommerce.Domain.Interface;
 using eCommerce.Domain.Services.Interfaces.Authentication;
+using eCommerce.infrastructure.Repositories;
 using eCommerce.infrastructure.Repositories.Authentication;
 using eCommerce.infrastructure.Services;
 using eCommerce.Infrastructure.Data;
@@ -47,6 +48,7 @@ namespace eCommerce.Infrastructure.DependencyInjection
          
             services.AddScoped(typeof(IGeneric<>), typeof(GenericRepository<>));
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ICartRepository , CartRepository>();
 
             // -------------------- Logging --------------------
             services.AddScoped(typeof(IAppLogger<>), typeof(SerilogAdapter<>));

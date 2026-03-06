@@ -41,6 +41,18 @@
 
       <!-- Icons -->
       <div class="d-flex align-items-center ms-auto gap-2">
+        <!-- Cart Icon -->
+        <div class="cart-icon-wrapper" *ngIf="(authService.authState$ | async) as authState">
+          <ng-container *ngIf="authState.isAuthenticated">
+            <button class="header-icon cart-btn" (click)="goToCart()" title="View Cart">
+              <i class="fa-solid fa-cart-plus"></i>
+              <span class="cart-badge" *ngIf="(cartService.cart$ | async) as cart">
+                {{ cart?.totalItems || 0 }}
+              </span>
+            </button>
+          </ng-container>
+        </div>
+
         <!-- Auth Section -->
         <div class="auth-section" *ngIf="(authService.authState$ | async) as authState">
           <ng-container *ngIf="authState.isAuthenticated; else notLoggedIn">
@@ -58,7 +70,6 @@
 
         <!-- <a class="header-icon"><i class="fa-regular fa-user"></i></a>
         <a class="header-icon" (click)="toggleSearch()"><i class="fa-solid fa-magnifying-glass"></i></a> -->
-        <a class="header-icon"><i class="fa-solid fa-cart-plus"></i></a>
       </div>
     </div>
 

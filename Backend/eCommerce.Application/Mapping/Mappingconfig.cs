@@ -1,45 +1,70 @@
 ﻿using AutoMapper;
 using eCommerce.Application.DTOs;
+using eCommerce.Application.DTOs.Cart;
 using eCommerce.Application.DTOs.Category;
 using eCommerce.Application.DTOs.Product;
 using eCommerce.Domain.Entities;
 using eCommerce.Domain.Entities.Identity;
 using eCommerceApp.Application.DTOs.Identity;
-using Microsoft.AspNetCore.Builder;
 
 public class Mappingconfig : Profile
 {
     public Mappingconfig()
     {
-        // Category mappings
+        // ===== CATEGORY MAPPINGS =====
         CreateMap<CreateCategory, Category>().ReverseMap();
         CreateMap<UpdateCategory, Category>().ReverseMap();
-        CreateMap<Category, GetCategory>();
+        CreateMap<Category, GetCategory>()
+            .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products));
 
-        // Product mappings
+        // ===== PRODUCT MAPPINGS =====
         CreateMap<CreateProduct, Product>().ReverseMap();
         CreateMap<UpdateProduct, Product>().ReverseMap();
-
-        // No recursion — just map fields
         CreateMap<Product, GetProduct>();
-        CreateMap<GetProduct, Product>();
 
-        CreateMap<CreateUser, AppUser>();
-        CreateMap<LoginUser, AppUser>();
+        // Reverse mapping for GetProduct → Product (for updates if needed)
+        CreateMap<GetProduct, Product>()
+            .ForMember(dest => dest.Category, opt => opt.Ignore());
 
-        // Cart mappings
+        // ===== IDENTITY/AUTHENTICATION MAPPINGS =====
+        CreateMap<CreateUser, AppUser>()
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
+
+        CreateMap<LoginUser, AppUser>()
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
+
+        CreateMap<AppUser, LoginResponse>()
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id));
+
+        // ===== CART MAPPINGS =====
         CreateMap<Cart, GetCart>()
-            .ForMember(dest => dest.Total, opt => opt.Ignore())
-            .ForMember(dest => dest.TotalItems, opt => opt.Ignore());
+            .ForMember(dest => dest.CartItems, opt => opt.MapFrom(src => src.CartItems))
+            .ForMember(dest => dest.Total, opt => opt.MapFrom(src => 
+                src.CartItems.Sum(ci => ci.Quantity * ci.Product.Price)))
+            .ForMember(dest => dest.TotalItems, opt => opt.MapFrom(src => 
+                src.CartItems.Sum(ci => ci.Quantity)));
 
         CreateMap<CartItem, GetCartItem>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
             .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.Name))
             .ForMember(dest => dest.ProductImage, opt => opt.MapFrom(src => src.Product.Image))
             .ForMember(dest => dest.ProductPrice, opt => opt.MapFrom(src => src.Product.Price))
             .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Product.Category.Name))
+            .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
             .ForMember(dest => dest.Subtotal, opt => opt.MapFrom(src => src.Quantity * src.Product.Price))
             .ForMember(dest => dest.AvailableStock, opt => opt.MapFrom(src => src.Product.Quantity));
 
+        // Reverse mapping for cart requests
+        CreateMap<AddToCartRequest, CartItem>()
+            .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
+            .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity));
 
+        CreateMap<UpdateCartItemRequest, CartItem>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CartItemId))
+            .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity));
     }
 }

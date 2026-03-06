@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using eCommerce.Application.DTOs.Email;
+using eCommerce.Application.Services.Implementation;
 using eCommerce.Application.Services.implementation;
 using eCommerce.Application.Services.implementation.Authentication;
-using eCommerce.Application.Services.Implementation;
 using eCommerce.Application.Services.Interfaces;
 using eCommerce.Application.Services.Interfaces.Authentication;
 using eCommerce.Application.Validations.Authenticaton;
@@ -23,12 +23,13 @@ namespace eCommerce.Application.DependencyInjection
             services.AddScoped<ICategoryServices, CategoryService>();
             services.AddScoped<IProductServices, ProductService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
-            
+            services.AddScoped<ICartService, CartService>();  // Keep this - it should work once ICartRepository is registered in Infrastructure
+
             services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssemblyContaining<CreateUserValidator>();
           
             services.AddScoped<IValidationService, ValidationService>();
-
+            services.AddMvc();  
             return services;
         }
     }
