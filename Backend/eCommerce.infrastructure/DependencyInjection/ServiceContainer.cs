@@ -44,7 +44,7 @@ namespace eCommerce.Infrastructure.DependencyInjection
                 options.UseExceptionProcessor();
             });
 
-            // -------------------- Repositories --------------------
+         
             services.AddScoped(typeof(IGeneric<>), typeof(GenericRepository<>));
             services.AddScoped<IProductRepository, ProductRepository>();
 
@@ -105,8 +105,6 @@ namespace eCommerce.Infrastructure.DependencyInjection
             services.AddScoped<IUserManagement, UserManagement>();
             services.AddScoped<IRoleManagement, RoleManagement>();
             services.AddScoped<ITokenManagement, TokenManagement>();
-            
-            // -------------------- Email Service --------------------
             services.AddScoped<IEmailService, EmailService>();
             services.Configure<EmailSettings>(config.GetSection("EmailSettings"));
 

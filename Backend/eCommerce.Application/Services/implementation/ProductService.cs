@@ -4,10 +4,6 @@ using eCommerce.Application.DTOs.Product;
 using eCommerce.Application.Services.Interfaces;
 using eCommerce.Domain.Entities;
 using eCommerce.Domain.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace eCommerce.Application.Services.implementation
 {

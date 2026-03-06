@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../../Core/Services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr: ToastrService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -40,6 +42,10 @@ export class LoginComponent {
   onSubmit(): void {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
+      this.toastr.warning('Please fill in all required fields correctly', 'Validation Error', {
+        timeOut: 3000,
+        progressBar: true
+      });
       return;
     }
 
@@ -49,14 +55,28 @@ export class LoginComponent {
     this.authService.login(this.loginForm.value).subscribe({
       next: (response) => {
         if (response.success) {
+          this.toastr.success('Welcome back! Logging you in...', 'Login Successful', {
+            timeOut: 3000,
+            progressBar: true,
+            progressAnimation: 'increasing'
+          });
           this.router.navigate([this.returnUrl]);
         } else {
+          this.toastr.error(response.message || 'Login failed', 'Error', {
+            timeOut: 4000,
+            progressBar: true
+          });
           this.errorMessage = response.message || 'Login failed';
         }
         this.isLoading = false;
       },
       error: (error) => {
-        this.errorMessage = error.error?.message || 'An error occurred during login';
+        const errorMsg = error.error?.message || 'An error occurred during login';
+        this.toastr.error(errorMsg, 'Login Failed', {
+          timeOut: 4000,
+          progressBar: true
+        });
+        this.errorMessage = errorMsg;
         this.isLoading = false;
       }
     });

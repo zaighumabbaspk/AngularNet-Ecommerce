@@ -1,9 +1,17 @@
-<div class="hero-header">
+<div *ngIf="showHero" class="hero-header">
   <!-- Background Image -->
   <img src="back.png" alt="Modern Furniture" class="hero-bg" />
 
-  <!-- Glassmorphism Navbar -->
-  <header class="glass-navbar navbar navbar-expand-lg fixed-top">
+  <!-- Hero Text Overlay -->
+  <div class="hero-text">
+    <h1>Transform Your Space with Timeless Elegance</h1>
+    <p>Discover modern furniture crafted with luxury, comfort, and style.</p>
+    <button class="btn btn-dark px-4 py-2 mt-3">Shop Now</button>
+  </div>
+</div>
+
+<!-- Glassmorphism Navbar -->
+<header class="glass-navbar navbar navbar-expand-lg fixed-top">
     <div class="container-fluid">
       <!-- Brand -->
       <a routerLink="/" class="navbar-brand">LuxeLiving</a>
@@ -55,16 +63,8 @@
     </div>
 
     <!-- Search Bar -->
-    <div class="search-bar" *ngIf="searchOpen">
+    <!-- <div class="search-bar" *ngIf="searchOpen">
       <input type="text" placeholder="Search products..." autofocus />
       <i class="fa-solid fa-xmark close-icon" (click)="toggleSearch()"></i>
-    </div>
+    </div> -->
   </header>
-
-  <!-- Hero Text Overlay -->
-  <div class="hero-text">
-    <h1>Transform Your Space with Timeless Elegance</h1>
-    <p>Discover modern furniture crafted with luxury, comfort, and style.</p>
-    <button class="btn btn-dark px-4 py-2 mt-3">Shop Now</button>
-  </div>
-</div>

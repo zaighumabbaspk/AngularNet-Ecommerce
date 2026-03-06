@@ -6,6 +6,7 @@ import { CategoryService } from '../../../Core/Services/category.service';
 import { AuthService } from '../../../Core/Services/auth.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { Product } from '../../../Core/Models/product.model';
 
 @Component({
@@ -50,7 +51,8 @@ export class ProductComponent implements OnInit {
     private productService: ProductService,
     private categoryService: CategoryService,
     public authService: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private Toastr: ToastrService
   ) {
     this.productForm = this.fb.group({
       name: ['', Validators.required],
@@ -72,7 +74,6 @@ export class ProductComponent implements OnInit {
     this.productService.getAllProducts().subscribe({
       next: (res) => {
         this.products = res;
-        console.log('Products loaded:', this.products);
         this.setPriceLimits();
         this.applyFilters();
         this.isLoading = false;
@@ -195,6 +196,10 @@ export class ProductComponent implements OnInit {
     this.editMode = false;
     this.editingProductId = null;
     this.productForm.reset();
+    this.Toastr.info('Add a new product', 'Form Opened', {
+      timeOut: 2000,
+      progressBar: true
+    });
   }
 
   openEditForm(product: any): void {
@@ -205,21 +210,53 @@ export class ProductComponent implements OnInit {
   }
 
   submitForm(): void {
-    if (this.productForm.invalid) return;
+    if (this.productForm.invalid) {
+      this.Toastr.warning('Please fill in all required fields', 'Validation Error', {
+        timeOut: 3000,
+        progressBar: true
+      });
+      return;
+    }
 
     const data = this.productForm.value;
 
     if (this.editMode && this.editingProductId) {
       this.productService.updateProduct(this.editingProductId, data)
-        .subscribe(() => {
-          this.loadProducts();
-          this.cancelForm();
+        .subscribe({
+          next: () => {
+            this.Toastr.success('Product updated successfully!', 'Success', {
+              timeOut: 3000,
+              progressBar: true
+            });
+            this.loadProducts();
+            this.cancelForm();
+          },
+          error: (err) => {
+            this.Toastr.error('Failed to update product', 'Error', {
+              timeOut: 4000,
+              progressBar: true
+            });
+            console.error('Error updating product:', err);
+          }
         });
     } else {
       this.productService.createProduct(data)
-        .subscribe(() => {
-          this.loadProducts();
-          this.cancelForm();
+        .subscribe({
+          next: () => {
+            this.Toastr.success('Product created successfully!', 'Success', {
+              timeOut: 3000,
+              progressBar: true
+            });
+            this.loadProducts();
+            this.cancelForm();
+          },
+          error: (err) => {
+            this.Toastr.error('Failed to create product', 'Error', {
+              timeOut: 4000,
+              progressBar: true
+            });
+            console.error('Error creating product:', err);
+          }
         });
     }
   }
@@ -228,7 +265,15 @@ export class ProductComponent implements OnInit {
     if (!confirm('Delete this product?')) return;
 
     this.productService.deleteProduct(id)
-      .subscribe(() => this.loadProducts());
+      .subscribe((res) => {
+        if (res.success) {
+          this.Toastr.success(res.message || 'Product deleted successfully', 'Success');
+          this.loadProducts();
+        } else {
+          this.Toastr.error(res.message || 'Failed to delete product', 'Error');
+        }
+  
+      });
   }
 
   cancelForm(): void {

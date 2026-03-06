@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-about-us',
@@ -8,12 +9,16 @@ import { CommonModule } from '@angular/common';
   templateUrl: './about-us.component.html',
   styleUrls: ['./about-us.component.css']
 })
-export class AboutUsComponent {
+export class AboutUsComponent implements OnInit {
+  constructor(private toastr: ToastrService) {}
+
+  ngOnInit(): void {
+  }
   teamMembers = [
     {
       name: 'John Anderson',
       role: 'Founder & CEO',
-      image: 'https://via.placeholder.com/300x300?text=John+Anderson',
+      image: '',
       bio: 'Visionary leader with 20 years in luxury furniture design.'
     },
     {
@@ -58,4 +63,16 @@ export class AboutUsComponent {
       description: 'Your satisfaction is our priority. Personalized service for every customer journey.'
     }
   ];
+
+  contactUs(): void {
+    this.toastr.success(
+      'Contact request submitted! We will get back to you soon.',
+      'Thank You!',
+      {
+        timeOut: 4000,
+        progressBar: true,
+        progressAnimation: 'increasing'
+      }
+    );
+  }
 }

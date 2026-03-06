@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../../Core/Services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-forgot-password',
@@ -20,7 +21,8 @@ export class ForgotPasswordComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {
     this.forgotPasswordForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
@@ -30,6 +32,10 @@ export class ForgotPasswordComponent {
   onSubmit(): void {
     if (this.forgotPasswordForm.invalid) {
       this.forgotPasswordForm.markAllAsTouched();
+      this.toastr.warning('Please enter a valid email address', 'Validation Error', {
+        timeOut: 3000,
+        progressBar: true
+      });
       return;
     }
 
@@ -44,14 +50,32 @@ export class ForgotPasswordComponent {
         this.isLoading = false;
         if (response.success) {
           this.successMessage = response.message || 'Password reset link has been sent to your email.';
+          this.toastr.success(
+            'Password reset link sent! Check your email inbox.',
+            'Email Sent',
+            {
+              timeOut: 4000,
+              progressBar: true,
+              progressAnimation: 'increasing'
+            }
+          );
           this.forgotPasswordForm.reset();
         } else {
           this.errorMessage = response.message || 'Failed to send reset link.';
+          this.toastr.error(this.errorMessage, 'Error', {
+            timeOut: 4000,
+            progressBar: true
+          });
         }
       },
       error: (error) => {
         this.isLoading = false;
-        this.errorMessage = error.error?.message || 'An error occurred. Please try again.';
+        const errorMsg = error.error?.message || 'An error occurred. Please try again.';
+        this.errorMessage = errorMsg;
+        this.toastr.error(errorMsg, 'Failed', {
+          timeOut: 4000,
+          progressBar: true
+        });
       }
     });
   }

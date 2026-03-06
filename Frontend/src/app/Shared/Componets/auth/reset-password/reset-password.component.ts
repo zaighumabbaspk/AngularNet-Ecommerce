@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { AuthService } from '../../../../Core/Services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-reset-password',
@@ -26,7 +27,8 @@ export class ResetPasswordComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr: ToastrService
   ) {
     this.resetPasswordForm = this.fb.group({
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
@@ -42,6 +44,10 @@ export class ResetPasswordComponent implements OnInit {
 
       if (!this.token || !this.email) {
         this.errorMessage = 'Invalid password reset link.';
+        this.toastr.error('Invalid password reset link. Please request a new one.', 'Invalid Link', {
+          timeOut: 4000,
+          progressBar: true
+        });
       }
     });
   }
@@ -68,6 +74,10 @@ export class ResetPasswordComponent implements OnInit {
   onSubmit(): void {
     if (this.resetPasswordForm.invalid || !this.token || !this.email) {
       this.resetPasswordForm.markAllAsTouched();
+      this.toastr.warning('Please fill in all fields correctly and ensure passwords match', 'Validation Error', {
+        timeOut: 3000,
+        progressBar: true
+      });
       return;
     }
 
@@ -82,16 +92,34 @@ export class ResetPasswordComponent implements OnInit {
         this.isLoading = false;
         if (response.success) {
           this.successMessage = response.message || 'Password reset successfully!';
+          this.toastr.success(
+            'Password reset successfully! Redirecting to login...',
+            'Success',
+            {
+              timeOut: 3000,
+              progressBar: true,
+              progressAnimation: 'increasing'
+            }
+          );
           setTimeout(() => {
             this.router.navigate(['/login']);
           }, 2000);
         } else {
           this.errorMessage = response.message || 'Failed to reset password.';
+          this.toastr.error(this.errorMessage, 'Error', {
+            timeOut: 4000,
+            progressBar: true
+          });
         }
       },
       error: (error) => {
         this.isLoading = false;
-        this.errorMessage = error.error?.message || 'An error occurred. Please try again.';
+        const errorMsg = error.error?.message || 'An error occurred. Please try again.';
+        this.errorMessage = errorMsg;
+        this.toastr.error(errorMsg, 'Failed', {
+          timeOut: 4000,
+          progressBar: true
+        });
       }
     });
   }

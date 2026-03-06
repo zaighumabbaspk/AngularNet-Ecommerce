@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../../Core/Services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 declare var feather: any;
 
@@ -14,19 +15,27 @@ declare var feather: any;
 })
 export class HeaderComponent {
   searchOpen = false;
+  showHero = true;
+  isDarkNavbarNeeded = false;
+  whiteBackgroundPages = ['/about', '/login', '/signup', '/forgot-password', '/reset-password', '/verify-email'];
 
-  constructor(public authService: AuthService) {}
-
-  toggleSearch() {
-    this.searchOpen = !this.searchOpen;
-    console.log('Search toggled:', this.searchOpen);
-    setTimeout(() => {
-      feather.replace();
-    }, 0);
+  constructor(public authService: AuthService, private toastr: ToastrService, private router: Router) {
+    // hide hero section on any route except home
+    // apply dark navbar on white background pages
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.showHero = event.urlAfterRedirects === '/' || event.urlAfterRedirects === '';
+        this.isDarkNavbarNeeded = this.whiteBackgroundPages.some(page => event.urlAfterRedirects.startsWith(page));
+      }
+    });
   }
 
   logout(): void {
     this.authService.logout();
+    this.toastr.info('You have been logged out successfully', 'Goodbye!', {
+      timeOut: 3000,
+      progressBar: true
+    });
   }
 
   scrollToProducts(): void {

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../../Core/Services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-signup',
@@ -22,7 +23,8 @@ export class SignupComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {
     this.signupForm = this.fb.group({
       fullname: ['', [Validators.required, Validators.minLength(3)]],
@@ -54,6 +56,10 @@ export class SignupComponent {
   onSubmit(): void {
     if (this.signupForm.invalid) {
       this.signupForm.markAllAsTouched();
+      this.toastr.warning('Please fill in all required fields correctly', 'Validation Error', {
+        timeOut: 3000,
+        progressBar: true
+      });
       return;
     }
 
@@ -65,14 +71,31 @@ export class SignupComponent {
       next: (response) => {
         if (response.success) {
           this.successMessage = response.message || 'Account created! Please check your email to verify your account before logging in.';
-          // Don't auto-redirect, let user read the message
+          this.toastr.success(
+            'Account created successfully! Check your email to verify your account.',
+            'Welcome!',
+            {
+              timeOut: 4000,
+              progressBar: true,
+              progressAnimation: 'increasing'
+            }
+          );
         } else {
           this.errorMessage = response.message || 'Signup failed';
+          this.toastr.error(this.errorMessage, 'Signup Error', {
+            timeOut: 4000,
+            progressBar: true
+          });
         }
         this.isLoading = false;
       },
       error: (error) => {
-        this.errorMessage = error.error?.message || 'An error occurred during signup';
+        const errorMsg = error.error?.message || 'An error occurred during signup';
+        this.errorMessage = errorMsg;
+        this.toastr.error(errorMsg, 'Signup Failed', {
+          timeOut: 4000,
+          progressBar: true
+        });
         this.isLoading = false;
       }
     });

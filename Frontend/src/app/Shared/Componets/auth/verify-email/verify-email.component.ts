@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../../Core/Services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-verify-email',
@@ -20,7 +21,8 @@ export class VerifyEmailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -45,15 +47,34 @@ export class VerifyEmailComponent implements OnInit {
         this.message = response.message;
         
         if (response.success) {
+          this.toastr.success(
+            'Email verified successfully! Redirecting to login...',
+            'Verification Complete',
+            {
+              timeOut: 3000,
+              progressBar: true,
+              progressAnimation: 'increasing'
+            }
+          );
           setTimeout(() => {
             this.router.navigate(['/login']);
           }, 3000);
+        } else {
+          this.toastr.error(response.message || 'Verification failed', 'Error', {
+            timeOut: 4000,
+            progressBar: true
+          });
         }
       },
       error: (error) => {
         this.isVerifying = false;
         this.isSuccess = false;
-        this.message = error.error?.message || 'Verification failed. Please try again.';
+        const errorMsg = error.error?.message || 'Verification failed. Please try again.';
+        this.message = errorMsg;
+        this.toastr.error(errorMsg, 'Verification Failed', {
+          timeOut: 4000,
+          progressBar: true
+        });
       }
     });
   }

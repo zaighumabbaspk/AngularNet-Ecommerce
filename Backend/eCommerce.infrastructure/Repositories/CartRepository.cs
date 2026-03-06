@@ -17,7 +17,7 @@ namespace eCommerce.infrastructure.Repositories
 
         public async Task<int> AddOrUpdateCartItemAsync(string userId, Guid productId, int quantity)
         {
-            // Get existing cart or create a new one
+         
             var cart = await _context.Carts
                 .Include(c => c.CartItems)
                 .FirstOrDefaultAsync(c => c.UserId == userId);
@@ -82,7 +82,7 @@ namespace eCommerce.infrastructure.Repositories
         public async Task<CartItem?> GetCartItemByIdAsync(Guid cartItemId)
         {
             return await _context.CartItems
-                .Include(ci => ci.Cart)   // 🔑 Needed for UserId check
+                .Include(ci => ci.Cart)  
                 .FirstOrDefaultAsync(ci => ci.Id == cartItemId);
         }
 
