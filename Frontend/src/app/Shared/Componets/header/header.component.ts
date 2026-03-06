@@ -16,16 +16,12 @@ declare var feather: any;
 export class HeaderComponent {
   searchOpen = false;
   showHero = true;
-  isDarkNavbarNeeded = false;
-  whiteBackgroundPages = ['/about', '/login', '/signup', '/forgot-password', '/reset-password', '/verify-email'];
 
   constructor(public authService: AuthService, private toastr: ToastrService, private router: Router) {
     // hide hero section on any route except home
-    // apply dark navbar on white background pages
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.showHero = event.urlAfterRedirects === '/' || event.urlAfterRedirects === '';
-        this.isDarkNavbarNeeded = this.whiteBackgroundPages.some(page => event.urlAfterRedirects.startsWith(page));
       }
     });
   }
