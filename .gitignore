@@ -24,3 +24,7 @@ appsettings.*.json
 *.user
 *.userosscache
 *.sln.docstates
+
+node_modules/
+dist/
+.angular/
