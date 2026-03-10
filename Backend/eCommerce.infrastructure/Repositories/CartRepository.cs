@@ -17,43 +17,57 @@ namespace eCommerce.infrastructure.Repositories
 
         public async Task<int> AddOrUpdateCartItemAsync(string userId, Guid productId, int quantity)
         {
-         
-            var cart = await _context.Carts
-                .Include(c => c.CartItems)
-                .FirstOrDefaultAsync(c => c.UserId == userId);
-
-            if (cart == null)
+            try
             {
-                cart = new Cart
+                var cart = await _context.Carts
+                    .Include(c => c.CartItems)
+                    .FirstOrDefaultAsync(c => c.UserId == userId);
+
+                if (cart == null)
                 {
-                    Id = Guid.NewGuid(),
-                    UserId = userId,
-                    CartItems = new List<CartItem>()
-                };
-                await _context.Carts.AddAsync(cart);
-            }
+                    cart = new Cart
+                    {
+                        Id = Guid.NewGuid(),
+                        UserId = userId,
+                        CartItems = new List<CartItem>()
+                    };
+                    _context.Carts.Add(cart);
+                    await _context.SaveChangesAsync(); // Save cart first
+                }
 
-            // Check if the item already exists in the cart
-            var existingItem = cart.CartItems.FirstOrDefault(ci => ci.ProductId == productId);
+                // Check if the item already exists in the cart
+                var existingItem = await _context.CartItems
+                    .FirstOrDefaultAsync(ci => ci.CartId == cart.Id && ci.ProductId == productId);
 
-            if (existingItem != null)
-            {
-                existingItem.Quantity += quantity; // Update quantity
-            }
-            else
-            {
-                var cartItem = new CartItem
+                if (existingItem != null)
                 {
-                    Id = Guid.NewGuid(),
-                    CartId = cart.Id,
-                    ProductId = productId,
-                    Quantity = quantity
-                };
-                cart.CartItems.Add(cartItem); // Add new item
-            }
+                    existingItem.Quantity += quantity; // Update quantity
+                }
+                else
+                {
+                    var cartItem = new CartItem
+                    {
+                        Id = Guid.NewGuid(),
+                        CartId = cart.Id,
+                        ProductId = productId,
+                        Quantity = quantity
+                    };
+                    _context.CartItems.Add(cartItem); // Add new item
+                }
 
-            // Save all changes
-            return await _context.SaveChangesAsync();
+                // Save all changes
+                return await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                // Handle concurrency conflict by reloading and retrying
+                foreach (var entry in ex.Entries)
+                {
+                    await entry.ReloadAsync();
+                }
+                // Retry the operation
+                return await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<Cart?> GetCartByUserIdAsync(string userId)
@@ -68,15 +82,27 @@ namespace eCommerce.infrastructure.Repositories
 
         public async Task<int> ClearCartAsync(string userId)
         {
-            var cart = await _context.Carts
-                .Include(c => c.CartItems)
-                .FirstOrDefaultAsync(c => c.UserId == userId);
+            try
+            {
+                var cart = await _context.Carts
+                    .Include(c => c.CartItems)
+                    .FirstOrDefaultAsync(c => c.UserId == userId);
 
-            if (cart == null || cart.CartItems.Count == 0)
-                return 0;
+                if (cart == null || cart.CartItems.Count == 0)
+                    return 0;
 
-            _context.CartItems.RemoveRange(cart.CartItems);
-            return await _context.SaveChangesAsync();
+                _context.CartItems.RemoveRange(cart.CartItems);
+                return await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                // Handle concurrency conflict by reloading and retrying
+                foreach (var entry in ex.Entries)
+                {
+                    await entry.ReloadAsync();
+                }
+                return await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<CartItem?> GetCartItemByIdAsync(Guid cartItemId)
@@ -96,36 +122,60 @@ namespace eCommerce.infrastructure.Repositories
 
         public async Task<int> RemoveCartItemAsync(Guid cartItemId)
         {
-            var cartItem = await _context.CartItems
-                .FirstOrDefaultAsync(ci => ci.Id == cartItemId);
+            try
+            {
+                var cartItem = await _context.CartItems
+                    .FirstOrDefaultAsync(ci => ci.Id == cartItemId);
 
-            if (cartItem == null)
-                return 0;
+                if (cartItem == null)
+                    return 0;
 
-            _context.CartItems.Remove(cartItem);
-            return await _context.SaveChangesAsync();
+                _context.CartItems.Remove(cartItem);
+                return await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                // Handle concurrency conflict by reloading and retrying
+                foreach (var entry in ex.Entries)
+                {
+                    await entry.ReloadAsync();
+                }
+                return await _context.SaveChangesAsync();
+            }
         }
 
 
         public async Task<int> UpdateCartItemQuantityAsync(Guid cartItemId, int quantity)
         {
-            var cartItem = await _context.CartItems
-                .FirstOrDefaultAsync(ci => ci.Id == cartItemId);
-
-            if (cartItem == null)
-                return 0;
-
-            if (quantity <= 0)
+            try
             {
-                // Remove item if quantity is 0 or negative
-                _context.CartItems.Remove(cartItem);
-            }
-            else
-            {
-                cartItem.Quantity = quantity;
-            }
+                var cartItem = await _context.CartItems
+                    .FirstOrDefaultAsync(ci => ci.Id == cartItemId);
 
-            return await _context.SaveChangesAsync();
+                if (cartItem == null)
+                    return 0;
+
+                if (quantity <= 0)
+                {
+                    // Remove item if quantity is 0 or negative
+                    _context.CartItems.Remove(cartItem);
+                }
+                else
+                {
+                    cartItem.Quantity = quantity;
+                }
+
+                return await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                // Handle concurrency conflict by reloading and retrying
+                foreach (var entry in ex.Entries)
+                {
+                    await entry.ReloadAsync();
+                }
+                return await _context.SaveChangesAsync();
+            }
         }
     }
 }

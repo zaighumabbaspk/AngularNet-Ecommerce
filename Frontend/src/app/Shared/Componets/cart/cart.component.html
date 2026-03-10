@@ -1,7 +1,7 @@
 <div class="cart-container">
   <!-- Header -->
   <div class="cart-header">
-    <h1>Shopping Cart</h1>
+    <h1>Shopping Carts</h1>
     <p class="breadcrumb"><a routerLink="/">Home</a> / Cart</p>
   </div>
 
@@ -61,7 +61,7 @@
               type="number" 
               class="qty-input" 
               [value]="item.quantity"
-              (change)="updateQuantity(item.id, parseInt(($event.target as HTMLInputElement).value))"
+              (change)="onQuantityChange(item.id, $event)"
               min="1"
             />
             <button 

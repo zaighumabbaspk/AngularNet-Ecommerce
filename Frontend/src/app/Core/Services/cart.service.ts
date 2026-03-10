@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, of } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, of, throwError, tap } from 'rxjs';
 import { environment } from '../../environment/environment';
 import { AddToCartRequest, UpdateCartItemRequest, GetCart } from '../Models/cart.model';
 
@@ -15,7 +15,7 @@ export class CartService {
 
   constructor(private http: HttpClient) {}
 
-  // Load cart from backend
+  // Load cart from backend and update cart$
   loadCart(): void {
     this.getCart().pipe(
       catchError((error) => {
@@ -27,6 +27,17 @@ export class CartService {
         this.cartSubject.next(cart);
       }
     });
+  }
+
+
+  reloadCart(): Observable<GetCart> {
+    return this.getCart().pipe(
+      tap((cart) => this.cartSubject.next(cart)),
+      catchError((error) => {
+        console.error('Error reloading cart:', error);
+        return throwError(() => error);
+      })
+    );
   }
 
   // Get cart
@@ -65,7 +76,6 @@ export class CartService {
     return cart ? cart.totalItems : 0;
   }
 
-  // Get total price
   getTotalPrice(): number {
     const cart = this.cartSubject.value;
     return cart ? cart.total : 0;

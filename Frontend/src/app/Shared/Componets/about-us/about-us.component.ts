@@ -18,26 +18,30 @@ export class AboutUsComponent implements OnInit {
     {
       name: 'John Anderson',
       role: 'Founder & CEO',
-      image: '',
-      bio: 'Visionary leader with 20 years in luxury furniture design.'
+      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
+      bio: 'Visionary leader with 20 years in luxury furniture design. Pioneered the modern luxury furniture movement.',
+      specialty: 'Strategic Vision'
     },
     {
       name: 'Sarah Mitchell',
       role: 'Design Director',
-      image: 'https://via.placeholder.com/300x300?text=Sarah+Mitchell',
-      bio: 'Award-winning designer creating timeless aesthetic collections.'
+      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop',
+      bio: 'Award-winning designer creating timeless aesthetic collections. Multiple international design awards.',
+      specialty: 'Creative Design'
     },
     {
       name: 'Michael Chen',
       role: 'Operations Manager',
-      image: 'https://via.placeholder.com/300x300?text=Michael+Chen',
-      bio: 'Expert in supply chain management and quality assurance.'
+      image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop',
+      bio: 'Expert in supply chain management and quality assurance. Ensures excellence in every delivery.',
+      specialty: 'Operations'
     },
     {
       name: 'Emma Rodriguez',
       role: 'Customer Success Lead',
-      image: 'https://via.placeholder.com/300x300?text=Emma+Rodriguez',
-      bio: 'Dedicated to ensuring exceptional customer experiences.'
+      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop',
+      bio: 'Dedicated to ensuring exceptional customer experiences. 15+ years in luxury customer service.',
+      specialty: 'Customer Care'
     }
   ];
 

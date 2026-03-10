@@ -8,6 +8,7 @@ import { ResetPasswordComponent } from './Shared/Componets/auth/reset-password/r
 import { ForgotPasswordComponent } from './Shared/Componets/auth/forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './Shared/Componets/auth/verify-email/verify-email.component';
 import { CartComponent } from './Shared/Componets/cart/cart.component';
+import { AboutUsComponent } from './Shared/Componets/about-us/about-us.component';
 import { authGuard } from './Core/Guards/auth.guard';
 
 export const routes: Routes = [
@@ -48,6 +49,10 @@ export const routes: Routes = [
     path: 'cart',
     component: CartComponent,
     canActivate: [authGuard]
+  },
+  {
+    path: 'about',
+    component: AboutUsComponent
   },
   {
     path: '**',

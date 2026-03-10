@@ -29,12 +29,16 @@
   transition: all 0.3s ease;
 }
 
-.navbar-brand {
-  font-family: 'Playfair Display', serif;
-  font-weight: 700;
-  color: #fff;
-  font-size: 1.8rem;
-  letter-spacing: 1px;
+/* Dark Navbar for non-hero pages and after scroll */
+.glass-navbar-dark {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  backdrop-filter: blur(15px);
+  background: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 999;
+  transition: all 0.3s ease;
 }
 
 .nav-link {
@@ -49,12 +53,24 @@
   color: #ffc107 !important;
 }
 
+/* Ensure navbar brand is always visible */
+.navbar-brand {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  color: #fff;
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
 /* ---------- Header Icons ---------- */
 .header-icon {
   color: #fff;
+  margin-right: 20px;
   font-size: 1.2rem;
   margin-left: 1rem;
   transition: color 0.3s ease;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .header-icon:hover {
@@ -69,12 +85,19 @@
 .cart-btn {
   position: relative;
   background: none;
+
   border: none;
   cursor: pointer;
   padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.cart-btn:hover {
+  color: #ffc107;
 }
 
 .cart-badge {
@@ -171,9 +194,10 @@
   font-weight: 600;
   font-size: 0.95rem;
   padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 8px;
   backdrop-filter: blur(10px);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .btn-logout {
@@ -186,6 +210,7 @@
   transition: all 0.3s ease;
   font-size: 1rem;
   backdrop-filter: blur(10px);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .btn-logout:hover {
@@ -201,6 +226,7 @@
   text-decoration: none;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .btn-login {

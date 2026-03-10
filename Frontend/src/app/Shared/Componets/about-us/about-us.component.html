@@ -1,4 +1,4 @@
-<body style="background-color: #fff; font-family: 'Poppins', sans-serif;">
+<body style="background-color: #ffffff; font-family: 'Poppins', sans-serif;">
 
 <!-- Hero Section -->
 <section class="about-hero">
@@ -18,7 +18,7 @@
       <div class="row align-items-center">
         <div class="col-lg-6">
           <img
-            src="https://via.placeholder.com/500x400?text=Luxury+Furniture"
+            src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=500&fit=crop"
             alt="LuxeLiving Showroom"
             class="story-image"
           />
@@ -67,7 +67,7 @@
       <div class="row align-items-center">
         <div class="col-lg-6 order-lg-2">
           <img
-            src="https://via.placeholder.com/500x400?text=Design+Innovation"
+            src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=500&fit=crop"
             alt="Design Process"
             class="mission-image"
           />
@@ -104,7 +104,12 @@
       <div class="row g-4 mt-5">
         <div class="col-lg-3 col-md-6" *ngFor="let member of teamMembers">
           <div class="team-card">
-            <img [src]="member.image" [alt]="member.name" class="team-image" />
+            <div class="team-image-wrapper">
+              <img [src]="member.image" [alt]="member.name" class="team-image" />
+              <div class="team-overlay">
+                <span class="team-specialty">{{ member.specialty }}</span>
+              </div>
+            </div>
             <div class="team-info">
               <h5 class="team-name">{{ member.name }}</h5>
               <p class="team-role">{{ member.role }}</p>

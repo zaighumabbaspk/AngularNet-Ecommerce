@@ -11,7 +11,7 @@
 </div>
 
 <!-- Glassmorphism Navbar -->
-<header class="glass-navbar navbar navbar-expand-lg fixed-top">
+<header [class.glass-navbar]="!isDarkBackground" [class.glass-navbar-dark]="isDarkBackground" class="navbar navbar-expand-lg fixed-top">
     <div class="container-fluid">
       <!-- Brand -->
       <a routerLink="/" class="navbar-brand">LuxeLiving</a>
@@ -39,19 +39,6 @@
         </ul>
       </div>
 
-      <!-- Icons -->
-      <div class="d-flex align-items-center ms-auto gap-2">
-        <!-- Cart Icon -->
-        <div class="cart-icon-wrapper" *ngIf="(authService.authState$ | async) as authState">
-          <ng-container *ngIf="authState.isAuthenticated">
-            <button class="header-icon cart-btn" (click)="goToCart()" title="View Cart">
-              <i class="fa-solid fa-cart-plus"></i>
-              <span class="cart-badge" *ngIf="(cartService.cart$ | async) as cart">
-                {{ cart?.totalItems || 0 }}
-              </span>
-            </button>
-          </ng-container>
-        </div>
 
         <!-- Auth Section -->
         <div class="auth-section" *ngIf="(authService.authState$ | async) as authState">
@@ -67,6 +54,20 @@
             <a routerLink="/signup" class="btn-auth btn-signup">Sign Up</a>
           </ng-template>
         </div>
+
+              <!-- Icons -->
+      <div class="d-flex align-items-center ms-auto gap-2">
+        <div class="cart-icon-wrapper" *ngIf="(authService.authState$ | async) as authState">
+          <ng-container *ngIf="authState.isAuthenticated">
+            <button class="header-icon cart-btn" (click)="openCartDrawer()" title="View Cart">
+              <i class="fa-solid fa-cart-plus"></i>
+              <span class="cart-badge" *ngIf="(cartService.cart$ | async) as cart">
+                {{ cart?.totalItems || 0 }}
+              </span>
+            </button>
+          </ng-container>
+        </div>
+
 
         <!-- <a class="header-icon"><i class="fa-regular fa-user"></i></a>
         <a class="header-icon" (click)="toggleSearch()"><i class="fa-solid fa-magnifying-glass"></i></a> -->

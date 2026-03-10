@@ -50,7 +50,7 @@ namespace eCommerce.Infrastructure.DependencyInjection
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICartRepository , CartRepository>();
 
-            // -------------------- Logging --------------------
+
             services.AddScoped(typeof(IAppLogger<>), typeof(SerilogAdapter<>));
 
             // -------------------- Identity --------------------

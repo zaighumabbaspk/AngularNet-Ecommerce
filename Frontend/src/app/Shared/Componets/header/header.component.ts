@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../../Core/Services/auth.service';
 import { CartService } from '../../../Core/Services/cart.service';
+import { CartDrawerService } from '../../../Core/Services/cart-drawer.service';
 import { ToastrService } from 'ngx-toastr';
 
 declare var feather: any;
@@ -17,10 +18,12 @@ declare var feather: any;
 export class HeaderComponent {
   searchOpen = false;
   showHero = true;
+  isDarkBackground = false;
 
   constructor(
     public authService: AuthService,
     public cartService: CartService,
+    private cartDrawerService: CartDrawerService,
     private toastr: ToastrService,
     private router: Router
   ) {
@@ -28,8 +31,26 @@ export class HeaderComponent {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.showHero = event.urlAfterRedirects === '/' || event.urlAfterRedirects === '';
+        this.updateNavbarStyle();
       }
     });
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll(): void {
+    this.updateNavbarStyle();
+  }
+
+  updateNavbarStyle(): void {
+    // Check if we're on home page with hero
+    if (this.showHero) {
+      // On home page, check scroll position
+      const scrollPosition = window.scrollY;
+      this.isDarkBackground = scrollPosition > 100; // After scrolling past hero
+    } else {
+      // On other pages, always use dark background
+      this.isDarkBackground = true;
+    }
   }
 
   logout(): void {
@@ -45,6 +66,17 @@ export class HeaderComponent {
     if (productSection) {
       productSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  }
+
+  openCartDrawer(): void {
+    if (!this.authService.isAuthenticated()) {
+      this.toastr.warning('Please login to view your cart', 'Login Required', {
+        timeOut: 3000,
+        progressBar: true
+      });
+      return;
+    }
+    this.cartDrawerService.openDrawer();
   }
 
   goToCart(): void {

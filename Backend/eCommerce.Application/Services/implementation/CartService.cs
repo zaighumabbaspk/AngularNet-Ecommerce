@@ -19,15 +19,24 @@ namespace eCommerce.Application.Services.implementation
         }
         public async Task<ServiceResponse> AddToCartAsync(string userId, AddToCartRequest request)
         {
-            if (request.Quantity <= 0)
+            try
             {
-                return new ServiceResponse(false, "Quantity must be greater than zero.");
-            }
+                if (request.Quantity <= 0)
+                {
+                    return new ServiceResponse(false, "Quantity must be greater than zero.");
+                }
 
-            var result = await _cartRepository.AddOrUpdateCartItemAsync(userId, request.ProductId, request.Quantity);
-            return result > 0
-                ? new ServiceResponse(true, "Item added to cart successfully.")
-                : new ServiceResponse(false, "Failed to add item to cart.");
+                var result = await _cartRepository.AddOrUpdateCartItemAsync(userId, request.ProductId, request.Quantity);
+
+                return result > 0
+                    ? new ServiceResponse(true, "Item added to cart successfully.")
+                    : new ServiceResponse(false, "Failed to add item to cart.");
+            }
+            catch (Exception ex)
+            {
+            
+                return new ServiceResponse(false, $"An error occurred: {ex.Message}");
+            }
         }
 
         public async Task<ServiceResponse> ClearCartAsync(string userId)
