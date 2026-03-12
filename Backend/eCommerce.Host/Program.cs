@@ -1,4 +1,5 @@
-﻿using eCommerce.Application.DependencyInjection;
+﻿using eCommerce.Application.Configuration;
+using eCommerce.Application.DependencyInjection;
 using eCommerce.Infrastructure.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -18,9 +19,13 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-// ---------------------
-// Services
-// ---------------------
+builder.Services.Configure<StripeSettings>(
+    builder.Configuration.GetSection("Stripe"));
+
+Stripe.StripeConfiguration.ApiKey =
+    builder.Configuration["Stripe:SecretKey"];
+
+
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices(builder.Configuration);
 
@@ -78,9 +83,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-// ---------------------
-// App Pipeline
-// ---------------------
+
 try
 {
     var app = builder.Build();

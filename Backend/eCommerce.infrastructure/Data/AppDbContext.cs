@@ -18,6 +18,9 @@ namespace eCommerce.Infrastructure.Data
         public DbSet<RefreshToken> RefreshToken { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<OrderStatusHistory> OrderStatusHistory { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -58,6 +61,44 @@ namespace eCommerce.Infrastructure.Data
             builder.Entity<Cart>()
               .HasIndex(c => c.UserId)
               .IsUnique();
+
+            // Order to User relationship
+            builder.Entity<Order>()
+                .HasOne<AppUser>()
+                .WithMany()
+                .HasForeignKey(o => o.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Order to OrderItems relationship
+            builder.Entity<OrderItem>()
+                .HasOne(oi => oi.Order)
+                .WithMany(o => o.OrderItems)
+                .HasForeignKey(oi => oi.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // OrderItem to Product relationship
+            builder.Entity<OrderItem>()
+                .HasOne(oi => oi.Product)
+                .WithMany()
+                .HasForeignKey(oi => oi.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Order to StatusHistory relationship
+            builder.Entity<OrderStatusHistory>()
+                .HasOne(osh => osh.Order)
+                .WithMany(o => o.StatusHistory)
+                .HasForeignKey(osh => osh.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Indexes for performance
+            builder.Entity<Order>()
+                .HasIndex(o => o.UserId);
+
+            builder.Entity<Order>()
+                .HasIndex(o => o.CreatedAt);
+
+            builder.Entity<Order>()
+                .HasIndex(o => o.Status);
 
         }
     }

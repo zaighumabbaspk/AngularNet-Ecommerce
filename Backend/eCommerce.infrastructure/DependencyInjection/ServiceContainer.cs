@@ -8,6 +8,7 @@ using eCommerce.Domain.Services.Interfaces.Authentication;
 using eCommerce.infrastructure.Repositories;
 using eCommerce.infrastructure.Repositories.Authentication;
 using eCommerce.infrastructure.Services;
+using eCommerce.infrastructure.Services.Payments;
 using eCommerce.Infrastructure.Data;
 using eCommerce.Infrastructure.Middleware;
 using eCommerce.Infrastructure.Repositories;
@@ -109,6 +110,7 @@ namespace eCommerce.Infrastructure.DependencyInjection
             services.AddScoped<ITokenManagement, TokenManagement>();
             services.AddScoped<IEmailService, EmailService>();
             services.Configure<EmailSettings>(config.GetSection("EmailSettings"));
+            services.AddScoped<StripePaymentService>();
 
             return services;
         }
