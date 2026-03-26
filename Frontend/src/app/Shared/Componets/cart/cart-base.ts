@@ -91,7 +91,6 @@ export abstract class CartBase implements OnInit {
   }
 
   public continueShopping(): void {
-    // Default behavior: go home
     window.location.href = '/';
   }
 

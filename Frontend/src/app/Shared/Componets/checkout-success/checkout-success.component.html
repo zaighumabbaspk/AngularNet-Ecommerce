@@ -1,0 +1,32 @@
+<div class="success-container">
+  <div class="success-card">
+    <div class="success-icon">
+      <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+        <polyline points="22,4 12,14.01 9,11.01"></polyline>
+      </svg>
+    </div>
+    
+    <h1>Payment Successful!</h1>
+    <p class="success-message">
+      Thank you for your purchase. Your order has been confirmed and will be processed shortly.
+    </p>
+    
+    <div class="order-info" *ngIf="orderId || paymentIntentId">
+      <p *ngIf="orderId"><strong>Order ID:</strong> {{ orderId }}</p>
+      <p *ngIf="paymentIntentId"><strong>Payment ID:</strong> {{ paymentIntentId }}</p>
+    </div>
+    
+    <div class="action-buttons">
+      <button class="btn btn-primary" (click)="viewOrderDetails()" *ngIf="orderId">
+        View Order Details
+      </button>
+      <button class="btn btn-primary" (click)="goToOrders()" *ngIf="!orderId">
+        View My Orders
+      </button>
+      <button class="btn btn-secondary" (click)="continueShopping()">
+        Continue Shopping
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+<div class="checkout-container">
+  <div class="checkout-card">
+    <div class="checkout-header">
+      <h2>Checkout</h2>
+      <p>Complete your order by providing your shipping and billing information</p>
+    </div>
+
+    <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()" class="checkout-form">
+      <!-- Shipping Address -->
+      <div class="form-section">
+        <h3>Shipping Address</h3>
+        <div class="form-group">
+          <label for="shippingAddress">Address *</label>
+          <textarea
+            id="shippingAddress"
+            formControlName="shippingAddress"
+            placeholder="Enter your complete shipping address"
+            rows="3"
+            [class.error]="isFieldInvalid('shippingAddress')">
+          </textarea>
+          <div class="error-message" *ngIf="isFieldInvalid('shippingAddress')">
+            {{ getFieldError('shippingAddress') }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Billing Address -->
+      <div class="form-section">
+        <h3>Billing Address</h3>
+        <div class="form-group">
+          <div class="checkbox-group">
+            <input
+              type="checkbox"
+              id="sameAsShipping"
+              formControlName="sameAsShipping">
+            <label for="sameAsShipping">Same as shipping address</label>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="billingAddress">Address *</label>
+          <textarea
+            id="billingAddress"
+            formControlName="billingAddress"
+            placeholder="Enter your complete billing address"
+            rows="3"
+            [class.error]="isFieldInvalid('billingAddress')">
+          </textarea>
+          <div class="error-message" *ngIf="isFieldInvalid('billingAddress')">
+            {{ getFieldError('billingAddress') }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Error Message -->
+      <div class="alert alert-danger" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Submit Button -->
+      <div class="form-actions">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="router.navigate(['/cart'])">
+          Back to Cart
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="isLoading || checkoutForm.invalid">
+          <span *ngIf="isLoading" class="spinner"></span>
+          {{ isLoading ? 'Processing...' : 'Proceed to Payment' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -78,6 +78,7 @@
               <button
                 class="btn btn-dark btn-lg me-3"
                 [disabled]="product.quantity === 0"
+                (click)="addToCart()"
               >
                 Add to Cart
               </button>

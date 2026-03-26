@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { Product } from '../../../Core/Models/product.model';
+import { CartService } from '../../../Core/Services/cart.service';
+import { AuthService } from '../../../Core/Services/auth.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -23,6 +25,8 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
+    private cartService: CartService,
+    private authService: AuthService,
     private toastr: ToastrService
   ) {}
 
@@ -50,7 +54,7 @@ export class ProductDetailComponent implements OnInit {
           'Failed to load product details. Please try again.',
           'Error',
           {
-            timeOut: 4000,
+            timeOut: 3000,
             progressBar: true
           }
         );
@@ -73,6 +77,36 @@ export class ProductDetailComponent implements OnInit {
       );
     }
   }
+
+  addToCart() {
+  if (!this.product) return;
+
+  if (!this.authService.isAuthenticated()) {
+    this.toastr.warning('Please login to add items to cart', 'Login Required');
+    return;
+  }
+
+  const request = {
+    productId: this.product.id,
+    quantity: this.selectedQuantity
+  };
+
+  this.cartService.addToCart(request).subscribe({
+    next: () => {
+      this.toastr.success(`${this.product?.name} added to cart!`, 'Success', {
+        timeOut: 2000,
+        progressBar: true
+      });
+      this.cartService.loadCart();
+    },
+    error: () => {
+      this.toastr.error('Failed to add item to cart', 'Error', {
+        timeOut: 3000,
+        progressBar: true
+      });
+    }
+  });
+}
 
   decreaseQuantity() {
     if (this.selectedQuantity > 1) {

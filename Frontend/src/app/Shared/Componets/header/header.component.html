@@ -43,6 +43,10 @@
         <!-- Auth Section -->
         <div class="auth-section" *ngIf="(authService.authState$ | async) as authState">
           <ng-container *ngIf="authState.isAuthenticated; else notLoggedIn">
+            <a routerLink="/orders" class="btn-orders" title="My Orders">
+              <i class="fa-solid fa-box"></i>
+              Orders
+            </a>
             <span class="user-name">{{ authState.user?.fullName }}</span>
             <button class="btn-logout" (click)="logout()">
               <i class="fa-solid fa-right-from-bracket"></i>
