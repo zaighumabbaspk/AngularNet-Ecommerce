@@ -2,6 +2,7 @@
 using eCommerce.Application.DTOs;
 using eCommerce.Application.DTOs.Cart;
 using eCommerce.Application.DTOs.Category;
+using eCommerce.Application.DTOs.Order;
 using eCommerce.Application.DTOs.Product;
 using eCommerce.Domain.Entities;
 using eCommerce.Domain.Entities.Identity;
@@ -66,5 +67,32 @@ public class Mappingconfig : Profile
         CreateMap<UpdateCartItemRequest, CartItem>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CartItemId))
             .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity));
+
+        // ===== ORDER MAPPINGS =====
+        CreateMap<Order, GetOrder>()
+            .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(src => src.OrderItems))
+            .ForMember(dest => dest.StatusHistory, opt => opt.MapFrom(src => src.StatusHistory));
+
+        CreateMap<OrderItem, GetOrderItem>();
+
+        CreateMap<OrderStatusHistory, GetOrderStatusHistory>();
+
+        CreateMap<CreateOrder, Order>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+            .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+            .ForMember(dest => dest.Status, opt => opt.Ignore())
+            .ForMember(dest => dest.OrderItems, opt => opt.Ignore())
+            .ForMember(dest => dest.StatusHistory, opt => opt.Ignore());
+
+        CreateMap<CreateOrderItem, OrderItem>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.OrderId, opt => opt.Ignore())
+            .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.UnitPrice * src.Quantity))
+            .ForMember(dest => dest.Product, opt => opt.Ignore())
+            .ForMember(dest => dest.Order, opt => opt.Ignore())
+            .ForMember(dest => dest.ProductName, opt => opt.Ignore())
+            .ForMember(dest => dest.ProductDescription, opt => opt.Ignore())
+            .ForMember(dest => dest.ProductImage, opt => opt.Ignore());
     }
 }

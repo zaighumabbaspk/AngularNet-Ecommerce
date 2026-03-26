@@ -23,7 +23,9 @@ namespace eCommerce.Application.DependencyInjection
             services.AddScoped<ICategoryServices, CategoryService>();
             services.AddScoped<IProductServices, ProductService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
-            services.AddScoped<ICartService, CartService>();  // Keep this - it should work once ICartRepository is registered in Infrastructure
+            services.AddScoped<ICartService, CartService>();
+            services.AddScoped<ICheckoutService, CheckoutService>();
+            services.AddScoped<IOrderService, OrderService>();
 
             services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssemblyContaining<CreateUserValidator>();

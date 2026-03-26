@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eCommerce.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using eCommerce.Infrastructure.Data;
 namespace eCommerce.infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260311114352_CreateOrderEntities")]
+    partial class CreateOrderEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace eCommerce.infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c544b495-f59e-4cdf-a499-39a2ad9b8c24",
+                            Id = "e25cff0d-1512-4db9-85c4-9529bb21ebd2",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "2f533f16-8b47-4b5a-a0da-6d3a63a0c807",
+                            Id = "83d8e505-1bd3-4241-a534-7de422fc4862",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -439,7 +442,7 @@ namespace eCommerce.infrastructure.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderStatusHistories");
+                    b.ToTable("OrderStatusHistory");
                 });
 
             modelBuilder.Entity("eCommerce.Domain.Entities.Product", b =>

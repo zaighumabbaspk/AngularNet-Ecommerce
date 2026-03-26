@@ -12,7 +12,7 @@ namespace eCommerce.infrastructure.Repositories.Authentication
     public class RoleManagement(UserManager<AppUser> UserManager) : IRoleManagement
     {
         public async Task<bool> AddUserToRole(AppUser user, string roleName) => 
-         (await UserManager.AddToRoleAsync(user, roleName)).Succeeded;
+         (await UserManager.AddToRoleAsync(user, roleName)).Succeeded;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 
         public async Task<string?> GetUserRole(string userEmail)
         {
@@ -20,7 +20,13 @@ namespace eCommerce.infrastructure.Repositories.Authentication
 
             if (user == null) return null;
 
-            return (await UserManager.GetRolesAsync(user!)).FirstOrDefault();
+            var roles = await UserManager.GetRolesAsync(user!);
+            
+            // Prioritize Admin role if it exists
+            if (roles.Contains("Admin"))
+                return "Admin";
+            
+            return roles.FirstOrDefault();
         }
     }
 }
