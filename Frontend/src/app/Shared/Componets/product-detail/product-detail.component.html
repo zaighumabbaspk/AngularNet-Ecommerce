@@ -21,11 +21,22 @@
         <!-- Product Image -->
         <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
           <div class="product-image-wrapper">
+
             <img
               [src]="product.image || '/placeholder.jpg'"
               [alt]="product.name"
               class="product-detail-image"
             />
+
+             <button
+                class="wishlist-btn"
+                [class.active]="isInWishlist"
+                (click)="toggleWishlist()"
+                [title]="isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'"
+                *ngIf="authService.isAuthenticated()"
+              >
+                <i [class]="isInWishlist ? 'fas fa-heart' : 'far fa-heart'"></i>
+              </button>
           </div>
         </div>
 
@@ -34,6 +45,11 @@
           <div class="product-detail-info">
 
             <h2 class="product-title">{{ product.name }}</h2>
+
+            <p class="product-brand">
+              <i class="fa-solid fa-trademark"></i>
+              <span>{{ product.brand }}</span>
+            </p>
 
             <p class="product-price">
               {{ product.price | currency }}
@@ -74,19 +90,21 @@
             </div>
 
             <!-- Buttons -->
-            <div class="product-actions mt-4">
+            <div class="product-actions mt-4 d-flex gap-3 align-items-center">
               <button
-                class="btn btn-dark btn-lg me-3"
+                class="btn btn-dark btn-lg flex-grow-1"
                 [disabled]="product.quantity === 0"
               >
                 Add to Cart
               </button>
 
+
+
               <button
                 class="btn btn-outline-dark btn-lg"
                 routerLink="/products"
               >
-                Back to Products
+                Back To Products
               </button>
             </div>
 

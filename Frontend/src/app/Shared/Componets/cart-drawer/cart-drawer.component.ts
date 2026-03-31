@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { CartService } from '../../../Core/Services/cart.service';
 import { CartDrawerService } from '../../../Core/Services/cart-drawer.service';
+import { AuthService } from '../../../Core/Services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { CartBase } from '../cart/cart-base';
 
@@ -18,6 +20,8 @@ export class CartDrawerComponent extends CartBase {
   constructor(
     cartService: CartService,
     private cartDrawerService: CartDrawerService,
+    private authService: AuthService,
+    private router: Router,
     private toastr: ToastrService
   ) {
     super(cartService);
@@ -78,9 +82,38 @@ export class CartDrawerComponent extends CartBase {
   }
 
   override checkout(): void {
+    console.log('🔍 Cart drawer checkout clicked');
+    
+    // Check if user is authenticated
+    if (!this.authService.isAuthenticated()) {
+      console.log('🔍 User not authenticated, redirecting to login');
+      this.closeDrawer();
+      this.router.navigate(['/login'], { 
+        queryParams: { returnUrl: '/checkout' } 
+      });
+      return;
+    }
+
+    // Check if cart has items
+    if (!this.cart || this.cart.cartItems.length === 0) {
+      console.log('❌ Cart is empty');
+      this.toastr.warning('Your cart is empty', 'Cannot Checkout');
+      return;
+    }
+
+    console.log('✅ Navigating to checkout from drawer');
     this.closeDrawer();
-    // TODO: Navigate to checkout page
-    this.toastr.info('Checkout functionality coming soon!', 'Info');
+    
+    // Navigate to checkout page
+    this.router.navigate(['/checkout']).then(success => {
+      console.log('🔍 Navigation result:', success);
+      if (success) {
+        this.toastr.success('Redirecting to checkout...', 'Success');
+      }
+    }).catch(error => {
+      console.error('❌ Navigation failed:', error);
+      this.toastr.error('Failed to navigate to checkout', 'Error');
+    });
   }
 
   override continueShopping(): void {

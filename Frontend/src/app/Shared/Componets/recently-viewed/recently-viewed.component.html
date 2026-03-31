@@ -1,0 +1,52 @@
+<section class="recently-viewed-container" *ngIf="showHeader || recentlyViewedItems.length > 0">
+  <div class="recently-viewed-header" *ngIf="showHeader">
+    <div class="header-content">
+      <h2><i class="fas fa-history"></i> Recently Viewed</h2>
+      <p *ngIf="recentlyViewedItems.length > 0" class="items-count">{{recentlyViewedItems.length}} {{ recentlyViewedItems.length === 1 ? 'product' : 'products' }} browsed</p>
+    </div>
+    <button *ngIf="recentlyViewedItems.length > 0" 
+            class="clear-btn" 
+            (click)="clearRecentlyViewed()"
+            title="Clear all recently viewed products">
+      <i class="fas fa-trash"></i> Clear All
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p style="color: #666; font-size: 1rem; margin-top: 16px;">Loading recently viewed...</p>
+  </div>
+
+  <!-- Recently Viewed Items -->
+  <div *ngIf="!isLoading && recentlyViewedItems.length > 0" class="recently-viewed-grid">
+    <div *ngFor="let item of recentlyViewedItems" 
+         class="recently-viewed-item"
+         (click)="viewProduct(item.productId)">
+      <div class="item-image">
+        <img [src]="item.imageUrl" [alt]="item.productName" loading="lazy">
+        <div class="quick-view-overlay">
+          <span class="quick-view-text">Quick View</span>
+        </div>
+      </div>
+      
+      <div class="item-info">
+        <h4 class="item-name" [title]="item.productName">{{item.productName}}</h4>
+        <div class="item-price">
+          <span class="price">${{item.price}}</span>
+        </div>
+        <div class="item-date">
+          <i class="fas fa-eye"></i>
+          <small>Viewed {{item.viewedAt | date:'MMM dd'}}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && recentlyViewedItems.length === 0" class="empty-recently-viewed">
+    <i class="fas fa-clock"></i>
+    <h3>No Recently Viewed Products</h3>
+    <p>Products you browse will appear here</p>
+  </div>
+</section>

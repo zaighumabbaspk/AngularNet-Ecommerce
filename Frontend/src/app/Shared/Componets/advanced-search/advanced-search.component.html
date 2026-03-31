@@ -1,0 +1,186 @@
+<div class="advanced-search-container">
+  <!-- Search Header -->
+  <div class="search-header">
+    <div class="search-bar">
+      <input 
+        type="text" 
+        [(ngModel)]="searchRequest.query" 
+        placeholder="Search products..."
+        class="search-input"
+        (keyup.enter)="onSearchSubmit()">
+      <button class="btn btn-primary" (click)="onSearchSubmit()">
+        <i class="fas fa-search"></i> Search
+      </button>
+    </div>
+    
+    <div class="search-controls">
+      <button class="btn btn-secondary" (click)="toggleFilters()">
+        <i class="fas fa-filter"></i> Filters
+      </button>
+      
+      <select [(ngModel)]="searchRequest.sortBy" (change)="onSortChange()" class="sort-select">
+        <option value="name">Name A-Z</option>
+        <option value="price_asc">Price: Low to High</option>
+        <option value="price_desc">Price: High to Low</option>
+        <option value="rating">Highest Rated</option>
+        <option value="newest">Newest First</option>
+        <option value="popular">Most Popular</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Advanced Filters -->
+  <div class="filters-panel" [class.show]="showFilters" *ngIf="availableFilters">
+    <div class="filters-content">
+      <div class="filter-group">
+        <label>Price Range</label>
+        <div class="price-range">
+          <input 
+            type="number" 
+            [(ngModel)]="searchRequest.minPrice" 
+            [placeholder]="'Min: $' + availableFilters.minPrice"
+            class="price-input"
+            (change)="onFilterChange()">
+          <span>to</span>
+          <input 
+            type="number" 
+            [(ngModel)]="searchRequest.maxPrice" 
+            [placeholder]="'Max: $' + availableFilters.maxPrice"
+            class="price-input"
+            (change)="onFilterChange()">
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label>Categories</label>
+        <div class="checkbox-group">
+          <div *ngFor="let category of availableFilters.categories" class="checkbox-item">
+            <input 
+              type="checkbox" 
+              [id]="'cat-' + category.id"
+              [checked]="searchRequest.categoryIds?.includes(category.id)"
+              (change)="onCategoryChange(category.id, $event)">
+            <label [for]="'cat-' + category.id">
+              {{category.name}} ({{category.productCount}})
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label>Brands</label>
+        <div class="checkbox-group">
+          <div *ngFor="let brand of availableFilters.brands" class="checkbox-item">
+            <input 
+              type="checkbox" 
+              [id]="'brand-' + brand"
+              [checked]="searchRequest.brands?.includes(brand)"
+              (change)="onBrandChange(brand, $event)">
+            <label [for]="'brand-' + brand">{{brand}}</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label>Minimum Rating</label>
+        <select [(ngModel)]="searchRequest.minRating" (change)="onFilterChange()" class="rating-select">
+          <option [ngValue]="undefined">Any Rating</option>
+          <option [ngValue]="4">4+ Stars</option>
+          <option [ngValue]="3">3+ Stars</option>
+          <option [ngValue]="2">2+ Stars</option>
+          <option [ngValue]="1">1+ Stars</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="checkbox-label">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="searchRequest.inStock" 
+            (change)="onFilterChange()">
+          In Stock Only
+        </label>
+      </div>
+
+      <div class="filter-actions">
+        <button class="btn btn-secondary" (click)="clearFilters()">Clear All</button>
+        <button class="btn btn-primary" (click)="onFilterChange()">Apply Filters</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Searching products...</p>
+  </div>
+
+  <!-- Search Results -->
+  <div *ngIf="searchResponse && !isLoading" class="search-results">
+    <div class="results-header">
+      <h3>{{searchResponse.totalCount}} Products Found</h3>
+      <p *ngIf="searchRequest.query">Results for "{{searchRequest.query}}"</p>
+    </div>
+
+    <div class="products-grid" *ngIf="searchResponse.products.length > 0">
+      <div *ngFor="let product of searchResponse.products" class="product-card" (click)="viewProduct(product.id)">
+        <div class="product-image">
+          <img [src]="product.imageUrl" [alt]="product.name" loading="lazy">
+          <div class="product-badge" *ngIf="!product.isInStock">Out of Stock</div>
+        </div>
+        
+        <div class="product-info">
+          <h4 class="product-name">{{product.name}}</h4>
+          <p class="product-category">{{product.categoryName}}</p>
+          <p class="product-brand" *ngIf="product.brand">{{product.brand}}</p>
+          
+          <div class="product-rating" *ngIf="product.rating > 0">
+            <div class="stars">
+              <span *ngFor="let star of [1,2,3,4,5]" 
+                    class="star" 
+                    [class.filled]="star <= product.rating">★</span>
+            </div>
+            <span class="rating-text">({{product.reviewCount}} reviews)</span>
+          </div>
+          
+          <div class="product-price">
+            <span class="price">${{product.price}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- No Results -->
+    <div *ngIf="searchResponse.products.length === 0" class="no-results">
+      <i class="fas fa-search"></i>
+      <h3>No products found</h3>
+      <p>Try adjusting your search criteria or filters</p>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" *ngIf="searchResponse.totalPages > 1">
+      <button 
+        class="btn btn-secondary" 
+        [disabled]="searchResponse.currentPage === 1"
+        (click)="onPageChange(searchResponse.currentPage - 1)">
+        Previous
+      </button>
+      
+      <button 
+        *ngFor="let page of getPaginationPages()" 
+        class="btn"
+        [class.btn-primary]="page === searchResponse.currentPage"
+        [class.btn-secondary]="page !== searchResponse.currentPage"
+        (click)="onPageChange(page)">
+        {{page}}
+      </button>
+      
+      <button 
+        class="btn btn-secondary" 
+        [disabled]="searchResponse.currentPage === searchResponse.totalPages"
+        (click)="onPageChange(searchResponse.currentPage + 1)">
+        Next
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,119 @@
+<div class="order-details-container">
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="spinner-large"></div>
+    <p>Loading order details...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-container" *ngIf="errorMessage && !isLoading">
+    <div class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+    <button class="btn btn-primary" (click)="goBackToOrders()">
+      Back to Orders
+    </button>
+  </div>
+
+  <!-- Order Details -->
+  <div class="order-content" *ngIf="!isLoading && !errorMessage && order">
+    <!-- Header -->
+    <div class="order-header">
+      <div class="header-left">
+        <button class="btn btn-back" (click)="goBackToOrders()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15,18 9,12 15,6"></polyline>
+          </svg>
+          Back to Orders
+        </button>
+        <h1>Order #{{ order.id.substring(0, 8) }}</h1>
+        <p class="order-date">Placed on {{ formatDate(order.createdAt) }}</p>
+      </div>
+      <div class="header-right">
+        <span class="status-badge" [ngClass]="'status-' + orderStatusColors[order.status]">
+          {{ orderStatusLabels[order.status] }}
+        </span>
+      </div>
+    </div>
+
+    <div class="order-grid">
+      <!-- Order Items -->
+      <div class="order-section">
+        <h2>Order Items</h2>
+        <div class="items-list">
+          <div class="item-card" *ngFor="let item of order.orderItems">
+            <div class="item-image">
+              <img [src]="item.productImage" [alt]="item.productName" onerror="this.src='assets/placeholder.jpg'">
+            </div>
+            <div class="item-details">
+              <h3>{{ item.productName }}</h3>
+              <p class="item-description">{{ item.productDescription }}</p>
+              <div class="item-pricing">
+                <span class="quantity">Qty: {{ item.quantity }}</span>
+                <span class="unit-price">{{ formatCurrency(item.unitPrice) }} each</span>
+                <span class="total-price">{{ formatCurrency(item.totalPrice) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="order-section">
+        <h2>Order Summary</h2>
+        <div class="summary-card">
+          <div class="summary-row">
+            <span>Subtotal:</span>
+            <span>{{ formatCurrency(order.subtotal) }}</span>
+          </div>
+          <div class="summary-row">
+            <span>Tax:</span>
+            <span>{{ formatCurrency(order.tax) }}</span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping:</span>
+            <span>{{ formatCurrency(order.shipping) }}</span>
+          </div>
+          <div class="summary-row total-row">
+            <span>Total:</span>
+            <span>{{ formatCurrency(order.total) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shipping Address -->
+      <div class="order-section">
+        <h2>Shipping Address</h2>
+        <div class="address-card">
+          <p>{{ order.shippingAddress }}</p>
+        </div>
+      </div>
+
+      <!-- Billing Address -->
+      <div class="order-section">
+        <h2>Billing Address</h2>
+        <div class="address-card">
+          <p>{{ order.billingAddress }}</p>
+        </div>
+      </div>
+
+      <!-- Order History -->
+      <div class="order-section full-width" *ngIf="order.statusHistory.length > 0">
+        <h2>Order History</h2>
+        <div class="history-timeline">
+          <div class="timeline-item" *ngFor="let history of order.statusHistory">
+            <div class="timeline-marker" [ngClass]="'status-' + orderStatusColors[history.status]"></div>
+            <div class="timeline-content">
+              <div class="timeline-header">
+                <span class="timeline-status">{{ orderStatusLabels[history.status] }}</span>
+                <span class="timeline-date">{{ formatDate(history.changedAt) }}</span>
+              </div>
+              <p class="timeline-notes" *ngIf="history.notes">{{ history.notes }}</p>
+              <p class="timeline-user">Updated by {{ history.changedBy }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

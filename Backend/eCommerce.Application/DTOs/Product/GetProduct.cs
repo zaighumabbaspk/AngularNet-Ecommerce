@@ -11,7 +11,6 @@ namespace eCommerce.Application.DTOs.Product
     {
         [Required(ErrorMessage = "")]
         public Guid Id { get; set; }
-
-        public Guid CategoryId { get; set; }
+      
     }
 }

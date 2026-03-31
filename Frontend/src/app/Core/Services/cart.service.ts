@@ -47,7 +47,18 @@ export class CartService {
 
   // Add item to cart
   addToCart(request: AddToCartRequest): Observable<any> {
-    return this.http.post(`${this.apiUrl}/items`, request);
+    console.log('🔍 CartService.addToCart called with:', request);
+    console.log('🔍 API URL:', `${this.apiUrl}/items`);
+    
+    return this.http.post(`${this.apiUrl}/items`, request).pipe(
+      tap(response => {
+        console.log('✅ CartService.addToCart success:', response);
+      }),
+      catchError(error => {
+        console.error('❌ CartService.addToCart error:', error);
+        return throwError(() => error);
+      })
+    );
   }
 
   // Update cart item quantity
