@@ -10,13 +10,11 @@
   </div>
 </div>
 
-<!-- Glassmorphism Navbar -->
 <header [class.glass-navbar]="!isDarkBackground" [class.glass-navbar-dark]="isDarkBackground" class="navbar navbar-expand-lg fixed-top">
     <div class="container-fluid">
       <!-- Brand -->
       <a routerLink="/" class="navbar-brand">LuxeLiving</a>
 
-      <!-- Toggle Button -->
       <button
         class="navbar-toggler"
         type="button"
@@ -28,8 +26,6 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-
-      <!-- Nav Menu -->
       <div class="collapse navbar-collapse justify-content-center" id="navbarMenu">
         <ul class="navbar-nav mb-2 mb-lg-0 text-center">
           <li class="nav-item"><a routerLink="/" class="nav-link active">Home</a></li>
@@ -53,7 +49,7 @@
           <app-search-autocomplete></app-search-autocomplete>
         </div>
 
-        <!-- Auth Section: Login/Signup for non-authenticated users -->
+    
         <div class="auth-section-login" *ngIf="(authService.authState$ | async) as authState">
           <ng-container *ngIf="!authState.isAuthenticated">
             <a routerLink="/login" class="btn-auth btn-login">Login</a>
@@ -61,7 +57,6 @@
           </ng-container>
         </div>
 
-              <!-- Icons -->
 
 
         <!-- Cart Icon -->

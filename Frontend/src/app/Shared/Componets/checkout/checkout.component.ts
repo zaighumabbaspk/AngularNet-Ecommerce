@@ -34,7 +34,6 @@ export class CheckoutComponent implements OnInit {
       sameAsShipping: [false]
     });
 
-    // Watch for same as shipping checkbox
     this.checkoutForm.get('sameAsShipping')?.valueChanges.subscribe(value => {
       if (value) {
         const shippingAddress = this.checkoutForm.get('shippingAddress')?.value;

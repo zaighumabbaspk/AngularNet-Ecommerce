@@ -34,14 +34,14 @@ namespace eCommerce.Application.Services.implementation
                 var allProducts = await _productRepository.GetAllWithCategoryAsync();
                 var query = allProducts.AsQueryable();
 
-                // Text search
-                if (!string.IsNullOrEmpty(request.Query))
+                // Text search - only apply if query is not empty
+                if (!string.IsNullOrWhiteSpace(request.Query))
                 {
-                    var searchTerm = request.Query.ToLower();
+                    var searchTerm = request.Query.ToLower().Trim();
                     query = query.Where(p => 
                         p.Name.ToLower().Contains(searchTerm) ||
                         p.Description.ToLower().Contains(searchTerm) ||
-                        p.Brand.ToLower().Contains(searchTerm) ||
+                        (!string.IsNullOrEmpty(p.Brand) && p.Brand.ToLower().Contains(searchTerm)) ||
                         p.Category.Name.ToLower().Contains(searchTerm));
                 }
 
@@ -58,7 +58,7 @@ namespace eCommerce.Application.Services.implementation
 
                 // Brand filter
                 if (request.Brands != null && request.Brands.Any())
-                    query = query.Where(p => request.Brands.Contains(p.Brand));
+                    query = query.Where(p => !string.IsNullOrEmpty(p.Brand) && request.Brands.Contains(p.Brand));
 
                 // Rating filter
                 if (request.MinRating.HasValue)
@@ -180,7 +180,7 @@ namespace eCommerce.Application.Services.implementation
 
                 // Brand suggestions
                 var brands = allProducts
-                    .Where(p => p.Brand.ToLower().Contains(searchTerm))
+                    .Where(p => !string.IsNullOrEmpty(p.Brand) && p.Brand.ToLower().Contains(searchTerm))
                     .Select(p => p.Brand)
                     .Distinct()
                     .Take(request.Limit / 4)

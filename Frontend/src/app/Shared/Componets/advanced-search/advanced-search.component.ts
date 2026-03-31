@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../Core/Services/search.service';
 import { SearchRequest, SearchResponse, SearchProductResult, SearchFilters } from '../../../Core/Models/search.models';
 
@@ -27,11 +27,18 @@ export class AdvancedSearchComponent implements OnInit {
 
   constructor(
     private searchService: SearchService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.loadInitialData();
+    // Get query parameter from URL
+    this.route.queryParams.subscribe(params => {
+      if (params['q']) {
+        this.searchRequest.query = params['q'];
+      }
+      this.loadInitialData();
+    });
   }
 
   loadInitialData() {
@@ -43,21 +50,47 @@ export class AdvancedSearchComponent implements OnInit {
     
     this.searchService.searchProducts(this.searchRequest).subscribe({
       next: (response) => {
-        if (response.success) {
+        console.log('Search response:', response);
+        if (response.success && response.data) {
           this.searchResponse = response.data;
           this.availableFilters = response.data.availableFilters;
+          
+          // Track search if there's a query
+          if (this.searchRequest.query && this.searchRequest.query.trim()) {
+            this.trackSearch(this.searchRequest.query, response.data.totalCount);
+          }
+        } else {
+          console.error('Search failed:', response.message);
+          this.searchResponse = null;
+          this.availableFilters = null;
         }
         this.isLoading = false;
       },
       error: (error) => {
         console.error('Search failed:', error);
+        this.searchResponse = null;
+        this.availableFilters = null;
         this.isLoading = false;
       }
     });
   }
 
+  private trackSearch(searchTerm: string, resultCount: number) {
+    // Get user ID if available (you might need to inject AuthService)
+    this.searchService.trackSearch(searchTerm, resultCount).subscribe({
+      next: () => console.log('Search tracked successfully'),
+      error: (error) => console.error('Failed to track search:', error)
+    });
+  }
+
   onSearchSubmit() {
     this.searchRequest.page = 1; // Reset to first page
+    // Update URL with search query
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { q: this.searchRequest.query },
+      queryParamsHandling: 'merge'
+    });
     this.performSearch();
   }
 

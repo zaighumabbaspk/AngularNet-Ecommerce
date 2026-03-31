@@ -53,10 +53,13 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
     ).subscribe({
       next: (response) => {
         this.isLoading = false;
-        if (response.success) {
-          this.suggestions = response.data.suggestions;
-          console.log('Autocomplete suggestions received:', this.suggestions);
+        console.log('Autocomplete response:', response);
+        if (response.success && response.data) {
+          this.suggestions = response.data.suggestions || [];
           this.showSuggestions = this.suggestions.length > 0;
+        } else {
+          this.suggestions = [];
+          this.showSuggestions = false;
         }
       },
       error: (error) => {
@@ -69,7 +72,14 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
   }
 
   onSearchInput() {
-    this.searchSubject.next(this.searchQuery);
+    const trimmedQuery = this.searchQuery.trim();
+    if (trimmedQuery.length >= 2) {
+      this.searchSubject.next(trimmedQuery);
+    } else {
+      this.suggestions = [];
+      this.showSuggestions = false;
+      this.isLoading = false;
+    }
   }
 
   onSearchSubmit() {
@@ -84,18 +94,13 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
   selectSuggestion(suggestion: AutocompleteSuggestion) {
     this.searchQuery = suggestion.text;
     
-    // Log the suggestion for debugging
-    console.log('Selected suggestion:', suggestion);
-    
     // Try different property names for the ID
     const productId = suggestion.id || (suggestion as any).productId || (suggestion as any).itemId;
     
     if (suggestion.type === 'product' && productId) {
-      console.log('Navigating to product:', productId);
       this.hideSuggestions();
       this.router.navigate(['/product-detail', productId]);
     } else {
-      console.log('Navigating to search with query:', suggestion.text);
       this.hideSuggestions();
       this.router.navigate(['/search'], { 
         queryParams: { q: suggestion.text } 

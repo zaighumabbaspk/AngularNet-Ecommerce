@@ -27,7 +27,6 @@ export class CartComponent extends CartBase {
     
     // Check if user is authenticated
     if (!this.authService.isAuthenticated()) {
-      console.log('🔍 User not authenticated, redirecting to login');
       // Redirect to login with return URL
       this.router.navigate(['/login'], { 
         queryParams: { returnUrl: '/checkout' } 
@@ -37,15 +36,12 @@ export class CartComponent extends CartBase {
 
     // Check if cart has items
     if (!this.cart || this.cart.cartItems.length === 0) {
-      console.log('❌ Cart is empty');
       this.errorMessage = 'Your cart is empty';
       return;
     }
 
-    console.log('✅ Navigating to checkout');
-    // Navigate to checkout page
+
     this.router.navigate(['/checkout']).then(success => {
-      console.log('🔍 Navigation result:', success);
     }).catch(error => {
       console.error('❌ Navigation failed:', error);
     });

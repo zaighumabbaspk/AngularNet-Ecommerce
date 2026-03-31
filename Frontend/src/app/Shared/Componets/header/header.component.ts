@@ -34,7 +34,6 @@ export class HeaderComponent implements OnInit {
     private toastr: ToastrService,
     private router: Router
   ) {
-    // hide hero section on any route except home
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.showHero = event.urlAfterRedirects === '/' || event.urlAfterRedirects === '';
@@ -63,13 +62,10 @@ export class HeaderComponent implements OnInit {
   }
 
   updateNavbarStyle(): void {
-    // Check if we're on home page with hero
     if (this.showHero) {
-      // On home page, check scroll position
       const scrollPosition = window.scrollY;
-      this.isDarkBackground = scrollPosition > 100; // After scrolling past hero
+      this.isDarkBackground = scrollPosition > 100; 
     } else {
-      // On other pages, always use dark background
       this.isDarkBackground = true;
     }
   }

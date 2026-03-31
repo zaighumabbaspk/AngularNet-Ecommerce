@@ -62,8 +62,6 @@ export class StripeCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
 
   private async initializeStripe(): Promise<void> {
     try {
-      console.log('🔍 Initializing Stripe in checkout component...');
-      console.log('🔍 Stripe key:', environment.stripePublishableKey);
       
       // Check if we have a valid key
       if (!environment.stripePublishableKey || environment.stripePublishableKey.includes('your_publishable_key_here')) {
@@ -78,18 +76,18 @@ export class StripeCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
       }
       
     } catch (error) {
-      console.error('❌ Stripe initialization failed:', error);
+      console.error('Stripe initialization failed:', error);
       this.errorMessage = `Failed to initialize payment form: ${error}`;
     }
   }
 
   private async mountCardElement(): Promise<void> {
     try {
-      console.log('🔍 Attempting to mount card element...');
+      console.log('Attempting to mount card element...');
       const cardContainer = document.getElementById('card-element');
       if (cardContainer) {
         this.stripeService.mountCardElement('card-element');
-        console.log('✅ Card element mounted successfully');
+        console.log(' Card element mounted successfully');
         
         // Hide loading message after successful mount
         setTimeout(() => {
@@ -100,11 +98,11 @@ export class StripeCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
         }, 1000);
         
       } else {
-        console.error('❌ Card element container not found');
+        console.error('Card element container not found');
         this.errorMessage = 'Payment form failed to load. Please refresh the page.';
       }
     } catch (error) {
-      console.error('❌ Card element mounting failed:', error);
+      console.error('Card element mounting failed:', error);
       this.errorMessage = `Failed to mount payment form: ${error}`;
     }
   }
@@ -154,7 +152,6 @@ export class StripeCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
       );
 
       if (paymentIntent.status === 'succeeded') {
-        // Step 4: Confirm with backend and create order
         const confirmRequest: ConfirmPaymentRequest = {
           paymentIntentId: this.paymentIntentId,
           paymentMethodId: paymentMethod.id,
@@ -165,7 +162,6 @@ export class StripeCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
         const confirmResponse = await this.checkoutService.confirmPayment(confirmRequest).toPromise();
         
         if (confirmResponse?.success) {
-          // Navigate directly to order details
           this.router.navigate(['/orders', confirmResponse.data?.id]);
         } else {
           throw new Error(confirmResponse?.message || 'Failed to confirm payment');

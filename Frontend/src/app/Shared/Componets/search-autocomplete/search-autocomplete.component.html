@@ -12,13 +12,14 @@
       class="search-input"
       autocomplete="off">
     
-    <button class="search-button" (click)="onSearchSubmit()" type="button">
-      <i class="fas fa-search"></i>
-    </button>
-    
     <div class="loading-indicator" *ngIf="isLoading">
       <i class="fas fa-spinner fa-spin"></i>
     </div>
+    
+    <button class="search-button" (click)="onSearchSubmit()" type="button" [disabled]="isLoading">
+      <i class="fas fa-search" *ngIf="!isLoading"></i>
+      <i class="fas fa-spinner fa-spin" *ngIf="isLoading"></i>
+    </button>
   </div>
 
   <!-- Autocomplete Suggestions -->

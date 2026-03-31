@@ -35,21 +35,18 @@ export class OrdersComponent implements OnInit {
 
     this.orderService.getMyOrders().subscribe({
       next: (response) => {
-        console.log('🔍 Orders API Response:', response);
         this.isLoading = false;
         if (response.success && response.data) {
           this.orders = response.data;
-          console.log('✅ Orders loaded successfully:', this.orders.length);
         } else {
           this.errorMessage = response.message || 'Failed to load orders';
-          console.log('❌ Orders API returned error:', this.errorMessage);
         }
       },
       error: (error) => {
         this.isLoading = false;
         this.errorMessage = error.error?.message || 'An error occurred while loading orders';
-        console.error('❌ Orders loading error:', error);
-        console.log('🔍 Error details:', {
+        console.error(' Orders loading error:', error);
+        console.error('Error details:', {
           status: error.status,
           statusText: error.statusText,
           url: error.url,

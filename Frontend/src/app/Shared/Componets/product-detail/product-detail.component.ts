@@ -76,7 +76,6 @@ export class ProductDetailComponent implements OnInit {
   trackRecentlyViewed(productId: string) {
     this.recentlyViewedService.addRecentlyViewed(productId).subscribe({
       next: () => {
-        // Silently track - no user notification needed
       },
       error: (err) => {
         console.error('Failed to track recently viewed:', err);
