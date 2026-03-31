@@ -5,6 +5,7 @@ using eCommerce.Application.DTOs;
 using Microsoft.AspNetCore.Identity;
 using eCommerce.Domain.Entities.Identity;
 using Microsoft.Extensions.Logging;
+using eCommerce.infrastructure.Repositories.Authentication;
 
 namespace eCommerce.Host.Controllers
 {
@@ -115,11 +116,102 @@ namespace eCommerce.Host.Controllers
             }
         }
 
-            private bool IsEnvironmentDevelopment()
+        private bool IsEnvironmentDevelopment()
         {
             // Implementation depends on how you access IHostEnvironment
             // This is a placeholder
             return true;
+        }
+
+        // Additional methods from main branch for compatibility
+        [HttpPost("assign-admin-role/{email}")]
+        public async Task<IActionResult> AssignAdminRole(string email)
+        {
+            try
+            {
+                var user = await _userManagement.GetUserByEmail(email);
+                if (user == null)
+                {
+                    return NotFound(new { message = "User not found" });
+                }
+
+                var result = await _roleManagement.AddUserToRole(user, "Admin");
+                if (result)
+                {
+                    return Ok(new { message = "Admin role assigned successfully" });
+                }
+
+                return BadRequest(new { message = "Failed to assign admin role" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+            }
+        }
+
+        [HttpGet("users")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            try
+            {
+                var users = await _userManagement.GetAllUsers();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+            }
+        }
+
+        [HttpGet("user-roles/{email}")]
+        public async Task<IActionResult> GetUserRoles(string email)
+        {
+            try
+            {
+                var user = await _userManagement.GetUserByEmail(email);
+                if (user == null)
+                {
+                    return NotFound(new { message = "User not found" });
+                }
+
+                var roles = await _roleManagement.GetUserRoles(user);
+                return Ok(new { email = user.Email, roles = roles });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+            }
+        }
+
+        // Debug endpoint to fix admin role assignment
+        [HttpGet("fix-admin-role/{email}")]
+        public async Task<IActionResult> FixAdminRole(string email)
+        {
+            try
+            {
+                var user = await _userManagement.GetUserByEmail(email);
+                if (user == null)
+                {
+                    return NotFound(new { message = "User not found" });
+                }
+
+                // Remove user from User role first
+                await _roleManagement.RemoveUserFromRole(user, "User");
+                
+                // Add user to Admin role
+                var result = await _roleManagement.AddUserToRole(user, "Admin");
+                
+                if (result)
+                {
+                    return Ok(new { message = "Admin role fixed successfully" });
+                }
+
+                return BadRequest(new { message = "Failed to fix admin role" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+            }
         }
     }
 }

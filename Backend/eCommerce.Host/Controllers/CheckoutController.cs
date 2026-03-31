@@ -1,4 +1,4 @@
-﻿using eCommerce.Application.DTOs.Checkouts;
+using eCommerce.Application.DTOs.Checkouts;
 using eCommerce.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -129,6 +129,32 @@ namespace eCommerce.Host.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("payment-intent/{paymentIntentId}")]
+        public async Task<IActionResult> GetPaymentIntent(string paymentIntentId)
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized(new { message = "User not authenticated" });
+                }
+
+                var response = await _checkoutService.GetPaymentIntentAsync(paymentIntentId, userId);
+
+                if (response.Flag)
+                {
+                    return Ok(response);
+                }
+
+                return BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
             }
         }
     }

@@ -19,6 +19,59 @@ namespace eCommerce.Host.Controllers
             _orderService = orderService;
         }
 
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateOrder(CreateOrder createOrder)
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized(new { message = "User not authenticated" });
+                }
+
+                createOrder.UserId = userId;
+                var response = await _orderService.CreateOrderAsync(createOrder);
+
+                if (response.Flag)
+                {
+                    return Ok(response);
+                }
+
+                return BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+            }
+        }
+
+        [HttpGet("user-orders")]
+        public async Task<IActionResult> GetUserOrders()
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized(new { message = "User not authenticated" });
+                }
+
+                var response = await _orderService.GetUserOrdersAsync(userId);
+
+                if (response.Flag)
+                {
+                    return Ok(response);
+                }
+
+                return BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+            }
+        }
+
         [HttpGet("{orderId}")]
         public async Task<IActionResult> GetOrder(Guid orderId)
         {
@@ -44,6 +97,7 @@ namespace eCommerce.Host.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
         [HttpGet("my-orders")]
         public async Task<IActionResult> GetMyOrders()
         {
@@ -95,6 +149,7 @@ namespace eCommerce.Host.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
         [HttpPost("create-from-cart")]
         public async Task<IActionResult> CreateOrderFromCart([FromBody] CreateOrder createOrder)
         {
@@ -146,9 +201,32 @@ namespace eCommerce.Host.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+        [HttpPut("{orderId}/status")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateOrderStatusAdmin(Guid orderId, UpdateOrderStatus updateOrderStatus)
+        {
+            try
+            {
+                updateOrderStatus.OrderId = orderId;
+                var response = await _orderService.UpdateOrderStatusAsync(updateOrderStatus);
+
+                if (response.Flag)
+                {
+                    return Ok(response);
+                }
+
+                return BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+            }
+        }
+
         // Admin endpoints
         [HttpGet("admin/status/{status}")]
-        [Authorize(Roles = "Admin")] // Assuming you have role-based authorization
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetOrdersByStatus(OrderStatus status)
         {
             try
@@ -186,6 +264,53 @@ namespace eCommerce.Host.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("all")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllOrders()
+        {
+            try
+            {
+                var response = await _orderService.GetAllOrdersAsync();
+
+                if (response.Flag)
+                {
+                    return Ok(response);
+                }
+
+                return BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+            }
+        }
+
+        [HttpGet("{orderId}/history")]
+        public async Task<IActionResult> GetOrderStatusHistory(Guid orderId)
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized(new { message = "User not authenticated" });
+                }
+
+                var response = await _orderService.GetOrderStatusHistoryAsync(orderId, userId);
+
+                if (response.Flag)
+                {
+                    return Ok(response);
+                }
+
+                return BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
             }
         }
     }
