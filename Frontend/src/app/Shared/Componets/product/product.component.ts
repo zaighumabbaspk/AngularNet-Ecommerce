@@ -4,11 +4,13 @@ import { RouterModule } from '@angular/router';
 import { ProductService } from '../../../Core/Services/product.service';
 import { CategoryService } from '../../../Core/Services/category.service';
 import { AuthService } from '../../../Core/Services/auth.service';
-import { CartService } from '../../../Core/Services/cart.service';
+// import { CartHelperService } from '../../../Core/Services/cart-helper.service';
+import { WishlistService } from '../../../Core/Services/wishlist.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Product } from '../../../Core/Models/product.model';
+import { CartService } from '../../../Core/Services/cart.service';
 
 @Component({
   selector: 'app-product',
@@ -27,7 +29,8 @@ export class ProductComponent implements OnInit {
   products: Product[] = [];
   filteredProducts: any[] = [];
   categories: any[] = [];
-
+  wishlistItems: Set<string> = new Set();
+  
   selectedCategoryId: string = '';
   searchQuery: string = '';
 
@@ -52,7 +55,8 @@ export class ProductComponent implements OnInit {
     private productService: ProductService,
     private categoryService: CategoryService,
     public authService: AuthService,
-    private cartService: CartService,
+    private CartService : CartService,
+    private wishlistService: WishlistService,
     private fb: FormBuilder,
     private Toastr: ToastrService
   ) {
@@ -62,6 +66,7 @@ export class ProductComponent implements OnInit {
       price: [0, [Validators.required, Validators.min(0)]],
       image: ['', Validators.required],
       quantity: [0, [Validators.required, Validators.min(0)]],
+      brand: ['', Validators.required],
       categoryId: ['']
     });
   }
@@ -69,6 +74,11 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
     this.loadProducts();
     this.loadCategories();
+    
+    // Load wishlist if user is authenticated
+    if (this.authService.isAuthenticated()) {
+      this.loadWishlistItems();
+    }
   }
 
   loadProducts(): void {
@@ -76,6 +86,7 @@ export class ProductComponent implements OnInit {
     this.productService.getAllProducts().subscribe({
       next: (res) => {
         this.products = res;
+        console.log('Products loaded:', this.products);
         this.setPriceLimits();
         this.applyFilters();
         this.isLoading = false;
@@ -90,6 +101,74 @@ export class ProductComponent implements OnInit {
   loadCategories(): void {
     this.categoryService.getAllCategories().subscribe({
       next: (res) => this.categories = res
+    });
+  }
+
+  loadWishlistItems(): void {
+    this.wishlistService.getWishlist().subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.wishlistItems = new Set(response.data.items.map((item: any) => item.productId));
+        }
+      },
+      error: (err) => {
+        console.error('Failed to load wishlist:', err);
+      }
+    });
+  }
+
+  isInWishlist(productId: string): boolean {
+    return this.wishlistItems.has(productId);
+  }
+
+  toggleWishlist(product: any, event: Event): void {
+    event.stopPropagation(); // Prevent navigation to product detail
+    
+    if (!this.authService.isAuthenticated()) {
+      this.Toastr.warning('Please login to manage your wishlist', 'Login Required');
+      return;
+    }
+
+    if (this.isInWishlist(product.id)) {
+      this.removeFromWishlist(product);
+    } else {
+      this.addToWishlist(product);
+    }
+  }
+
+  addToWishlist(product: any): void {
+    this.wishlistService.addToWishlist(product.id).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.wishlistItems.add(product.id);
+          this.Toastr.success('Added to wishlist!', 'Success', {
+            timeOut: 2000,
+            progressBar: true
+          });
+        }
+      },
+      error: (err) => {
+        console.error('Failed to add to wishlist:', err);
+        this.Toastr.error('Failed to add to wishlist', 'Error');
+      }
+    });
+  }
+
+  removeFromWishlist(product: any): void {
+    this.wishlistService.removeFromWishlist(product.id).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.wishlistItems.delete(product.id);
+          this.Toastr.success('Removed from wishlist!', 'Success', {
+            timeOut: 2000,
+            progressBar: true
+          });
+        }
+      },
+      error: (err) => {
+        console.error('Failed to remove from wishlist:', err);
+        this.Toastr.error('Failed to remove from wishlist', 'Error');
+      }
     });
   }
 
@@ -203,14 +282,14 @@ export class ProductComponent implements OnInit {
       quantity: 1
     };
 
-    this.cartService.addToCart(request).subscribe({
+    this.CartService.addToCart(request).subscribe({
       next: () => {
         this.Toastr.success(`${product.name} added to cart!`, 'Success', {
           timeOut: 2000,
           progressBar: true
         });
         // Reload cart to update badge
-        this.cartService.loadCart();
+        this.CartService.loadCart();
       },
       error: (err) => {
         this.Toastr.error('Failed to add item to cart', 'Error', {

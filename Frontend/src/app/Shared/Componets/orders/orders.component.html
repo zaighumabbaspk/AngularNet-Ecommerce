@@ -1,0 +1,76 @@
+<div class="orders-container">
+  <div class="orders-header">
+    <h1>My Orders</h1>
+    <p>Track and manage your order history</p>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="spinner-large"></div>
+    <p>Loading your orders...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-container" *ngIf="errorMessage && !isLoading">
+    <div class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+    <button class="btn btn-primary" (click)="loadOrders()">
+      Try Again
+    </button>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!isLoading && !errorMessage && orders.length === 0">
+    <div class="empty-icon">
+      <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+      </svg>
+    </div>
+    <h2>No Orders Yet</h2>
+    <p>You haven't placed any orders yet. Start shopping to see your orders here!</p>
+    <button class="btn btn-primary" (click)="continueShopping()">
+      Start Shopping
+    </button>
+  </div>
+
+  <!-- Orders List -->
+  <div class="orders-list" *ngIf="!isLoading && !errorMessage && orders.length > 0">
+    <div class="order-card" *ngFor="let order of orders" (click)="viewOrderDetails(order.id)">
+      <div class="order-header">
+        <div class="order-info">
+          <h3>Order #{{ order.id.substring(0, 8) }}</h3>
+          <p class="order-date">{{ formatDate(order.createdAt) }}</p>
+        </div>
+        <div class="order-status">
+          <span class="status-badge" [ngClass]="'status-' + orderStatusColors[order.status]">
+            {{ orderStatusLabels[order.status] }}
+          </span>
+        </div>
+      </div>
+      
+      <div class="order-details">
+        <div class="order-summary">
+          <div class="summary-item">
+            <span class="label">Items:</span>
+            <span class="value">{{ order.itemCount }}</span>
+          </div>
+          <div class="summary-item">
+            <span class="label">Total:</span>
+            <span class="value total">{{ formatCurrency(order.total) }}</span>
+          </div>
+        </div>
+        
+        <div class="order-actions">
+          <button class="btn btn-outline">
+            View Details
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9,18 15,12 9,6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

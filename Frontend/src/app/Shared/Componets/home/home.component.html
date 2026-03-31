@@ -1,3 +1,11 @@
 <app-hero></app-hero>
+
+<!-- Recently Viewed Section (only show if user is authenticated) -->
+<div *ngIf="(authService.authState$ | async)?.isAuthenticated" class="recently-viewed-section">
+  <div class="container">
+    <app-recently-viewed [limit]="6" [showHeader]="true"></app-recently-viewed>
+  </div>
+</div>
+
 <app-product></app-product>
 <app-testimonials></app-testimonials>

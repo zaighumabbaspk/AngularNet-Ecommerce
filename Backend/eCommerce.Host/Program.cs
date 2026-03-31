@@ -1,5 +1,7 @@
-﻿using eCommerce.Application.DependencyInjection;
+﻿using eCommerce.Application.Configuration;
+using eCommerce.Application.DependencyInjection;
 using eCommerce.Infrastructure.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Text.Json.Serialization;
@@ -18,9 +20,13 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-// ---------------------
-// Services
-// ---------------------
+builder.Services.Configure<StripeSettings>(
+    builder.Configuration.GetSection("Stripe"));
+
+Stripe.StripeConfiguration.ApiKey =
+    builder.Configuration["Stripe:SecretKey"];
+
+builder.Configuration.AddUserSecrets<Program>();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices(builder.Configuration);
 
@@ -32,6 +38,8 @@ builder.Services.AddControllers()
     });
 
 builder.Services.AddEndpointsApiExplorer();
+
+
 
 
 builder.Services.AddSwaggerGen(options =>
@@ -78,12 +86,25 @@ builder.Services.AddCors(options =>
     });
 });
 
-// ---------------------
-// App Pipeline
-// ---------------------
+
 try
 {
     var app = builder.Build();
+
+    using (var scope = app.Services.CreateScope())
+    {
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+        string[] roles = { "User", "Admin" };
+
+        foreach (var role in roles)
+        {
+            if (!await roleManager.RoleExistsAsync(role))
+            {
+                await roleManager.CreateAsync(new IdentityRole(role));
+            }
+        }
+    }
 
     // ❌ NO Database.Migrate() here
     app.UseSerilogRequestLogging();

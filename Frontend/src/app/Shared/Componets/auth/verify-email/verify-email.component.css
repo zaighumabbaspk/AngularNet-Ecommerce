@@ -3,14 +3,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 20px;
+  background: var(--primary-color);
+  padding: var(--spacing-xl);
 }
 
 .auth-card {
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
   width: 100%;
   max-width: 500px;
   overflow: hidden;
@@ -29,20 +29,21 @@
 }
 
 .auth-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 30px;
+  background: var(--primary-color);
+  padding: var(--spacing-2xl);
   text-align: center;
 }
 
 .auth-header h1 {
-  color: white;
+  color: var(--white);
   margin: 0;
-  font-size: 28px;
+  font-size: var(--font-size-4xl);
   font-weight: 600;
+  font-family: var(--font-family-heading);
 }
 
 .auth-content {
-  padding: 40px;
+  padding: var(--spacing-3xl);
   text-align: center;
 }
 
@@ -140,41 +141,41 @@
 
 /* Buttons */
 .btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 12px 30px;
+  background: var(--primary-color);
+  color: var(--white);
+  padding: var(--spacing-md) var(--spacing-2xl);
   border: none;
-  border-radius: 25px;
-  font-size: 16px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-lg);
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--transition-normal);
   text-decoration: none;
   display: inline-block;
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: var(--shadow-lg);
 }
 
 .btn-secondary {
-  background: white;
-  color: #667eea;
-  padding: 12px 30px;
-  border: 2px solid #667eea;
-  border-radius: 25px;
-  font-size: 16px;
+  background: var(--white);
+  color: var(--primary-color);
+  padding: var(--spacing-md) var(--spacing-2xl);
+  border: 2px solid var(--primary-color);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-lg);
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--transition-normal);
 }
 
 .btn-secondary:hover {
-  background: #667eea;
-  color: white;
+  background: var(--primary-color);
+  color: var(--white);
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: var(--shadow-lg);
 }
 
 .link {

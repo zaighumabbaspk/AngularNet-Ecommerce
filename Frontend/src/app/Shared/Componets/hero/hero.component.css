@@ -5,9 +5,9 @@
   display: flex;
   justify-content: center;
   align-items: stretch;
-  gap: 25px;
-  padding: 60px 40px;
-  background: linear-gradient(135deg, #f8f9fb 0%, #edf0f3 100%);
+  gap: var(--spacing-xl);
+  padding: var(--spacing-3xl) var(--spacing-3xl);
+  background: linear-gradient(135deg, var(--light-gray) 0%, var(--gray-100) 100%);
   flex-wrap: wrap;
 }
 
@@ -15,15 +15,15 @@
 .image-box {
   position: relative;
   flex: 1 1 30%;
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  transition: transform 0.5s ease, box-shadow 0.4s ease;
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-slow), box-shadow var(--transition-normal);
 }
 
 .image-box img {
   width: 100%;
-  height: 380px;
+  height: 280px;
   object-fit: cover;
   transition: transform 0.8s ease;
 }
@@ -34,7 +34,7 @@
 }
 .image-box:hover {
   transform: translateY(-6px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-xl);
 }
 
 /* ===============================
@@ -60,15 +60,16 @@
 
 /* Text */
 .overlay h3 {
-  font-size: 1.8rem;
+  font-size: var(--font-size-2xl);
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: var(--spacing-md);
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  font-family: var(--font-family-heading);
 }
 
 .overlay p {
-  font-size: 1rem;
-  margin-bottom: 20px;
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-xl);
   opacity: 0.95;
 }
 
@@ -76,21 +77,22 @@
    CTA Button
 ================================= */
 .cta-btn {
-  background: rgba(255, 255, 255, 0.85);
-  color: #111;
+  background: var(--white);
+  color: var(--primary-color);
   border: none;
-  border-radius: 25px;
-  padding: 10px 26px;
+  border-radius: var(--radius-full);
+  padding: var(--spacing-md) var(--spacing-xl);
   font-weight: 600;
   letter-spacing: 0.5px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--transition-normal);
   align-self: flex-start;
+  font-size: var(--font-size-sm);
 }
 
 .cta-btn:hover {
-  background: #111;
-  color: #fff;
+  background: var(--primary-color);
+  color: var(--white);
   transform: scale(1.05);
 }
 
@@ -99,8 +101,8 @@
 ================================= */
 @media (max-width: 992px) {
   .image-showcase {
-    gap: 20px;
-    padding: 40px 20px;
+    gap: var(--spacing-xl);
+    padding: var(--spacing-3xl) var(--spacing-xl);
   }
   .image-box img {
     height: 320px;
@@ -110,7 +112,7 @@
 @media (max-width: 768px) {
   .image-showcase {
     flex-direction: column;
-    gap: 20px;
+    gap: var(--spacing-xl);
   }
   .image-box img {
     height: 260px;
@@ -118,7 +120,7 @@
   .overlay {
     justify-content: center;
     text-align: center;
-    padding: 20px;
+    padding: var(--spacing-xl);
   }
   .cta-btn {
     align-self: center;
