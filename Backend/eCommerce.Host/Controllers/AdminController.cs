@@ -138,8 +138,11 @@ namespace eCommerce.Host.Controllers
                     await _userManager.RemoveFromRolesAsync(user, currentRoles);
                 }
 
-                // Add only Admin role
-                var result = await _userManager.AddToRoleAsync(user, "Admin");
+               
+                await _roleManagement.RemoveUserFromRole(user, "User");
+                
+               
+                var result = await _roleManagement.AddUserToRole(user, "Admin");
                 
                 if (!result.Succeeded)
                 {

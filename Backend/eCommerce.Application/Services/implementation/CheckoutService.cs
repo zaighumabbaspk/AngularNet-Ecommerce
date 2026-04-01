@@ -148,6 +148,29 @@ namespace eCommerce.Application.Services.implementation
             }
         }
 
+        public async Task<ServiceResponse<PaymentIntentResponse>> GetPaymentIntentAsync(string paymentIntentId)
+        {
+            try
+            {
+                var service = new PaymentIntentService();
+                var paymentIntent = await service.GetAsync(paymentIntentId);
+
+                var response = new PaymentIntentResponse
+                {
+                    PaymentIntentId = paymentIntent.Id,
+                    Amount = paymentIntent.Amount / 100m, // Convert from cents
+                    Currency = paymentIntent.Currency,
+                    Status = paymentIntent.Status
+                };
+
+                return new ServiceResponse<PaymentIntentResponse>(true, "Payment intent retrieved successfully", response);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<PaymentIntentResponse>(false, $"Error retrieving payment intent: {ex.Message}");
+            }
+        }
+
         public async Task<ServiceResponse<GetOrder>> ConfirmPaymentAsync(ConfirmPaymentRequest request, string userId)
         {
             try

@@ -8,6 +8,8 @@ namespace eCommerce.Domain.Services.Interfaces.Authentication
     {
         Task<string?> GetUserRole(string userEmail);
         Task<bool> AddUserToRole(AppUser user, string roleName);
+        Task<IEnumerable<string>> GetUserRoles(AppUser user);
+        Task<bool> RemoveUserFromRole(AppUser user, string roleName);
     }
 
 }

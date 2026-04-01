@@ -4,6 +4,7 @@ namespace eCommerce.Application.DTOs.Order
 {
     public class OrderBase
     {
+        public string? UserId { get; set; }
         public decimal Subtotal { get; set; }
         public decimal Tax { get; set; }
         public decimal Shipping { get; set; }

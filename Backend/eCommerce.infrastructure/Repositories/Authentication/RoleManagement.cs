@@ -5,14 +5,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using eCommerce.Domain.Services.Interfaces.Authentication;
 
-
-
 namespace eCommerce.infrastructure.Repositories.Authentication
 {
     public class RoleManagement(UserManager<AppUser> UserManager) : IRoleManagement
     {
         public async Task<bool> AddUserToRole(AppUser user, string roleName) => 
-         (await UserManager.AddToRoleAsync(user, roleName)).Succeeded;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+         (await UserManager.AddToRoleAsync(user, roleName)).Succeeded;
 
         public async Task<string?> GetUserRole(string userEmail)
         {
@@ -27,6 +25,16 @@ namespace eCommerce.infrastructure.Repositories.Authentication
                 return "Admin";
             
             return roles.FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<string>> GetUserRoles(AppUser user)
+        {
+            return await UserManager.GetRolesAsync(user);
+        }
+
+        public async Task<bool> RemoveUserFromRole(AppUser user, string roleName)
+        {
+            return (await UserManager.RemoveFromRoleAsync(user, roleName)).Succeeded;
         }
     }
 }

@@ -14,5 +14,6 @@ namespace eCommerce.Domain.Interface
         Task<int> UpdateOrderStatusAsync(Guid orderId, OrderStatus status, string changedBy, string? notes = null);
         Task<IEnumerable<Order>> GetOrdersByStatusAsync(OrderStatus status);
         Task<IEnumerable<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate);
+        Task<IEnumerable<Order>> GetAllOrdersWithDetailsAsync();
     }
 }

@@ -220,5 +220,107 @@ namespace eCommerce.Application.Services.implementation
                 return new ServiceResponse<IEnumerable<GetOrder>>(false, $"Error retrieving orders: {ex.Message}");
             }
         }
+
+        public async Task<ServiceResponse<GetOrder>> CreateOrderAsync(CreateOrder createOrder)
+        {
+            try
+            {
+                var order = new Order
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = createOrder.UserId!,
+                    CreatedAt = DateTime.UtcNow,
+                    Subtotal = createOrder.Subtotal,
+                    Tax = createOrder.Tax,
+                    Shipping = createOrder.Shipping,
+                    Total = createOrder.Total,
+                    Status = OrderStatus.Pending,
+                    ShippingAddress = createOrder.ShippingAddress,
+                    BillingAddress = createOrder.BillingAddress,
+                    StripeSessionId = createOrder.StripeSessionId
+                };
+
+                // Create order items
+                foreach (var item in createOrder.OrderItems)
+                {
+                    var product = await _productRepository.GetAsync(item.ProductId);
+                    if (product == null) continue;
+
+                    var orderItem = new OrderItem
+                    {
+                        Id = Guid.NewGuid(),
+                        OrderId = order.Id,
+                        ProductId = item.ProductId,
+                        Quantity = item.Quantity,
+                        UnitPrice = item.UnitPrice,
+                        TotalPrice = item.UnitPrice * item.Quantity,
+                        ProductName = product.Name,
+                        ProductDescription = product.Description,
+                        ProductImage = product.Image
+                    };
+                    order.OrderItems.Add(orderItem);
+                }
+
+                // Add initial status history
+                var statusHistory = new OrderStatusHistory
+                {
+                    Id = Guid.NewGuid(),
+                    OrderId = order.Id,
+                    Status = OrderStatus.Pending,
+                    ChangedAt = DateTime.UtcNow,
+                    ChangedBy = "System",
+                    Notes = "Order created"
+                };
+                order.StatusHistory.Add(statusHistory);
+
+                await _orderRepository.CreateOrderAsync(order);
+
+                var orderDto = _mapper.Map<GetOrder>(order);
+                return new ServiceResponse<GetOrder>(true, "Order created successfully", orderDto);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<GetOrder>(false, $"Error creating order: {ex.Message}");
+            }
+        }
+
+        public async Task<ServiceResponse<IEnumerable<GetOrder>>> GetAllOrdersAsync()
+        {
+            try
+            {
+                var orders = await _orderRepository.GetAllOrdersWithDetailsAsync();
+                var orderDtos = _mapper.Map<IEnumerable<GetOrder>>(orders);
+                return new ServiceResponse<IEnumerable<GetOrder>>(true, "Orders retrieved successfully", orderDtos);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<IEnumerable<GetOrder>>(false, $"Error retrieving orders: {ex.Message}");
+            }
+        }
+
+        public async Task<ServiceResponse<IEnumerable<GetOrderStatusHistory>>> GetOrderStatusHistoryAsync(Guid orderId, string userId)
+        {
+            try
+            {
+                var order = await _orderRepository.GetOrderByIdWithDetailsAsync(orderId);
+                if (order == null)
+                {
+                    return new ServiceResponse<IEnumerable<GetOrderStatusHistory>>(false, "Order not found");
+                }
+
+                // Ensure user can only access their own orders
+                if (order.UserId != userId)
+                {
+                    return new ServiceResponse<IEnumerable<GetOrderStatusHistory>>(false, "Access denied");
+                }
+
+                var historyDtos = _mapper.Map<IEnumerable<GetOrderStatusHistory>>(order.StatusHistory);
+                return new ServiceResponse<IEnumerable<GetOrderStatusHistory>>(true, "Order status history retrieved successfully", historyDtos);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<IEnumerable<GetOrderStatusHistory>>(false, $"Error retrieving order status history: {ex.Message}");
+            }
+        }
     }
 }

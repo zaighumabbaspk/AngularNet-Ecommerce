@@ -5,7 +5,7 @@ namespace eCommerce.Application.DTOs.Order
     public class GetOrder : OrderBase
     {
         public Guid Id { get; set; }
-        public string UserId { get; set; } = string.Empty;
+        public new string UserId { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public OrderStatus Status { get; set; }
