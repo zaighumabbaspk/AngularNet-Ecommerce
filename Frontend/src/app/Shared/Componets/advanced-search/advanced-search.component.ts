@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../Core/Services/search.service';
 import { SearchRequest, SearchResponse, SearchProductResult, SearchFilters } from '../../../Core/Models/search.models';
 
@@ -27,11 +27,18 @@ export class AdvancedSearchComponent implements OnInit {
 
   constructor(
     private searchService: SearchService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.loadInitialData();
+    // Get query parameter from URL
+    this.route.queryParams.subscribe(params => {
+      if (params['q']) {
+        this.searchRequest.query = params['q'];
+      }
+      this.loadInitialData();
+    });
   }
 
   loadInitialData() {
@@ -58,6 +65,12 @@ export class AdvancedSearchComponent implements OnInit {
 
   onSearchSubmit() {
     this.searchRequest.page = 1; // Reset to first page
+    // Update URL with search query
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { q: this.searchRequest.query },
+      queryParamsHandling: 'merge'
+    });
     this.performSearch();
   }
 
