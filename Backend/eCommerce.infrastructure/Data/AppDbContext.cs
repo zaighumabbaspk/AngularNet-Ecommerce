@@ -21,6 +21,11 @@ namespace eCommerce.Infrastructure.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<OrderStatusHistory> OrderStatusHistories { get; set; }
+        
+        // New entities for advanced search
+        public DbSet<Wishlist> Wishlists { get; set; }
+        public DbSet<RecentlyViewed> RecentlyViewed { get; set; }
+        public DbSet<SearchAnalytics> SearchAnalytics { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -91,6 +96,32 @@ namespace eCommerce.Infrastructure.Data
                 .HasForeignKey(osh => osh.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // Wishlist relationships
+            builder.Entity<Wishlist>()
+                .HasOne(w => w.User)
+                .WithMany()
+                .HasForeignKey(w => w.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Wishlist>()
+                .HasOne(w => w.Product)
+                .WithMany(p => p.WishlistItems)
+                .HasForeignKey(w => w.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Recently Viewed relationships
+            builder.Entity<RecentlyViewed>()
+                .HasOne(rv => rv.User)
+                .WithMany()
+                .HasForeignKey(rv => rv.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<RecentlyViewed>()
+                .HasOne(rv => rv.Product)
+                .WithMany(p => p.RecentlyViewedItems)
+                .HasForeignKey(rv => rv.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             // Indexes for performance
             builder.Entity<Order>()
                 .HasIndex(o => o.UserId);
@@ -100,6 +131,29 @@ namespace eCommerce.Infrastructure.Data
 
             builder.Entity<Order>()
                 .HasIndex(o => o.Status);
+
+            // Search and wishlist indexes
+            builder.Entity<Product>()
+                .HasIndex(p => p.Name);
+
+            builder.Entity<Product>()
+                .HasIndex(p => p.Brand);
+
+            builder.Entity<Product>()
+                .HasIndex(p => p.Price);
+
+            builder.Entity<Product>()
+                .HasIndex(p => p.Rating);
+
+            builder.Entity<Wishlist>()
+                .HasIndex(w => new { w.UserId, w.ProductId })
+                .IsUnique();
+
+            builder.Entity<RecentlyViewed>()
+                .HasIndex(rv => new { rv.UserId, rv.ProductId });
+
+            builder.Entity<SearchAnalytics>()
+                .HasIndex(sa => sa.SearchTerm);
 
         }
     }

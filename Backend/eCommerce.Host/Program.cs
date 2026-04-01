@@ -1,6 +1,7 @@
 ﻿using eCommerce.Application.Configuration;
 using eCommerce.Application.DependencyInjection;
 using eCommerce.Infrastructure.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Text.Json.Serialization;
@@ -37,6 +38,8 @@ builder.Services.AddControllers()
     });
 
 builder.Services.AddEndpointsApiExplorer();
+
+
 
 
 builder.Services.AddSwaggerGen(options =>
@@ -87,6 +90,21 @@ builder.Services.AddCors(options =>
 try
 {
     var app = builder.Build();
+
+    using (var scope = app.Services.CreateScope())
+    {
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+        string[] roles = { "User", "Admin" };
+
+        foreach (var role in roles)
+        {
+            if (!await roleManager.RoleExistsAsync(role))
+            {
+                await roleManager.CreateAsync(new IdentityRole(role));
+            }
+        }
+    }
 
     // ❌ NO Database.Migrate() here
     app.UseSerilogRequestLogging();

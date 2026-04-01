@@ -1,0 +1,59 @@
+<div class="search-autocomplete-container">
+  <div class="search-input-wrapper">
+    <input 
+      #searchInput
+      type="text" 
+      [(ngModel)]="searchQuery"
+      (input)="onSearchInput()"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      (keyup.enter)="onSearchSubmit()"
+      placeholder="Search products, categories, brands..."
+      class="search-input"
+      autocomplete="off">
+    
+    <button class="search-button" (click)="onSearchSubmit()" type="button">
+      <i class="fas fa-search"></i>
+    </button>
+    
+    <div class="loading-indicator" *ngIf="isLoading">
+      <i class="fas fa-spinner fa-spin"></i>
+    </div>
+  </div>
+
+  <!-- Autocomplete Suggestions -->
+  <div class="suggestions-dropdown" *ngIf="showSuggestions" (mousedown)="$event.preventDefault()">
+    <div class="suggestions-list">
+      <button *ngFor="let suggestion of suggestions" 
+           class="suggestion-item"
+           (click)="selectSuggestion(suggestion)"
+           type="button">
+        
+        <div class="suggestion-icon">
+          <i [class]="getSuggestionIcon(suggestion.type)"></i>
+        </div>
+        
+        <div class="suggestion-content">
+          <div class="suggestion-text">{{suggestion.text}}</div>
+          <div class="suggestion-type">{{suggestion.type}}</div>
+        </div>
+        
+        <div class="suggestion-image" *ngIf="suggestion.imageUrl">
+          <img [src]="suggestion.imageUrl" [alt]="suggestion.text" loading="lazy">
+        </div>
+      </button>
+    </div>
+    
+    <div class="suggestions-footer" *ngIf="suggestions.length > 0">
+      <button class="suggestion-item search-all" (click)="onSearchSubmit()" type="button">
+        <div class="suggestion-icon">
+          <i class="fas fa-search"></i>
+        </div>
+        <div class="suggestion-content">
+          <div class="suggestion-text">Search for "{{searchQuery}}"</div>
+          <div class="suggestion-type">See all results</div>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>

@@ -51,6 +51,9 @@ namespace eCommerce.Infrastructure.DependencyInjection
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICartRepository, CartRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IWishlistRepository, WishlistRepository>();
+            services.AddScoped<IRecentlyViewedRepository, RecentlyViewedRepository>();
+            services.AddScoped<ISearchAnalyticsRepository, SearchAnalyticsRepository>();
 
 
             services.AddScoped(typeof(IAppLogger<>), typeof(SerilogAdapter<>));

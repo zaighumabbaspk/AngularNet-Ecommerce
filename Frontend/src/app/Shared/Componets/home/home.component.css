@@ -1,0 +1,12 @@
+
+.recently-viewed-section {
+  padding: var(--spacing-lg) 0;
+  background: var(--surface-color);
+  border-top: 1px solid var(--border-color);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}

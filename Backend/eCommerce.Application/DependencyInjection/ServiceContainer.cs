@@ -5,6 +5,7 @@ using eCommerce.Application.Services.implementation;
 using eCommerce.Application.Services.implementation.Authentication;
 using eCommerce.Application.Services.Interfaces;
 using eCommerce.Application.Services.Interfaces.Authentication;
+using eCommerce.Application.Services;
 using eCommerce.Application.Validations.Authenticaton;
 using eCommerceApp.Application.Validations;
 using FluentValidation;
@@ -26,6 +27,9 @@ namespace eCommerce.Application.DependencyInjection
             services.AddScoped<ICartService, CartService>();
             services.AddScoped<ICheckoutService, CheckoutService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<ISearchService, SearchService>();
+            services.AddScoped<IWishlistService, WishlistService>();
+            services.AddScoped<IRecentlyViewedService, RecentlyViewedService>();
 
             services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssemblyContaining<CreateUserValidator>();

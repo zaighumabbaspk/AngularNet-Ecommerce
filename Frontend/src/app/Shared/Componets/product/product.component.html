@@ -74,6 +74,22 @@
                 <option *ngFor="let c of categories" [value]="c.id">{{ c.name }}</option>
               </select>
             </div>
+
+            <div class="form-group">
+              <label>
+                <i class="fa-solid fa-trademark"></i>
+                Brand
+              </label>
+              <input 
+                type="text" 
+                formControlName="brand" 
+                placeholder="Enter product brand"
+                class="form-input"
+              />
+              <span class="error-message" *ngIf="productForm.get('brand')?.invalid && productForm.get('brand')?.touched">
+                Brand is required
+              </span>
+            </div>
           </div>
 
           <div class="form-group">
@@ -256,6 +272,18 @@
               <div class="product-image">
                 <img [src]="p.image" [alt]="p.name" />
 
+                <!-- Wishlist Button (Left Side) -->
+                <div class="wishlist-buttons" *ngIf="(authService.authState$ | async)?.isAuthenticated">
+                  <button 
+                    class="admin-actions wishlist-btn"
+                    (click)="toggleWishlist(p, $event)"
+                    [class.active]="isInWishlist(p.id)"
+                    [title]="isInWishlist(p.id) ? 'Remove from wishlist' : 'Add to wishlist'">
+                    <i class="fas fa-heart"></i>
+                  </button>
+                </div>
+
+                <!-- Admin Buttons (Right Side) -->
                 <div class="admin-buttons" *ngIf="authService.isAdmin()">
                   <button class="admin-actions" (click)="openEditForm(p)">
                     <i class="fa-regular fa-pen-to-square"></i>

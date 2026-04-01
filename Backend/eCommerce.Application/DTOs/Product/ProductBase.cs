@@ -17,5 +17,7 @@ namespace eCommerce.Application.DTOs.Product
         public int Quantity { get; set; }
         [Required]
         public Guid CategoryId { get; set; }
+        [Required]
+        public string Brand { get; set; }
     }
 }
