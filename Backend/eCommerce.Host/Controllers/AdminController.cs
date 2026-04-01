@@ -144,9 +144,9 @@ namespace eCommerce.Host.Controllers
                
                 var result = await _roleManagement.AddUserToRole(user, "Admin");
                 
-                if (!result.Succeeded)
+                if (!result)
                 {
-                    return BadRequest(new ServiceResponse(false, $"Failed to assign admin role: {string.Join(", ", result.Errors.Select(e => e.Description))}"));
+                    return BadRequest(new ServiceResponse(false, "Failed to assign admin role"));
                 }
 
                 // Verify the change
