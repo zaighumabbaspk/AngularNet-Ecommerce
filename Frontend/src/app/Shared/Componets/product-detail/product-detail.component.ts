@@ -3,12 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../../Core/Services/product.service';
 import { WishlistService } from '../../../Core/Services/wishlist.service';
 import { RecentlyViewedService } from '../../../Core/Services/recently-viewed.service';
+import { CartService } from '../../../Core/Services/cart.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Product } from '../../../Core/Models/product.model';
-// import { CartHelperService } from '../../../Core/Services/';
-
 import { AuthService } from '../../../Core/Services/auth.service';
 
 @Component({
@@ -30,7 +29,7 @@ export class ProductDetailComponent implements OnInit {
     private productService: ProductService,
     private wishlistService: WishlistService,
     private recentlyViewedService: RecentlyViewedService,
-    // private cartHelperService: CartHelperService,
+    private cartService: CartService,
     public authService: AuthService,
     private toastr: ToastrService
   ) {}
@@ -58,7 +57,7 @@ export class ProductDetailComponent implements OnInit {
           this.checkWishlistStatus(id);
         }
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error loading product:', err);
         this.isLoading = false;
         this.toastr.error(
@@ -78,7 +77,7 @@ export class ProductDetailComponent implements OnInit {
       next: () => {
         // Silently track - no user notification needed
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Failed to track recently viewed:', err);
       }
     });
@@ -86,12 +85,12 @@ export class ProductDetailComponent implements OnInit {
 
   checkWishlistStatus(productId: string) {
     this.wishlistService.isInWishlist(productId).subscribe({
-      next: (response) => {
+      next: (response: any) => {
         if (response.success) {
           this.isInWishlist = response.data;
         }
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Failed to check wishlist status:', err);
       }
     });
@@ -116,7 +115,7 @@ export class ProductDetailComponent implements OnInit {
     if (!this.product) return;
 
     this.wishlistService.addToWishlist(this.product.id).subscribe({
-      next: (response) => {
+      next: (response: any) => {
         if (response.success) {
           this.isInWishlist = true;
           this.toastr.success('Added to wishlist!', 'Success', {
@@ -125,7 +124,7 @@ export class ProductDetailComponent implements OnInit {
           });
         }
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Failed to add to wishlist:', err);
         this.toastr.error('Failed to add to wishlist', 'Error');
       }
@@ -136,7 +135,7 @@ export class ProductDetailComponent implements OnInit {
     if (!this.product) return;
 
     this.wishlistService.removeFromWishlist(this.product.id).subscribe({
-      next: (response) => {
+      next: (response: any) => {
         if (response.success) {
           this.isInWishlist = false;
           this.toastr.success('Removed from wishlist!', 'Success', {
@@ -145,7 +144,7 @@ export class ProductDetailComponent implements OnInit {
           });
         }
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Failed to remove from wishlist:', err);
         this.toastr.error('Failed to remove from wishlist', 'Error');
       }
@@ -167,6 +166,36 @@ export class ProductDetailComponent implements OnInit {
       );
     }
   }
+
+  addToCart() {
+  if (!this.product) return;
+
+  if (!this.authService.isAuthenticated()) {
+    this.toastr.warning('Please login to add items to cart', 'Login Required');
+    return;
+  }
+
+  const request = {
+    productId: this.product.id,
+    quantity: this.selectedQuantity
+  };
+
+  this.cartService.addToCart(request).subscribe({
+    next: () => {
+      this.toastr.success(`${this.product?.name} added to cart!`, 'Success', {
+        timeOut: 2000,
+        progressBar: true
+      });
+      this.cartService.loadCart();
+    },
+    error: () => {
+      this.toastr.error('Failed to add item to cart', 'Error', {
+        timeOut: 3000,
+        progressBar: true
+      });
+    }
+  });
+}
 
   // addToCart() {
   //   if (!this.product) return;
