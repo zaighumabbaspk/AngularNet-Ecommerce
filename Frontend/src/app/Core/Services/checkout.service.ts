@@ -20,7 +20,6 @@ export class CheckoutService {
 
   constructor(private http: HttpClient) {}
 
-  // Stripe Checkout (Hosted) - Keep for backward compatibility
   createCheckoutSession(request: CreateCheckoutSessionRequest): Observable<ServiceResponse<CheckoutSessionResponse>> {
     return this.http.post<ServiceResponse<CheckoutSessionResponse>>(`${this.apiUrl}/create-session`, request);
   }
@@ -29,7 +28,7 @@ export class CheckoutService {
     window.location.href = url;
   }
 
-  // Stripe.js (Embedded) - New methods
+
   createPaymentIntent(request: CreatePaymentIntentRequest): Observable<ServiceResponse<PaymentIntentResponse>> {
     return this.http.post<ServiceResponse<PaymentIntentResponse>>(`${this.apiUrl}/create-payment-intent`, request);
   }

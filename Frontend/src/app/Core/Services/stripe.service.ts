@@ -18,32 +18,30 @@ export class StripeService {
 
   async initializeStripe(): Promise<void> {
     try {
-      console.log('🔍 Loading Stripe...');
+
       this.stripe = await this.stripePromise;
       
       if (!this.stripe) {
         throw new Error('Failed to load Stripe. Check your publishable key.');
       }
       
-      console.log('✅ Stripe loaded successfully');
       this.elements = this.stripe.elements();
-      console.log('✅ Stripe Elements created');
+   
     } catch (error) {
-      console.error('❌ Stripe initialization failed:', error);
+      console.error('Stripe initialization failed:', error);
       throw error;
     }
   }
 
   createCardElement(): StripeCardElement | null {
     if (!this.elements) {
-      console.error('❌ Stripe Elements not initialized');
+      console.error('Stripe Elements not initialized');
       return null;
     }
     
     try {
-      console.log('🔍 Creating card element...');
+      console.log('Creating card element...');
       
-      // Simple, reliable configuration
       this.cardElement = this.elements.create('card', {
         style: {
           base: {
@@ -63,37 +61,32 @@ export class StripeService {
       
       // Add event listeners
       this.cardElement.on('ready', () => {
-        console.log('✅ Card element is ready');
       });
       
       this.cardElement.on('change', (event) => {
         if (event.error) {
-          console.error('❌ Card element error:', event.error.message);
         } else if (event.complete) {
-          console.log('✅ Card element is complete and valid');
         }
       });
       
-      console.log('✅ Card element created successfully');
       return this.cardElement;
     } catch (error) {
-      console.error('❌ Failed to create card element:', error);
+      console.error('Failed to create card element:', error);
       return null;
     }
   }
 
   mountCardElement(elementId: string): void {
     if (!this.cardElement) {
-      console.error('❌ Card element not created');
+      console.error('Card element not created');
       return;
     }
 
     try {
-      console.log('🔍 Mounting card element to:', elementId);
+      console.log('Mounting card element to:', elementId);
       this.cardElement.mount(`#${elementId}`);
-      console.log('✅ Card element mounted successfully');
     } catch (error) {
-      console.error('❌ Failed to mount card element:', error);
+      console.error('Failed to mount card element:', error);
     }
   }
 
@@ -110,11 +103,9 @@ export class StripeService {
     });
 
     if (error) {
-      console.error('❌ Payment method creation failed:', error);
+      console.error(' Payment method creation failed:', error);
       throw error;
     }
-
-    console.log('✅ Payment method created:', paymentMethod);
     return paymentMethod;
   }
 
@@ -122,8 +113,6 @@ export class StripeService {
     if (!this.stripe) {
       throw new Error('Stripe not initialized');
     }
-
-    console.log('🔍 Confirming card payment...');
     const confirmOptions: any = {
       payment_method: paymentMethodId ? paymentMethodId : {
         card: this.cardElement,
@@ -133,20 +122,18 @@ export class StripeService {
     const { error, paymentIntent } = await this.stripe.confirmCardPayment(clientSecret, confirmOptions);
 
     if (error) {
-      console.error('❌ Payment confirmation failed:', error);
+      console.error('Payment confirmation failed:', error);
       throw error;
     }
 
-    console.log('✅ Payment confirmed:', paymentIntent);
     return paymentIntent;
   }
 
   destroyCardElement(): void {
     if (this.cardElement) {
-      console.log('🔍 Destroying card element...');
+
       this.cardElement.destroy();
       this.cardElement = null;
-      console.log('✅ Card element destroyed');
     }
   }
 

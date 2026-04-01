@@ -2,8 +2,8 @@
   <div class="auth-card">
     <div class="auth-header">
       <h1 *ngIf="isVerifying">⏳ Verifying Email...</h1>
-      <h1 *ngIf="!isVerifying && isSuccess">✅ Email Verified!</h1>
-      <h1 *ngIf="!isVerifying && !isSuccess">❌ Verification Failed</h1>
+      <h1 *ngIf="!isVerifying && isSuccess">Email Verified!</h1>
+      <h1 *ngIf="!isVerifying && !isSuccess"> Verification Failed</h1>
     </div>
 
     <div class="auth-content">

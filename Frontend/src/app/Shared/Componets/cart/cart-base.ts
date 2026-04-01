@@ -95,6 +95,5 @@ export abstract class CartBase implements OnInit {
   }
 
   public checkout(): void {
-    // Default no-op; override if needed
   }
 }

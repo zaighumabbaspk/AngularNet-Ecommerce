@@ -17,11 +17,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error) => {
-      // If 401 Unauthorized, try to refresh token
       if (error.status === 401 && token) {
         return authService.refreshToken().pipe(
           switchMap(() => {
-            // Retry the request with new token
             const newToken = authService.getToken();
             const clonedReq = req.clone({
               setHeaders: {
@@ -31,7 +29,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
             return next(clonedReq);
           }),
           catchError((refreshError) => {
-            // If refresh fails, logout
             authService.logout();
             return throwError(() => refreshError);
           })

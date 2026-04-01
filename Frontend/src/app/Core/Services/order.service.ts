@@ -29,7 +29,6 @@ export class OrderService {
     return this.http.get<ServiceResponse<OrderSummary[]>>(`${this.apiUrl}/my-orders`);
   }
 
-  // Get user's orders with full details
   getMyOrdersWithDetails(): Observable<ServiceResponse<GetOrder[]>> {
     return this.http.get<ServiceResponse<GetOrder[]>>(`${this.apiUrl}/my-orders/details`);
   }
@@ -44,12 +43,10 @@ export class OrderService {
     return this.http.put<ServiceResponse<any>>(`${this.apiUrl}/update-status`, updateStatus);
   }
 
-  // Admin: Get orders by status
   getOrdersByStatus(status: OrderStatus): Observable<ServiceResponse<GetOrder[]>> {
     return this.http.get<ServiceResponse<GetOrder[]>>(`${this.apiUrl}/admin/status/${status}`);
   }
 
-  // Admin: Get orders by date range
   getOrdersByDateRange(startDate: Date, endDate: Date): Observable<ServiceResponse<GetOrder[]>> {
     const params = new HttpParams()
       .set('startDate', startDate.toISOString())
