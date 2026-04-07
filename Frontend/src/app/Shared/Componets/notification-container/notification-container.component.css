@@ -1,0 +1,133 @@
+/* ===================================
+   NOTIFICATION CONTAINER POSITIONING
+   =================================== */
+
+.notification-container {
+  position: fixed;
+  z-index: 999999;
+  pointer-events: none;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+.notification-container > * {
+  pointer-events: auto;
+}
+
+/* Position variants */
+.notification-container-top-right {
+  top: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.notification-container-top-left {
+  top: 24px;
+  left: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.notification-container-top-center {
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.notification-container-bottom-right {
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+}
+
+.notification-container-bottom-left {
+  bottom: 24px;
+  left: 24px;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+}
+
+.notification-container-bottom-center {
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .notification-container-top-right,
+  .notification-container-top-left,
+  .notification-container-top-center {
+    top: 16px;
+    left: 16px;
+    right: 16px;
+    transform: none;
+    align-items: stretch;
+  }
+  
+  .notification-container-bottom-right,
+  .notification-container-bottom-left,
+  .notification-container-bottom-center {
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    transform: none;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 480px) {
+  .notification-container-top-right,
+  .notification-container-top-left,
+  .notification-container-top-center {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+  }
+  
+  .notification-container-bottom-right,
+  .notification-container-bottom-left,
+  .notification-container-bottom-center {
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+  }
+}
+
+/* Smooth stacking animation */
+.notification-container > app-notification {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Ensure proper layering */
+.notification-container > app-notification:first-child {
+  z-index: 10;
+}
+
+.notification-container > app-notification:nth-child(2) {
+  z-index: 9;
+}
+
+.notification-container > app-notification:nth-child(3) {
+  z-index: 8;
+}
+
+.notification-container > app-notification:nth-child(4) {
+  z-index: 7;
+}
+
+.notification-container > app-notification:nth-child(5) {
+  z-index: 6;
+}

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../../Core/Services/auth.service';
-import { ToastrService } from 'ngx-toastr';
+import { CustomNotificationService } from '../../../../Core/Services/custom-notification.service';
 
 @Component({
   selector: 'app-signup',
@@ -24,7 +24,7 @@ export class SignupComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private toastr: ToastrService
+    private notification: CustomNotificationService
   ) {
     this.signupForm = this.fb.group({
       fullname: ['', [Validators.required, Validators.minLength(3)]],
@@ -56,10 +56,7 @@ export class SignupComponent {
   onSubmit(): void {
     if (this.signupForm.invalid) {
       this.signupForm.markAllAsTouched();
-      this.toastr.warning('Please fill in all required fields correctly', 'Validation Error', {
-        timeOut: 3000,
-        progressBar: true
-      });
+      this.notification.validationError('Please fill in all required fields correctly');
       return;
     }
 
@@ -71,31 +68,20 @@ export class SignupComponent {
       next: (response) => {
         if (response.success) {
           this.successMessage = response.message || 'Account created! Please check your email to verify your account before logging in.';
-          this.toastr.success(
+          this.notification.authSuccess(
             'Account created successfully! Check your email to verify your account.',
-            'Welcome!',
-            {
-              timeOut: 4000,
-              progressBar: true,
-              progressAnimation: 'increasing'
-            }
+            'Welcome!'
           );
         } else {
           this.errorMessage = response.message || 'Signup failed';
-          this.toastr.error(this.errorMessage, 'Signup Error', {
-            timeOut: 4000,
-            progressBar: true
-          });
+          this.notification.authError(this.errorMessage, 'Signup Error');
         }
         this.isLoading = false;
       },
       error: (error) => {
         const errorMsg = error.error?.message || 'An error occurred during signup';
         this.errorMessage = errorMsg;
-        this.toastr.error(errorMsg, 'Signup Failed', {
-          timeOut: 4000,
-          progressBar: true
-        });
+        this.notification.authError(errorMsg, 'Signup Failed');
         this.isLoading = false;
       }
     });

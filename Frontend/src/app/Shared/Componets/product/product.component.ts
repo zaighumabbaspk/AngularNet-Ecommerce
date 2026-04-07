@@ -8,8 +8,8 @@ import { AuthService } from '../../../Core/Services/auth.service';
 import { WishlistService } from '../../../Core/Services/wishlist.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { Product } from '../../../Core/Models/product.model';
+import { CustomNotificationService } from '../../../Core/Services/custom-notification.service';
+import { Product } from '../../../Core/Models/Product.model';
 import { CartService } from '../../../Core/Services/cart.service';
 
 @Component({
@@ -58,7 +58,7 @@ export class ProductComponent implements OnInit {
     private CartService : CartService,
     private wishlistService: WishlistService,
     private fb: FormBuilder,
-    private Toastr: ToastrService
+    private notification: CustomNotificationService
   ) {
     this.productForm = this.fb.group({
       name: ['', Validators.required],
@@ -125,7 +125,7 @@ export class ProductComponent implements OnInit {
     event.stopPropagation(); // Prevent navigation to product detail
     
     if (!this.authService.isAuthenticated()) {
-      this.Toastr.warning('Please login to manage your wishlist', 'Login Required');
+      this.notification.loginRequired('Please login to manage your wishlist');
       return;
     }
 
@@ -141,15 +141,12 @@ export class ProductComponent implements OnInit {
       next: (response) => {
         if (response.success) {
           this.wishlistItems.add(product.id);
-          this.Toastr.success('Added to wishlist!', 'Success', {
-            timeOut: 2000,
-            progressBar: true
-          });
+          this.notification.success('Added to wishlist!', 'Success');
         }
       },
       error: (err) => {
         console.error('Failed to add to wishlist:', err);
-        this.Toastr.error('Failed to add to wishlist', 'Error');
+        this.notification.error('Failed to add to wishlist', 'Error');
       }
     });
   }
@@ -159,15 +156,12 @@ export class ProductComponent implements OnInit {
       next: (response) => {
         if (response.success) {
           this.wishlistItems.delete(product.id);
-          this.Toastr.success('Removed from wishlist!', 'Success', {
-            timeOut: 2000,
-            progressBar: true
-          });
+          this.notification.success('Removed from wishlist!', 'Success');
         }
       },
       error: (err) => {
         console.error('Failed to remove from wishlist:', err);
-        this.Toastr.error('Failed to remove from wishlist', 'Error');
+        this.notification.error('Failed to remove from wishlist', 'Error');
       }
     });
   }
@@ -270,10 +264,7 @@ export class ProductComponent implements OnInit {
 
   addToCart(product: any): void {
     if (!this.authService.isAuthenticated()) {
-      this.Toastr.warning('Please login to add items to cart', 'Login Required', {
-        timeOut: 3000,
-        progressBar: true
-      });
+      this.notification.loginRequired('Please login to add items to cart');
       return;
     }
 
@@ -284,18 +275,12 @@ export class ProductComponent implements OnInit {
 
     this.CartService.addToCart(request).subscribe({
       next: () => {
-        this.Toastr.success(`${product.name} added to cart!`, 'Success', {
-          timeOut: 2000,
-          progressBar: true
-        });
+        this.notification.cartSuccess(`${product.name} added to cart!`, 'Success');
         // Reload cart to update badge
         this.CartService.loadCart();
       },
       error: (err) => {
-        this.Toastr.error('Failed to add item to cart', 'Error', {
-          timeOut: 3000,
-          progressBar: true
-        });
+        this.notification.error('Failed to add item to cart', 'Error');
         console.error('Error adding to cart:', err);
       }
     });
@@ -306,10 +291,7 @@ export class ProductComponent implements OnInit {
     this.editMode = false;
     this.editingProductId = null;
     this.productForm.reset();
-    this.Toastr.info('Add a new product', 'Form Opened', {
-      timeOut: 2000,
-      progressBar: true
-    });
+    this.notification.info('Add a new product', 'Form Opened');
   }
 
   openEditForm(product: any): void {
@@ -321,10 +303,7 @@ export class ProductComponent implements OnInit {
 
   submitForm(): void {
     if (this.productForm.invalid) {
-      this.Toastr.warning('Please fill in all required fields', 'Validation Error', {
-        timeOut: 3000,
-        progressBar: true
-      });
+      this.notification.validationError('Please fill in all required fields');
       return;
     }
 
@@ -334,18 +313,12 @@ export class ProductComponent implements OnInit {
       this.productService.updateProduct(this.editingProductId, data)
         .subscribe({
           next: () => {
-            this.Toastr.success('Product updated successfully!', 'Success', {
-              timeOut: 3000,
-              progressBar: true
-            });
+            this.notification.success('Product updated successfully!', 'Success');
             this.loadProducts();
             this.cancelForm();
           },
           error: (err) => {
-            this.Toastr.error('Failed to update product', 'Error', {
-              timeOut: 4000,
-              progressBar: true
-            });
+            this.notification.error('Failed to update product', 'Error');
             console.error('Error updating product:', err);
           }
         });
@@ -353,18 +326,12 @@ export class ProductComponent implements OnInit {
       this.productService.createProduct(data)
         .subscribe({
           next: () => {
-            this.Toastr.success('Product created successfully!', 'Success', {
-              timeOut: 3000,
-              progressBar: true
-            });
+            this.notification.success('Product created successfully!', 'Success');
             this.loadProducts();
             this.cancelForm();
           },
           error: (err) => {
-            this.Toastr.error('Failed to create product', 'Error', {
-              timeOut: 4000,
-              progressBar: true
-            });
+            this.notification.error('Failed to create product', 'Error');
             console.error('Error creating product:', err);
           }
         });
@@ -377,10 +344,10 @@ export class ProductComponent implements OnInit {
     this.productService.deleteProduct(id)
       .subscribe((res) => {
         if (res.success) {
-          this.Toastr.success(res.message || 'Product deleted successfully', 'Success');
+          this.notification.success(res.message || 'Product deleted successfully', 'Success');
           this.loadProducts();
         } else {
-          this.Toastr.error(res.message || 'Failed to delete product', 'Error');
+          this.notification.error(res.message || 'Failed to delete product', 'Error');
         }
   
       });

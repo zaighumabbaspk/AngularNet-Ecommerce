@@ -161,7 +161,8 @@ namespace eCommerce.Application.Services.implementation.Authentication
             bool ValidateToken = await _tokenManagement.ValidateRefreshToken(refreshToken);
             if (!ValidateToken)
                 return new LoginResponse("Invalid Refresh Token");
-
+            AppUser users = new AppUser();
+            
             string UserId = await _tokenManagement.GetUserIdByRefreshToken(refreshToken);
             AppUser? user = await _userManagement.GetUserById(UserId);
             var claims = await _userManagement.GetUserByClaims(user!.Email!);

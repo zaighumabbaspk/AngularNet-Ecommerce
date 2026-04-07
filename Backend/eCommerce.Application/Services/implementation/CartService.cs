@@ -98,7 +98,7 @@ namespace eCommerce.Application.Services.implementation
             );
 
             // 4️⃣ Return response
-            return result > 0
+            return result > 0  
                 ? new ServiceResponse(true, "Cart item updated successfully")
                 : new ServiceResponse(false, "Failed to update cart item");
         }

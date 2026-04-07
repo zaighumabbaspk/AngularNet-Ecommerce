@@ -1,0 +1,394 @@
+/* ===================================
+   BEAUTIFUL CUSTOM NOTIFICATIONS
+   =================================== */
+
+.notification {
+  position: relative;
+  width: 400px;
+  min-height: 80px;
+  margin-bottom: 16px;
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  font-family: var(--font-family-primary);
+  cursor: pointer;
+}
+
+.notification:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    0 32px 64px rgba(0, 0, 0, 0.15),
+    0 16px 32px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Notification Types */
+.notification-success {
+  background: linear-gradient(135deg, 
+    rgba(39, 174, 96, 0.95) 0%, 
+    rgba(46, 204, 113, 0.95) 100%);
+  color: white;
+  border-left: 4px solid #27ae60;
+}
+
+.notification-error {
+  background: linear-gradient(135deg, 
+    rgba(231, 76, 60, 0.95) 0%, 
+    rgba(192, 57, 43, 0.95) 100%);
+  color: white;
+  border-left: 4px solid #e74c3c;
+}
+
+.notification-warning {
+  background: linear-gradient(135deg, 
+    rgba(243, 156, 18, 0.95) 0%, 
+    rgba(230, 126, 34, 0.95) 100%);
+  color: white;
+  border-left: 4px solid #f39c12;
+}
+
+.notification-info {
+  background: linear-gradient(135deg, 
+    rgba(52, 152, 219, 0.95) 0%, 
+    rgba(41, 128, 185, 0.95) 100%);
+  color: white;
+  border-left: 4px solid #3498db;
+}
+
+.notification-cart {
+  background: linear-gradient(135deg, 
+    rgba(212, 175, 55, 0.95) 0%, 
+    rgba(201, 162, 39, 0.95) 100%);
+  color: var(--primary-color);
+  border-left: 4px solid var(--secondary-color);
+}
+
+.notification-order {
+  background: linear-gradient(135deg, 
+    rgba(155, 89, 182, 0.95) 0%, 
+    rgba(142, 68, 173, 0.95) 100%);
+  color: white;
+  border-left: 4px solid #9b59b6;
+}
+
+.notification-auth {
+  background: linear-gradient(135deg, 
+    rgba(26, 188, 156, 0.95) 0%, 
+    rgba(22, 160, 133, 0.95) 100%);
+  color: white;
+  border-left: 4px solid #1abc9c;
+}
+
+/* Progress Bar */
+.notification-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 0 0 16px 16px;
+  animation: progress-shrink linear forwards;
+  transform-origin: left;
+}
+
+@keyframes progress-shrink {
+  from { 
+    width: 100%; 
+    opacity: 1;
+  }
+  to { 
+    width: 0%; 
+    opacity: 0.8;
+  }
+}
+
+/* Close Button */
+.notification-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  opacity: 0.8;
+  color: currentColor;
+}
+
+.notification-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.notification-close svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Content */
+.notification-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 24px;
+  padding-right: 56px; /* Space for close button */
+}
+
+.notification-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.notification-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2.5;
+}
+
+.notification-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.notification-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.notification-message {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  opacity: 0.95;
+  word-wrap: break-word;
+}
+
+/* Actions */
+.notification-actions {
+  display: flex;
+  gap: 12px;
+  padding: 0 24px 20px;
+  justify-content: flex-end;
+}
+
+.notification-action {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.notification-action-primary {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--primary-color);
+}
+
+.notification-action-primary:hover {
+  background: white;
+  transform: translateY(-1px);
+}
+
+.notification-action-secondary {
+  background: rgba(255, 255, 255, 0.2);
+  color: currentColor;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.notification-action-secondary:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.notification-action-danger {
+  background: rgba(231, 76, 60, 0.9);
+  color: white;
+}
+
+.notification-action-danger:hover {
+  background: #e74c3c;
+  transform: translateY(-1px);
+}
+
+/* Persistent notifications */
+.notification-persistent {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 24px 48px rgba(0, 0, 0, 0.15),
+    0 12px 24px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.notification-persistent::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0.6) 0%, 
+    rgba(255, 255, 255, 0.3) 50%, 
+    rgba(255, 255, 255, 0.6) 100%);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .notification {
+    width: calc(100vw - 32px);
+    max-width: 400px;
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+  
+  .notification-content {
+    padding: 16px 20px;
+    padding-right: 48px;
+  }
+  
+  .notification-icon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .notification-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .notification-title {
+    font-size: 15px;
+  }
+  
+  .notification-message {
+    font-size: 13px;
+  }
+  
+  .notification-close {
+    width: 28px;
+    height: 28px;
+    top: 10px;
+    right: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .notification {
+    width: calc(100vw - 24px);
+    margin-left: 12px;
+    margin-right: 12px;
+    border-radius: 12px;
+  }
+  
+  .notification-content {
+    padding: 14px 18px;
+    padding-right: 44px;
+    gap: 12px;
+  }
+  
+  .notification-actions {
+    padding: 0 18px 16px;
+    gap: 8px;
+  }
+  
+  .notification-action {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .notification {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.3),
+      0 8px 16px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  
+  .notification:hover {
+    box-shadow: 
+      0 32px 64px rgba(0, 0, 0, 0.4),
+      0 16px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  
+  .notification-close {
+    background: rgba(0, 0, 0, 0.3);
+  }
+  
+  .notification-close:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Special effects for different types */
+.notification-success .notification-icon {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 20px rgba(39, 174, 96, 0.3);
+}
+
+.notification-error .notification-icon {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 20px rgba(231, 76, 60, 0.3);
+}
+
+.notification-warning .notification-icon {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 20px rgba(243, 156, 18, 0.3);
+}
+
+.notification-info .notification-icon {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 20px rgba(52, 152, 219, 0.3);
+}
+
+.notification-cart .notification-icon {
+  background: rgba(26, 26, 46, 0.2);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+.notification-order .notification-icon {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 20px rgba(155, 89, 182, 0.3);
+}
+
+.notification-auth .notification-icon {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 20px rgba(26, 188, 156, 0.3);
+}

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ToastrService } from 'ngx-toastr';
+import { CustomNotificationService } from '../../../Core/Services/custom-notification.service';
 
 @Component({
   selector: 'app-about-us',
@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./about-us.component.css']
 })
 export class AboutUsComponent implements OnInit {
-  constructor(private toastr: ToastrService) {}
+  constructor(private notification: CustomNotificationService) {}
 
   ngOnInit(): void {
   }
@@ -69,14 +69,9 @@ export class AboutUsComponent implements OnInit {
   ];
 
   contactUs(): void {
-    this.toastr.success(
+    this.notification.success(
       'Contact request submitted! We will get back to you soon.',
-      'Thank You!',
-      {
-        timeOut: 4000,
-        progressBar: true,
-        progressAnimation: 'increasing'
-      }
+      'Thank You!'
     );
   }
 }

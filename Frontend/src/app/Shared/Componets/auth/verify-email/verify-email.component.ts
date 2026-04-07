@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../../Core/Services/auth.service';
-import { ToastrService } from 'ngx-toastr';
+import { CustomNotificationService } from '../../../../Core/Services/custom-notification.service';
 
 @Component({
   selector: 'app-verify-email',
@@ -22,7 +22,7 @@ export class VerifyEmailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private toastr: ToastrService
+    private notification: CustomNotificationService
   ) {}
 
   ngOnInit(): void {
@@ -47,23 +47,15 @@ export class VerifyEmailComponent implements OnInit {
         this.message = response.message;
         
         if (response.success) {
-          this.toastr.success(
+          this.notification.authSuccess(
             'Email verified successfully! Redirecting to login...',
-            'Verification Complete',
-            {
-              timeOut: 3000,
-              progressBar: true,
-              progressAnimation: 'increasing'
-            }
+            'Verification Complete'
           );
           setTimeout(() => {
             this.router.navigate(['/login']);
           }, 3000);
         } else {
-          this.toastr.error(response.message || 'Verification failed', 'Error', {
-            timeOut: 4000,
-            progressBar: true
-          });
+          this.notification.authError(response.message || 'Verification failed');
         }
       },
       error: (error) => {
@@ -71,10 +63,7 @@ export class VerifyEmailComponent implements OnInit {
         this.isSuccess = false;
         const errorMsg = error.error?.message || 'Verification failed. Please try again.';
         this.message = errorMsg;
-        this.toastr.error(errorMsg, 'Verification Failed', {
-          timeOut: 4000,
-          progressBar: true
-        });
+        this.notification.authError(errorMsg, 'Verification Failed');
       }
     });
   }

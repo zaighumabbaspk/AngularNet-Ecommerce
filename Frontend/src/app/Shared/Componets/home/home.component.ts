@@ -5,6 +5,7 @@ import { TestimonialsComponent } from '../testimonials/testimonials.component';
 import { ProductComponent } from '../product/product.component';
 import { RecentlyViewedComponent } from '../recently-viewed/recently-viewed.component';
 import { AuthService } from '../../../Core/Services/auth.service';
+import { CustomNotificationService } from '../../../Core/Services/custom-notification.service';
 
 
 @Component({
@@ -15,5 +16,8 @@ import { AuthService } from '../../../Core/Services/auth.service';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  constructor(public authService: AuthService) {}
+  constructor(
+    public authService: AuthService,
+    private notification: CustomNotificationService
+  ) {}
 }

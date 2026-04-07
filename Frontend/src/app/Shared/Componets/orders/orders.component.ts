@@ -39,17 +39,17 @@ export class OrdersComponent implements OnInit {
         this.isLoading = false;
         if (response.success && response.data) {
           this.orders = response.data;
-          console.log('✅ Orders loaded successfully:', this.orders.length);
+          console.log(' Orders loaded successfully:', this.orders.length);
         } else {
           this.errorMessage = response.message || 'Failed to load orders';
-          console.log('❌ Orders API returned error:', this.errorMessage);
+          console.log('Orders API returned error:', this.errorMessage);
         }
       },
       error: (error) => {
         this.isLoading = false;
         this.errorMessage = error.error?.message || 'An error occurred while loading orders';
-        console.error('❌ Orders loading error:', error);
-        console.log('🔍 Error details:', {
+        console.error('Orders loading error:', error);
+        console.log('Error details:', {
           status: error.status,
           statusText: error.statusText,
           url: error.url,

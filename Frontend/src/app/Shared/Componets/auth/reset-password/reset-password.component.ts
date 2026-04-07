@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { AuthService } from '../../../../Core/Services/auth.service';
-import { ToastrService } from 'ngx-toastr';
+import { CustomNotificationService } from '../../../../Core/Services/custom-notification.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -28,7 +28,7 @@ export class ResetPasswordComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private toastr: ToastrService
+    private notification: CustomNotificationService
   ) {
     this.resetPasswordForm = this.fb.group({
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
@@ -44,10 +44,7 @@ export class ResetPasswordComponent implements OnInit {
 
       if (!this.token || !this.email) {
         this.errorMessage = 'Invalid password reset link.';
-        this.toastr.error('Invalid password reset link. Please request a new one.', 'Invalid Link', {
-          timeOut: 4000,
-          progressBar: true
-        });
+        this.notification.error('Invalid password reset link. Please request a new one.', 'Invalid Link');
       }
     });
   }
@@ -74,10 +71,7 @@ export class ResetPasswordComponent implements OnInit {
   onSubmit(): void {
     if (this.resetPasswordForm.invalid || !this.token || !this.email) {
       this.resetPasswordForm.markAllAsTouched();
-      this.toastr.warning('Please fill in all fields correctly and ensure passwords match', 'Validation Error', {
-        timeOut: 3000,
-        progressBar: true
-      });
+      this.notification.validationError('Please fill in all fields correctly and ensure passwords match');
       return;
     }
 
@@ -92,34 +86,23 @@ export class ResetPasswordComponent implements OnInit {
         this.isLoading = false;
         if (response.success) {
           this.successMessage = response.message || 'Password reset successfully!';
-          this.toastr.success(
+          this.notification.authSuccess(
             'Password reset successfully! Redirecting to login...',
-            'Success',
-            {
-              timeOut: 3000,
-              progressBar: true,
-              progressAnimation: 'increasing'
-            }
+            'Success'
           );
           setTimeout(() => {
             this.router.navigate(['/login']);
           }, 2000);
         } else {
           this.errorMessage = response.message || 'Failed to reset password.';
-          this.toastr.error(this.errorMessage, 'Error', {
-            timeOut: 4000,
-            progressBar: true
-          });
+          this.notification.authError(this.errorMessage);
         }
       },
       error: (error) => {
         this.isLoading = false;
         const errorMsg = error.error?.message || 'An error occurred. Please try again.';
         this.errorMessage = errorMsg;
-        this.toastr.error(errorMsg, 'Failed', {
-          timeOut: 4000,
-          progressBar: true
-        });
+        this.notification.authError(errorMsg, 'Failed');
       }
     });
   }

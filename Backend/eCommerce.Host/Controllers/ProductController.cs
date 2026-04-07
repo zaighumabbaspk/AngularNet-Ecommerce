@@ -12,7 +12,7 @@ namespace eCommerce.Host.Controllers
     public class ProductController(IProductServices productService) : ControllerBase
     {
         [HttpGet("all")]
-        [AllowAnonymous]  // Everyone can view products
+        [AllowAnonymous] 
         public async Task<IActionResult> GetAll()
         {
             var Data = await productService.GetAllAsync();
@@ -20,7 +20,7 @@ namespace eCommerce.Host.Controllers
         }
 
         [HttpGet("ById/{id}")]
-        [AllowAnonymous]  // Everyone can view product details
+        [AllowAnonymous]
         public async Task<IActionResult> ById(Guid id)
         {
             var Data = await productService.GetAsync(id);

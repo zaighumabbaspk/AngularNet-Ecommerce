@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { CartService } from '../../../Core/Services/cart.service';
 import { CartDrawerService } from '../../../Core/Services/cart-drawer.service';
 import { AuthService } from '../../../Core/Services/auth.service';
-import { ToastrService } from 'ngx-toastr';
+import { CustomNotificationService } from '../../../Core/Services/custom-notification.service';
 import { CartBase } from '../cart/cart-base';
 
 @Component({
@@ -22,7 +22,7 @@ export class CartDrawerComponent extends CartBase {
     private cartDrawerService: CartDrawerService,
     private authService: AuthService,
     private router: Router,
-    private toastr: ToastrService
+    private notification: CustomNotificationService
   ) {
     super(cartService);
   }
@@ -50,7 +50,7 @@ export class CartDrawerComponent extends CartBase {
         this.loadCart();
       },
       error: (error) => {
-        this.toastr.error('Failed to update quantity', 'Error');
+        this.notification.error('Failed to update quantity', 'Cart Error');
         this.isLoading = false;
         console.error('Error updating quantity:', error);
       }
@@ -60,11 +60,11 @@ export class CartDrawerComponent extends CartBase {
   override removeItem(cartItemId: string): void {
     this.cartService.removeCartItem(cartItemId).subscribe({
       next: () => {
-        this.toastr.success('Item removed from cart', 'Success');
+        this.notification.cartSuccess('Item removed from cart', 'Cart Updated');
         this.loadCart();
       },
       error: (error) => {
-        this.toastr.error('Failed to remove item', 'Error');
+        this.notification.error('Failed to remove item', 'Cart Error');
         console.error('Error removing item:', error);
       }
     });
@@ -73,7 +73,7 @@ export class CartDrawerComponent extends CartBase {
   override clearCart(): void {
     if (confirm('Are you sure you want to clear your entire cart?')) {
       super.clearCart();
-      this.toastr.success('Cart cleared', 'Success');
+      this.notification.cartSuccess('Cart cleared successfully', 'Cart Updated');
     }
   }
 
@@ -97,7 +97,7 @@ export class CartDrawerComponent extends CartBase {
     // Check if cart has items
     if (!this.cart || this.cart.cartItems.length === 0) {
       console.log('❌ Cart is empty');
-      this.toastr.warning('Your cart is empty', 'Cannot Checkout');
+      this.notification.warning('Your cart is empty', 'Cannot Checkout');
       return;
     }
 
@@ -108,11 +108,11 @@ export class CartDrawerComponent extends CartBase {
     this.router.navigate(['/checkout']).then(success => {
       console.log('🔍 Navigation result:', success);
       if (success) {
-        this.toastr.success('Redirecting to checkout...', 'Success');
+        this.notification.success('Redirecting to checkout...', 'Success');
       }
     }).catch(error => {
       console.error('❌ Navigation failed:', error);
-      this.toastr.error('Failed to navigate to checkout', 'Error');
+      this.notification.error('Failed to navigate to checkout', 'Navigation Error');
     });
   }
 

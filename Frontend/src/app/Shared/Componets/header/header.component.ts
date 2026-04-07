@@ -8,7 +8,7 @@ import { CartService } from '../../../Core/Services/cart.service';
 import { WishlistService } from '../../../Core/Services/wishlist.service';
 import { CartDrawerService } from '../../../Core/Services/cart-drawer.service';
 import { SearchAutocompleteComponent } from '../search-autocomplete/search-autocomplete.component';
-import { ToastrService } from 'ngx-toastr';
+import { CustomNotificationService } from '../../../Core/Services/custom-notification.service';
 
 declare var feather: any;
 
@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
     public cartService: CartService,
     public wishlistService: WishlistService,
     private cartDrawerService: CartDrawerService,
-    private toastr: ToastrService,
+    private notification: CustomNotificationService,
     private router: Router
   ) {
     // hide hero section on any route except home
@@ -76,10 +76,7 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
-    this.toastr.info('You have been logged out successfully', 'Goodbye!', {
-      timeOut: 3000,
-      progressBar: true
-    });
+    this.notification.authSuccess('You have been logged out successfully', 'Goodbye!');
   }
 
   scrollToProducts(): void {
@@ -91,10 +88,7 @@ export class HeaderComponent implements OnInit {
 
   openCartDrawer(): void {
     if (!this.authService.isAuthenticated()) {
-      this.toastr.warning('Please login to view your cart', 'Login Required', {
-        timeOut: 3000,
-        progressBar: true
-      });
+      this.notification.loginRequired('Please login to view your cart');
       return;
     }
     this.cartDrawerService.openDrawer();
@@ -102,10 +96,7 @@ export class HeaderComponent implements OnInit {
 
   goToCart(): void {
     if (!this.authService.isAuthenticated()) {
-      this.toastr.warning('Please login to view your cart', 'Login Required', {
-        timeOut: 3000,
-        progressBar: true
-      });
+      this.notification.loginRequired('Please login to view your cart');
       return;
     }
     this.router.navigate(['/cart']);
