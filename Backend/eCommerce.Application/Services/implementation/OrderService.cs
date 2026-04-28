@@ -1,5 +1,6 @@
 using AutoMapper;
 using eCommerce.Application.DTOs;
+using eCommerce.Application.DTOs.Checkouts;
 using eCommerce.Application.DTOs.Order;
 using eCommerce.Application.Services.Interfaces;
 using eCommerce.Domain.Entities;
@@ -322,5 +323,138 @@ namespace eCommerce.Application.Services.implementation
                 return new ServiceResponse<IEnumerable<GetOrderStatusHistory>>(false, $"Error retrieving order status history: {ex.Message}");
             }
         }
+
+        // Guest Checkout Methods
+        public async Task<ServiceResponse<CreateOrderResponse>> CreateGuestOrderAsync(GuestCheckoutRequest request)
+        {
+            try
+            {
+                // Generate unique guest order token
+                var guestToken = Guid.NewGuid().ToString("N")[..10].ToUpper();
+                
+                var order = new Order
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = null, // Guest order
+                    GuestEmail = request.GuestEmail,
+                    IsGuestOrder = true,
+                    GuestOrderToken = guestToken,
+                    CreatedAt = DateTime.UtcNow,
+                    CustomerEmail = request.GuestEmail,
+                    CustomerName = request.FullName,
+                    PhoneNumber = request.Phone,
+                    ShippingAddress = request.ShippingAddress.ToString(),
+                    BillingAddress = request.BillingAddress?.ToString() ?? request.ShippingAddress.ToString(),
+                    ShippingMethod = request.ShippingMethod,
+                    SpecialInstructions = request.SpecialInstructions,
+                    IsGift = request.IsGift,
+                    GiftMessage = request.GiftMessage,
+                    NewsletterSubscription = request.NewsletterSubscription,
+                    SmsUpdates = request.SmsUpdates,
+                    Status = OrderStatus.Pending,
+                    Subtotal = request.TotalAmount,
+                    Tax = request.TotalAmount * 0.17m, // 17% GST for Pakistan
+                    Shipping = request.ShippingMethod == "express" ? 500 : 250, // PKR
+                    Total = request.TotalAmount + (request.TotalAmount * 0.17m) + (request.ShippingMethod == "express" ? 500 : 250)
+                };
+
+                // Create order items
+                foreach (var item in request.CartItems)
+                {
+                    var orderItem = new OrderItem
+                    {
+                        Id = Guid.NewGuid(),
+                        OrderId = order.Id,
+                        ProductId = item.ProductId,
+                        Quantity = item.Quantity,
+                        UnitPrice = item.ProductPrice,
+                        TotalPrice = item.Subtotal,
+                        ProductName = item.ProductName,
+                        ProductImage = item.ProductImage
+                    };
+                    order.OrderItems.Add(orderItem);
+                }
+
+                // Add initial status history
+                var statusHistory = new OrderStatusHistory
+                {
+                    Id = Guid.NewGuid(),
+                    OrderId = order.Id,
+                    Status = OrderStatus.Pending,
+                    ChangedAt = DateTime.UtcNow,
+                    ChangedBy = "Guest System",
+                    Notes = "Guest order created"
+                };
+                order.StatusHistory.Add(statusHistory);
+
+                await _orderRepository.CreateOrderAsync(order);
+
+                var response = new CreateOrderResponse
+                {
+                    OrderId = order.Id,
+                    OrderNumber = order.Id.ToString(),
+                    TotalAmount = order.Total,
+                    Status = order.Status.ToString(),
+                    CreatedAt = order.CreatedAt,
+                    CustomerEmail = order.CustomerEmail,
+                    CustomerName = order.CustomerName,
+                    GuestOrderToken = guestToken,
+                    IsGuestOrder = true,
+                    TrackingUrl = $"/guest-order-tracking?email={order.GuestEmail}&orderNumber={order.Id}"
+                };
+
+                return new ServiceResponse<CreateOrderResponse>(true, "Guest order created successfully", response);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<CreateOrderResponse>(false, $"Error creating guest order: {ex.Message}");
+            }
+        }
+
+        public async Task<ServiceResponse<GetOrder>> GetGuestOrderAsync(string email, string orderNumber)
+        {
+            try
+            {
+                var orders = await _orderRepository.GetAllOrdersWithDetailsAsync();
+                var order = orders.FirstOrDefault(o => 
+                    o.GuestEmail == email && 
+                    o.Id.ToString() == orderNumber && 
+                    o.IsGuestOrder);
+
+                if (order == null)
+                {
+                    return new ServiceResponse<GetOrder>(false, "Order not found");
+                }
+
+                var orderDto = _mapper.Map<GetOrder>(order);
+                return new ServiceResponse<GetOrder>(true, "Order retrieved successfully", orderDto);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<GetOrder>(false, $"Error retrieving order: {ex.Message}");
+            }
+        }
+
+        public async Task<ServiceResponse<List<GetOrder>>> GetGuestOrdersByEmailAsync(string email)
+        {
+            try
+            {
+                var orders = await _orderRepository.GetAllOrdersWithDetailsAsync();
+                var guestOrders = orders.Where(o => 
+                    o.GuestEmail == email && 
+                    o.IsGuestOrder)
+                    .OrderByDescending(o => o.CreatedAt)
+                    .ToList();
+
+                var orderDtos = _mapper.Map<List<GetOrder>>(guestOrders);
+                return new ServiceResponse<List<GetOrder>>(true, "Orders retrieved successfully", orderDtos);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<List<GetOrder>>(false, $"Error retrieving orders: {ex.Message}");
+            }
+        }
+
+
     }
 }

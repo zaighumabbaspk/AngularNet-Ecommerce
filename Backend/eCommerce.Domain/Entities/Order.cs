@@ -9,9 +9,15 @@ namespace eCommerce.Domain.Entities
         [Key]
         public Guid Id { get; set; }
         
-        [Required]
-        public string UserId { get; set; } = string.Empty;
-        
+        public string? UserId { get; set; }
+
+        public string? GuestEmail { get; set; }
+
+        public bool IsGuestOrder { get; set; }
+
+        public string? GuestOrderToken { get; set; }
+
+        public AppUser? User { get; set; }
         [Required]
         public DateTime CreatedAt { get; set; }
         
@@ -36,14 +42,42 @@ namespace eCommerce.Domain.Entities
         [Required]
         public OrderStatus Status { get; set; }
         
-        // Address Information
         [Required]
         public string ShippingAddress { get; set; } = string.Empty;
         
         [Required]
         public string BillingAddress { get; set; } = string.Empty;
         
-        // Payment Information
+        [Required]
+        [StringLength(255)]
+        public string CustomerEmail { get; set; } = string.Empty;
+        
+        [Required]
+        [StringLength(100)]
+        public string CustomerName { get; set; } = string.Empty;
+        
+        [Required]
+        [StringLength(20)]
+        public string PhoneNumber { get; set; } = string.Empty;
+        
+        [StringLength(100)]
+        public string? CompanyName { get; set; }
+        
+        [Required]
+        [StringLength(50)]
+        public string ShippingMethod { get; set; } = "standard";
+        
+        [StringLength(500)]
+        public string? SpecialInstructions { get; set; }
+        
+        public bool IsGift { get; set; } = false;
+        
+        [StringLength(300)]
+        public string? GiftMessage { get; set; }
+        
+        public bool NewsletterSubscription { get; set; } = false;
+        public bool SmsUpdates { get; set; } = false;
+        
         public string? StripePaymentIntentId { get; set; }
         public string? StripeSessionId { get; set; }
         

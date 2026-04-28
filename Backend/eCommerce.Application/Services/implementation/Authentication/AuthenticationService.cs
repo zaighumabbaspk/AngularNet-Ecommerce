@@ -109,50 +109,72 @@ namespace eCommerce.Application.Services.implementation.Authentication
         {
             try
             {
+                Console.WriteLine($"🔍 Login attempt for email: {user.Email}");
+                
                 var _Validator = await _validationService.ValidateAsync(user, _loginUserValidator);
                 if (!_Validator.Success)
+                {
+                    Console.WriteLine($"❌ Validation failed: {_Validator.Message}");
                     return new LoginResponse(_Validator.Message);
+                }
 
                 var MappedModel = _mapper.Map<AppUser>(user);
                 MappedModel.PasswordHash = user.Password;
+                
+                Console.WriteLine($"🔍 Attempting user login for: {user.Email}");
                 bool LoginResult = await _userManagement.LoginUser(MappedModel, user.Password);
                 if (!LoginResult)
+                {
+                    Console.WriteLine($"❌ Login failed - Invalid credentials for: {user.Email}");
                     return new LoginResponse("Invalid Email or Password");
+                }
 
+                Console.WriteLine($"🔍 Getting user by email: {user.Email}");
                 var _user = await _userManagement.GetUserByEmail(user.Email);
               
                 if (_user == null)
                 {
+                    Console.WriteLine($"❌ User not found: {user.Email}");
                     return new LoginResponse(false, "Invalid Email or Password");
                 }
 
+                Console.WriteLine($"🔍 Checking email confirmation for: {user.Email}");
                 // Check if email is confirmed
                 var isEmailConfirmed = await _userManagement.IsEmailConfirmed(_user);
                 if (!isEmailConfirmed)
                 {
+                    Console.WriteLine($"❌ Email not confirmed for: {user.Email}");
                     return new LoginResponse(false, "Please verify your email address before logging in. Check your inbox for the verification link.");
                 }
 
+                Console.WriteLine($"🔍 Getting user claims for: {user.Email}");
                 var Claims = await _userManagement.GetUserByClaims(_user.Email!);
 
+                Console.WriteLine($"🔍 Generating tokens for: {user.Email}");
                 string JwtToken = _tokenManagement.GenerateToken(Claims);
                 string RefreshToken = _tokenManagement.GetRefreshToken();
 
+                Console.WriteLine($"🔍 Saving refresh token for: {user.Email}");
                 int saveToken = await _tokenManagement.AddRefreshToken(_user.Id, RefreshToken);
-                return saveToken > 0
-                    ? new LoginResponse(true, "Login Successful", JwtToken, RefreshToken)
-                    : new LoginResponse(false, "Error Occurred while saving refresh token");
+                
+                if (saveToken > 0)
+                {
+                    Console.WriteLine($"✅ Login successful for: {user.Email}");
+                    return new LoginResponse(true, "Login Successful", JwtToken, RefreshToken);
+                }
+                else
+                {
+                    Console.WriteLine($"❌ Failed to save refresh token for: {user.Email}");
+                    return new LoginResponse(false, "Error Occurred while saving refresh token");
+                }
 
             }
-           
-            
-         catch (Exception Ex)
+            catch (Exception Ex)
             {
-                Console.WriteLine(Ex.Message);
+                Console.WriteLine($"❌ Login exception for {user.Email}: {Ex.Message}");
+                Console.WriteLine($"❌ Stack trace: {Ex.StackTrace}");
                 return new LoginResponse(false, $"An unexpected error occurred: {Ex.Message}");
             }
-
-
         }
         
 

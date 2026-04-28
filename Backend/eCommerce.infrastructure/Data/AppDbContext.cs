@@ -3,6 +3,7 @@ using eCommerce.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace eCommerce.Infrastructure.Data
 {
@@ -21,7 +22,7 @@ namespace eCommerce.Infrastructure.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<OrderStatusHistory> OrderStatusHistories { get; set; }
-        
+
         // New entities for advanced search
         public DbSet<Wishlist> Wishlists { get; set; }
         public DbSet<RecentlyViewed> RecentlyViewed { get; set; }
@@ -69,10 +70,21 @@ namespace eCommerce.Infrastructure.Data
 
             // Order to User relationship
             builder.Entity<Order>()
-                .HasOne<AppUser>()
+                .HasOne(o => o.User)
                 .WithMany()
                 .HasForeignKey(o => o.UserId)
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Order>()
+                .Property(o => o.GuestEmail)
+                .HasMaxLength(255)
+                .IsRequired(false);
+
+            builder.Entity<Order>()
+                .Property(o => o.GuestOrderToken)
+                .HasMaxLength(100)
+                .IsRequired(false);
 
             // Order to OrderItems relationship
             builder.Entity<OrderItem>()

@@ -1,5 +1,5 @@
 using eCommerce.Application.DTOs.Search;
-using eCommerce.Application.Services;
+using eCommerce.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

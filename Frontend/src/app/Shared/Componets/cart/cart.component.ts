@@ -22,25 +22,28 @@ export class CartComponent extends CartBase {
   }
 
   override checkout(): void {
-    
-    // Check if user is authenticated
-    if (!this.authService.isAuthenticated()) {
-      this.router.navigate(['/login'], { 
-        queryParams: { returnUrl: '/checkout' } 
-      });
-      return;
-    }
-
     // Check if cart has items
     if (!this.cart || this.cart.cartItems.length === 0) {
       this.errorMessage = 'Your cart is empty';
       return;
     }
 
+    // Show checkout options modal or redirect based on authentication
+    if (this.authService.isAuthenticated()) {
+      // Authenticated user - go to regular checkout
+      this.router.navigate(['/checkout']).then(success => {
+      }).catch(error => {
+        console.error(' Navigation failed:', error);
+      });
+    } else {
+      // Guest user - show checkout options
+      this.showCheckoutOptions();
+    }
+  }
 
-    this.router.navigate(['/checkout']).then(success => {
-    }).catch(error => {
-      console.error(' Navigation failed:', error);
-    });
+  showCheckoutOptions(): void {
+    // For now, redirect to guest checkout directly
+    // In future, you could show a modal with options: "Login" or "Continue as Guest"
+    this.router.navigate(['/guest-checkout']);
   }
 }

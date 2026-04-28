@@ -28,7 +28,6 @@ namespace eCommerce.infrastructure.Repositories.Authentication
             {
                 UserId = userId,
                 Token = refreshToken,
-
             });
 
 

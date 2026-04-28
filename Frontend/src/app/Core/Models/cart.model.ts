@@ -13,7 +13,9 @@ export interface GetCartItem {
   productId: string;
   productName: string;
   productImage: string;
+  imageUrl: string;
   productPrice: number;
+  price: number;
   categoryName: string;
   quantity: number;
   subtotal: number;

@@ -1,0 +1,47 @@
+<div class="success-container">
+  <div class="success-card">
+    <div class="success-icon">
+      <i class="fas fa-check-circle"></i>
+    </div>
+    
+    <h1>Order Placed Successfully!</h1>
+    <p class="success-message">
+      Thank you for your purchase. Your order has been confirmed and will be processed shortly.
+    </p>
+    
+    <div class="order-details">
+      <div class="detail-item">
+        <strong>Order Number:</strong>
+        <span class="order-number">{{ orderNumber }}</span>
+      </div>
+      <div class="detail-item">
+        <strong>Email:</strong>
+        <span>{{ email }}</span>
+      </div>
+    </div>
+    
+    <div class="info-section">
+      <h3>What's Next?</h3>
+      <ul>
+        <li>You'll receive an order confirmation email shortly</li>
+        <li>We'll send shipping updates to your email</li>
+        <li>Your order will be delivered within 3-5 business days</li>
+      </ul>
+    </div>
+    
+    <div class="action-buttons">
+      <button class="btn btn-primary" (click)="trackOrder()">
+        <i class="fas fa-search"></i>
+        Track Your Order
+      </button>
+      <a routerLink="/" class="btn btn-secondary">
+        <i class="fas fa-home"></i>
+        Continue Shopping
+      </a>
+    </div>
+    
+    <div class="support-info">
+      <p>Need help? Contact our support team at <strong>support&#64;luxeliving.com</strong></p>
+    </div>
+  </div>
+</div>

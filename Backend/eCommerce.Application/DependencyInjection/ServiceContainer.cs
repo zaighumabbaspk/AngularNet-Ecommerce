@@ -5,7 +5,6 @@ using eCommerce.Application.Services.implementation;
 using eCommerce.Application.Services.implementation.Authentication;
 using eCommerce.Application.Services.Interfaces;
 using eCommerce.Application.Services.Interfaces.Authentication;
-using eCommerce.Application.Services;
 using eCommerce.Application.Validations.Authenticaton;
 using eCommerceApp.Application.Validations;
 using FluentValidation;

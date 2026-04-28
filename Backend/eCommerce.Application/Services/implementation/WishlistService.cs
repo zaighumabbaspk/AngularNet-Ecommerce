@@ -1,7 +1,7 @@
 using AutoMapper;
 using eCommerce.Application.DTOs;
 using eCommerce.Application.DTOs.Wishlist;
-using eCommerce.Application.Services;
+using eCommerce.Application.Services.Interfaces;
 using eCommerce.Domain.Entities;
 using eCommerce.Domain.Interface;
 

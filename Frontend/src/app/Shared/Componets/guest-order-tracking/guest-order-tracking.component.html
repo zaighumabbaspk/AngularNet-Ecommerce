@@ -1,0 +1,186 @@
+<div class="tracking-container">
+  <div class="tracking-header">
+    <h1>Track Your Order</h1>
+    <p>Enter your email and order number to track your guest order</p>
+  </div>
+
+  <!-- Tracking Form -->
+  <div class="tracking-form-card">
+    <form [formGroup]="trackingForm" (ngSubmit)="trackOrder()" class="tracking-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input 
+            type="email" 
+            id="email" 
+            formControlName="email"
+            placeholder="your@email.com"
+            [class.error]="trackingForm.get('email')?.invalid && trackingForm.get('email')?.touched">
+          <div *ngIf="trackingForm.get('email')?.invalid && trackingForm.get('email')?.touched" class="error-message">
+            Valid email is required
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="orderNumber">Order Number *</label>
+          <input 
+            type="text" 
+            id="orderNumber" 
+            formControlName="orderNumber"
+            placeholder="ORD-XXXXXXXXXX"
+            [class.error]="trackingForm.get('orderNumber')?.invalid && trackingForm.get('orderNumber')?.touched">
+          <div *ngIf="trackingForm.get('orderNumber')?.invalid && trackingForm.get('orderNumber')?.touched" class="error-message">
+            Order number is required
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          class="btn btn-primary"
+          [disabled]="isLoading">
+          <i class="fas fa-search"></i>
+          <span *ngIf="!isLoading">Track Order</span>
+          <span *ngIf="isLoading">Searching...</span>
+        </button>
+        
+        <button 
+          type="button" 
+          class="btn btn-secondary"
+          (click)="loadOrderHistory()"
+          [disabled]="isLoading || !trackingForm.get('email')?.valid">
+          <i class="fas fa-history"></i>
+          View All Orders
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Single Order Details -->
+  <div *ngIf="order && !showOrderHistory" class="order-details-card">
+    <div class="order-header">
+      <h2>Order Details</h2>
+      <div class="order-status" [style.background-color]="getStatusColor(order.orderStatus)">
+        <i [class]="getStatusIcon(order.orderStatus)"></i>
+        {{ order.orderStatus | titlecase }}
+      </div>
+    </div>
+
+    <div class="order-info">
+      <div class="info-section">
+        <h3>Order Information</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <strong>Order Number:</strong>
+            <span class="order-number">{{ order.orderNumber }}</span>
+          </div>
+          <div class="info-item">
+            <strong>Order Date:</strong>
+            <span>{{ formatDate(order.orderDate) }}</span>
+          </div>
+          <div class="info-item">
+            <strong>Total Amount:</strong>
+            <span class="amount">PKR {{ order.totalAmount | number:'1.0-0' }}</span>
+          </div>
+          <div class="info-item">
+            <strong>Payment Status:</strong>
+            <span class="payment-status" [class.paid]="order.paymentStatus === 'Paid'">
+              {{ order.paymentStatus }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-section" *ngIf="order.shippingAddress">
+        <h3>Shipping Address</h3>
+        <div class="address">
+          <p>{{ order.shippingAddress }}</p>
+        </div>
+      </div>
+
+      <div class="info-section" *ngIf="order.orderItems && order.orderItems.length > 0">
+        <h3>Order Items</h3>
+        <div class="order-items">
+          <div *ngFor="let item of order.orderItems" class="order-item">
+            <img [src]="item.imageUrl" [alt]="item.productName" class="item-image">
+            <div class="item-details">
+              <h4>{{ item.productName }}</h4>
+              <p>Quantity: {{ item.quantity }}</p>
+              <p class="item-price">PKR {{ item.price * item.quantity | number:'1.0-0' }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order History -->
+  <div *ngIf="showOrderHistory && orderHistory.length > 0" class="order-history-card">
+    <div class="history-header">
+      <h2>Order History</h2>
+      <button class="btn btn-link" (click)="showOrderHistory = false">
+        <i class="fas fa-arrow-left"></i>
+        Back to Single Order
+      </button>
+    </div>
+
+    <div class="orders-grid">
+      <div *ngFor="let historyOrder of orderHistory" class="order-summary-card">
+        <div class="order-summary-header">
+          <span class="order-number">{{ historyOrder.orderNumber }}</span>
+          <div class="order-status small" [style.background-color]="getStatusColor(historyOrder.orderStatus)">
+            <i [class]="getStatusIcon(historyOrder.orderStatus)"></i>
+            {{ historyOrder.orderStatus | titlecase }}
+          </div>
+        </div>
+        
+        <div class="order-summary-details">
+          <p><strong>Date:</strong> {{ formatDate(historyOrder.orderDate) }}</p>
+          <p><strong>Total:</strong> PKR {{ historyOrder.totalAmount | number:'1.0-0' }}</p>
+          <p><strong>Items:</strong> {{ historyOrder.orderItems?.length || 0 }} item(s)</p>
+        </div>
+        
+        <button 
+          class="btn btn-outline" 
+          (click)="order = historyOrder; showOrderHistory = false">
+          View Details
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="showOrderHistory && orderHistory.length === 0" class="empty-state">
+    <i class="fas fa-inbox"></i>
+    <h3>No Orders Found</h3>
+    <p>No orders were found for the provided email address.</p>
+  </div>
+
+  <!-- Help Section -->
+  <div class="help-section">
+    <h3>Need Help?</h3>
+    <div class="help-content">
+      <div class="help-item">
+        <i class="fas fa-question-circle"></i>
+        <div>
+          <strong>Can't find your order?</strong>
+          <p>Make sure you're using the same email address used during checkout.</p>
+        </div>
+      </div>
+      <div class="help-item">
+        <i class="fas fa-envelope"></i>
+        <div>
+          <strong>Need support?</strong>
+        `<p>Contact us at <a href="mailto:support@luxeliving.com">support8#64luxeliving.com</a></p>`        </div>
+      </div>
+      <div class="help-item">
+        <i class="fas fa-phone"></i>
+        <div>
+          <strong>Call us</strong>
+          <p>+92 300 1234567 (Mon-Fri, 9 AM - 6 PM)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

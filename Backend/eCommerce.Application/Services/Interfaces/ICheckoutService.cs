@@ -11,5 +11,9 @@ namespace eCommerce.Application.Services.Interfaces
         Task<ServiceResponse<PaymentIntentResponse>> GetPaymentIntentAsync(string paymentIntentId);
         Task<ServiceResponse<GetOrder>> ConfirmPaymentAsync(ConfirmPaymentRequest request, string userId);
         string GetWebhookSecret();
+        
+        // Guest Checkout Methods
+        Task<ServiceResponse<GuestPaymentIntentResponse>> CreateGuestPaymentIntentAsync(GuestCheckoutRequest request);
+        Task<ServiceResponse<CreateOrderResponse>> ConfirmGuestPaymentAsync(ConfirmGuestPaymentRequest request);
     }
 }

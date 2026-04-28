@@ -1,4 +1,5 @@
 using eCommerce.Application.DTOs;
+using eCommerce.Application.DTOs.Checkouts;
 using eCommerce.Application.DTOs.Order;
 using eCommerce.Domain.Entities;
 
@@ -17,5 +18,9 @@ namespace eCommerce.Application.Services.Interfaces
         Task<ServiceResponse<IEnumerable<GetOrder>>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate);
         Task<ServiceResponse<IEnumerable<GetOrder>>> GetAllOrdersAsync();
         Task<ServiceResponse<IEnumerable<GetOrderStatusHistory>>> GetOrderStatusHistoryAsync(Guid orderId, string userId);
+
+        Task<ServiceResponse<CreateOrderResponse>> CreateGuestOrderAsync(GuestCheckoutRequest request);
+        Task<ServiceResponse<GetOrder>> GetGuestOrderAsync(string email, string orderNumber);
+        Task<ServiceResponse<List<GetOrder>>> GetGuestOrdersByEmailAsync(string email);
     }
 }

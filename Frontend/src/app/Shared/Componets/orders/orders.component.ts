@@ -29,20 +29,16 @@ export class OrdersComponent implements OnInit {
   }
 
   public loadOrders(): void {
-    console.log('🔍 Loading orders...');
     this.isLoading = true;
     this.errorMessage = '';
 
     this.orderService.getMyOrders().subscribe({
       next: (response) => {
-        console.log('🔍 Orders API Response:', response);
         this.isLoading = false;
         if (response.success && response.data) {
           this.orders = response.data;
-          console.log(' Orders loaded successfully:', this.orders.length);
         } else {
           this.errorMessage = response.message || 'Failed to load orders';
-          console.log('Orders API returned error:', this.errorMessage);
         }
       },
       error: (error) => {

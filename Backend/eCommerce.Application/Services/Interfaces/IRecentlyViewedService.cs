@@ -1,7 +1,7 @@
 using eCommerce.Application.DTOs.RecentlyViewed;
 using eCommerce.Application.DTOs;
 
-namespace eCommerce.Application.Services
+namespace eCommerce.Application.Services.Interfaces
 {
     public interface IRecentlyViewedService
     {

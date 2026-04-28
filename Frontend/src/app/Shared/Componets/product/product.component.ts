@@ -263,10 +263,10 @@ export class ProductComponent implements OnInit {
   }
 
   addToCart(product: any): void {
-    if (!this.authService.isAuthenticated()) {
-      this.notification.loginRequired('Please login to add items to cart');
-      return;
-    }
+    // if (!this.authService.isAuthenticated()) {
+    //   this.notification.loginRequired('Please login to add items to cart');
+    //   return;
+    // }
 
     const request = {
       productId: product.id,
@@ -274,7 +274,8 @@ export class ProductComponent implements OnInit {
     };
 
     this.CartService.addToCart(request).subscribe({
-      next: () => {
+      next: (res) => {
+        console.log('Add to cart response:', res);
         this.notification.cartSuccess(`${product.name} added to cart!`, 'Success');
         // Reload cart to update badge
         this.CartService.loadCart();
@@ -291,7 +292,6 @@ export class ProductComponent implements OnInit {
     this.editMode = false;
     this.editingProductId = null;
     this.productForm.reset();
-    this.notification.info('Add a new product', 'Form Opened');
   }
 
   openEditForm(product: any): void {

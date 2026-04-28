@@ -81,23 +81,20 @@ namespace eCommerce.Application.Services.implementation
       string userId,
       UpdateCartItemRequest request)
         {
-            // 1️⃣ Get cart item
+
             var cartItem = await _cartRepository.GetCartItemByIdAsync(request.CartItemId);
 
             if (cartItem == null)
                 return new ServiceResponse(false, "Cart item not found");
 
-            // 2️⃣ Ownership check (VERY IMPORTANT)
             if (cartItem.Cart.UserId != userId)
                 return new ServiceResponse(false, "Unauthorized operation");
 
-            // 3️⃣ Update quantity (or delete if <= 0 handled in repo)
             var result = await _cartRepository.UpdateCartItemQuantityAsync(
                 request.CartItemId,
                 request.Quantity
             );
 
-            // 4️⃣ Return response
             return result > 0  
                 ? new ServiceResponse(true, "Cart item updated successfully")
                 : new ServiceResponse(false, "Failed to update cart item");

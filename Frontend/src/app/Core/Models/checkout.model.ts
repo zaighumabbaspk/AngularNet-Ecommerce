@@ -24,9 +24,38 @@ export interface PaymentIntentResponse {
 
 export interface ConfirmPaymentRequest {
   paymentIntentId: string;
-  paymentMethodId: string;
-  shippingAddress: string;
-  billingAddress: string;
+  paymentMethodId?: string;
+  
+  // Customer Information
+  customerEmail: string;
+  customerName: string;
+  phoneNumber: string;
+  companyName?: string;
+
+  // Shipping Address
+  shippingAddressLine1: string;
+  shippingAddressLine2?: string;
+  shippingCity: string;
+  shippingState: string;
+  shippingZipCode: string;
+  shippingCountry: string;
+
+  // Billing Address
+  billingSameAsShipping: boolean;
+  billingAddressLine1?: string;
+  billingAddressLine2?: string;
+  billingCity?: string;
+  billingState?: string;
+  billingZipCode?: string;
+  billingCountry?: string;
+
+  // Shipping Options
+  shippingMethod: string;
+
+  // Additional Information
+  specialInstructions?: string;
+  isGift: boolean;
+  giftMessage?: string;
 }
 
 export interface ServiceResponse<T> {

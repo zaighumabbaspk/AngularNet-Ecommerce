@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
@@ -32,7 +32,8 @@ export class HeaderComponent implements OnInit {
     public wishlistService: WishlistService,
     private cartDrawerService: CartDrawerService,
     private notification: CustomNotificationService,
-    private router: Router
+    private router: Router,
+    private elementRef: ElementRef
   ) {
     // hide hero section on any route except home
     this.router.events.subscribe(event => {
@@ -57,9 +58,33 @@ export class HeaderComponent implements OnInit {
     this.userMenuOpen = false;
   }
 
+  closeMobileMenu(): void {
+    // Close Bootstrap collapse on mobile
+    const navbarCollapse = document.getElementById('navbarMenu');
+    if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+      const bsCollapse = (window as any).bootstrap?.Collapse?.getInstance(navbarCollapse);
+      if (bsCollapse) {
+        bsCollapse.hide();
+      }
+    }
+  }
+
   @HostListener('window:scroll', ['$event'])
   onScroll(): void {
     this.updateNavbarStyle();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    const target = event.target as HTMLElement;
+    const userMenuWrapper = this.elementRef.nativeElement.querySelector('.user-menu-wrapper');
+    const mobileUserMenu = this.elementRef.nativeElement.querySelector('.mobile-user-menu');
+    
+    // Close user menu if clicking outside of it
+    if (this.userMenuOpen && userMenuWrapper && !userMenuWrapper.contains(target) && 
+        mobileUserMenu && !mobileUserMenu.contains(target)) {
+      this.userMenuOpen = false;
+    }
   }
 
   updateNavbarStyle(): void {

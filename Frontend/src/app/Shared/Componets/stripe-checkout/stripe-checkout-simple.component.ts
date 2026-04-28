@@ -7,6 +7,7 @@ import { CheckoutService } from '../../../Core/Services/checkout.service';
 import { CartService } from '../../../Core/Services/cart.service';
 import { OrderService } from '../../../Core/Services/order.service';
 import { AuthService } from '../../../Core/Services/auth.service';
+import { CreatePaymentIntentRequest } from '../../../Core/Models/enhanced-checkout.model';
 
 @Component({
   selector: 'app-stripe-checkout-simple',
@@ -519,11 +520,30 @@ export class StripeCheckoutSimpleComponent implements OnInit, OnDestroy, AfterVi
       const totalAmount = cartResponse.total;
 
       // Step 2: Create Payment Intent
-      const paymentIntentRequest = {
-        shippingAddress: this.checkoutForm.value.shippingAddress,
-        billingAddress: this.checkoutForm.value.shippingAddress,
+      const paymentIntentRequest: CreatePaymentIntentRequest = {
         customerEmail: this.checkoutForm.value.email,
-        customerName: this.checkoutForm.value.name
+        customerName: this.checkoutForm.value.name,
+        phoneNumber: '0000000000', // Default phone number for legacy checkout
+        companyName: '',
+        shippingAddressLine1: this.checkoutForm.value.shippingAddress,
+        shippingAddressLine2: '',
+        shippingCity: 'Unknown',
+        shippingState: 'Unknown',
+        shippingZipCode: '00000',
+        shippingCountry: 'US',
+        billingSameAsShipping: true,
+        billingAddressLine1: '',
+        billingAddressLine2: '',
+        billingCity: '',
+        billingState: '',
+        billingZipCode: '',
+        billingCountry: '',
+        shippingMethod: 'standard',
+        specialInstructions: '',
+        isGift: false,
+        giftMessage: '',
+        newsletterSubscription: false,
+        smsUpdates: false
       };
 
       const paymentIntentResponse = await this.checkoutService.createPaymentIntent(paymentIntentRequest).toPromise();

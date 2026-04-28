@@ -1,0 +1,550 @@
+<div class="enhanced-checkout-container">
+  <!-- Progress Steps -->
+  <div class="checkout-progress">
+    <div class="progress-steps">
+      <div class="step" [class.active]="currentStep >= 1" [class.completed]="currentStep > 1" (click)="goToStep(1)">
+        <div class="step-number">
+          <i class="fas fa-user" *ngIf="currentStep >= 1"></i>
+          <i class="fas fa-check" *ngIf="currentStep > 1"></i>
+        </div>
+        <span class="step-label">Customer Info</span>
+      </div>
+      
+      <div class="step" [class.active]="currentStep >= 2" [class.completed]="currentStep > 2" (click)="goToStep(2)">
+        <div class="step-number">
+          <i class="fas fa-map-marker-alt" *ngIf="currentStep >= 2"></i>
+          <i class="fas fa-check" *ngIf="currentStep > 2"></i>
+        </div>
+        <span class="step-label">Addresses</span>
+      </div>
+      
+      <div class="step" [class.active]="currentStep >= 3" [class.completed]="currentStep > 3" (click)="goToStep(3)">
+        <div class="step-number">
+          <i class="fas fa-truck" *ngIf="currentStep >= 3"></i>
+          <i class="fas fa-check" *ngIf="currentStep > 3"></i>
+        </div>
+        <span class="step-label">Shipping</span>
+      </div>
+      
+      <div class="step" [class.active]="currentStep >= 4">
+        <div class="step-number">
+          <i class="fas fa-credit-card" *ngIf="currentStep >= 4"></i>
+        </div>
+        <span class="step-label">Payment</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="checkout-content">
+    <!-- Left Column - Form -->
+    <div class="checkout-form-section">
+      <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+        
+        <!-- Step 1: Customer Information -->
+        <div class="form-step" *ngIf="currentStep === 1">
+          <div class="step-header">
+            <h2><i class="fas fa-user"></i> Customer Information</h2>
+            <p>Please provide your contact details</p>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="customerEmail">Email Address *</label>
+              <input
+                id="customerEmail"
+                type="email"
+                formControlName="customerEmail"
+                placeholder="your@email.com"
+                [class.error]="getFieldError('customerEmail')">
+              <div class="error-message" *ngIf="getFieldError('customerEmail')">
+                {{ getFieldError('customerEmail') }}
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="customerName">Full Name *</label>
+              <input
+                id="customerName"
+                type="text"
+                formControlName="customerName"
+                placeholder="John Doe"
+                [class.error]="getFieldError('customerName')">
+              <div class="error-message" *ngIf="getFieldError('customerName')">
+                {{ getFieldError('customerName') }}
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="phoneNumber">Phone Number *</label>
+              <input
+                id="phoneNumber"
+                type="tel"
+                formControlName="phoneNumber"
+                placeholder="+92 300 1234567 or 03001234567"
+                [class.error]="getFieldError('phoneNumber')">
+              <div class="error-message" *ngIf="getFieldError('phoneNumber')">
+                {{ getFieldError('phoneNumber') }}
+              </div>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="companyName">Company Name (Optional)</label>
+              <input
+                id="companyName"
+                type="text"
+                formControlName="companyName"
+                placeholder="Your Company Inc.">
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Addresses -->
+        <div class="form-step" *ngIf="currentStep === 2">
+          <div class="step-header">
+            <h2><i class="fas fa-map-marker-alt"></i> Shipping & Billing Address</h2>
+            <p>Where should we deliver your order?</p>
+          </div>
+
+          <!-- Shipping Address -->
+          <div class="address-section">
+            <h3>Shipping Address</h3>
+            
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label for="shippingAddressLine1">Street Address *</label>
+                <input
+                  id="shippingAddressLine1"
+                  type="text"
+                  formControlName="shippingAddressLine1"
+                  placeholder="123 Main Street"
+                  [class.error]="getFieldError('shippingAddressLine1')">
+                <div class="error-message" *ngIf="getFieldError('shippingAddressLine1')">
+                  {{ getFieldError('shippingAddressLine1') }}
+                </div>
+              </div>
+
+              <div class="form-group full-width">
+                <label for="shippingAddressLine2">Apartment, Suite, etc. (Optional)</label>
+                <input
+                  id="shippingAddressLine2"
+                  type="text"
+                  formControlName="shippingAddressLine2"
+                  placeholder="Apt 4B">
+              </div>
+
+              <div class="form-group">
+                <label for="shippingCity">City *</label>
+                <input
+                  id="shippingCity"
+                  type="text"
+                  formControlName="shippingCity"
+                  placeholder="New York"
+                  [class.error]="getFieldError('shippingCity')">
+                <div class="error-message" *ngIf="getFieldError('shippingCity')">
+                  {{ getFieldError('shippingCity') }}
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="shippingCountry">Country *</label>
+                <select
+                  id="shippingCountry"
+                  formControlName="shippingCountry"
+                  [class.error]="getFieldError('shippingCountry')">
+                  <option value="">Select Country</option>
+                  <option *ngFor="let country of countries" [value]="country.code">
+                    {{ country.name }}
+                  </option>
+                </select>
+                <div class="error-message" *ngIf="getFieldError('shippingCountry')">
+                  {{ getFieldError('shippingCountry') }}
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="shippingState">Province *</label>
+                <select
+                  id="shippingState"
+                  formControlName="shippingState"
+                  [class.error]="getFieldError('shippingState')">
+                  <option value="">Select Province</option>
+                  <option *ngFor="let state of getStatesForCountry(checkoutForm.get('shippingCountry')?.value)" [value]="state.code">
+                    {{ state.name }}
+                  </option>
+                </select>
+                <div class="error-message" *ngIf="getFieldError('shippingState')">
+                  {{ getFieldError('shippingState') }}
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="shippingZipCode">Postal Code *</label>
+                <input
+                  id="shippingZipCode"
+                  type="text"
+                  formControlName="shippingZipCode"
+                  placeholder="54000 (Lahore) or 75500 (Karachi)"
+                  [class.error]="getFieldError('shippingZipCode')">
+                <div class="error-message" *ngIf="getFieldError('shippingZipCode')">
+                  {{ getFieldError('shippingZipCode') }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Billing Address -->
+          <div class="address-section">
+            <div class="billing-header">
+              <h3>Billing Address</h3>
+              <label class="checkbox-container">
+                <input type="checkbox" formControlName="billingSameAsShipping">
+                <span class="checkmark"></span>
+                Same as shipping address
+              </label>
+            </div>
+
+            <div class="form-grid" *ngIf="!checkoutForm.get('billingSameAsShipping')?.value">
+              <div class="form-group full-width">
+                <label for="billingAddressLine1">Street Address *</label>
+                <input
+                  id="billingAddressLine1"
+                  type="text"
+                  formControlName="billingAddressLine1"
+                  placeholder="123 Main Street"
+                  [class.error]="getFieldError('billingAddressLine1')">
+                <div class="error-message" *ngIf="getFieldError('billingAddressLine1')">
+                  {{ getFieldError('billingAddressLine1') }}
+                </div>
+              </div>
+
+              <div class="form-group full-width">
+                <label for="billingAddressLine2">Apartment, Suite, etc. (Optional)</label>
+                <input
+                  id="billingAddressLine2"
+                  type="text"
+                  formControlName="billingAddressLine2"
+                  placeholder="Apt 4B">
+              </div>
+
+              <div class="form-group">
+                <label for="billingCity">City *</label>
+                <input
+                  id="billingCity"
+                  type="text"
+                  formControlName="billingCity"
+                  placeholder="New York"
+                  [class.error]="getFieldError('billingCity')">
+                <div class="error-message" *ngIf="getFieldError('billingCity')">
+                  {{ getFieldError('billingCity') }}
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="billingCountry">Country *</label>
+                <select
+                  id="billingCountry"
+                  formControlName="billingCountry"
+                  [class.error]="getFieldError('billingCountry')">
+                  <option value="">Select Country</option>
+                  <option *ngFor="let country of countries" [value]="country.code">
+                    {{ country.name }}
+                  </option>
+                </select>
+                <div class="error-message" *ngIf="getFieldError('billingCountry')">
+                  {{ getFieldError('billingCountry') }}
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="billingState">Province *</label>
+                <select
+                  id="billingState"
+                  formControlName="billingState"
+                  [class.error]="getFieldError('billingState')">
+                  <option value="">Select Province</option>
+                  <option *ngFor="let state of getStatesForCountry(checkoutForm.get('billingCountry')?.value)" [value]="state.code">
+                    {{ state.name }}
+                  </option>
+                </select>
+                <div class="error-message" *ngIf="getFieldError('billingState')">
+                  {{ getFieldError('billingState') }}
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="billingZipCode">Postal Code *</label>
+                <input
+                  id="billingZipCode"
+                  type="text"
+                  formControlName="billingZipCode"
+                  placeholder="54000 (Lahore) or 75500 (Karachi)"
+                  [class.error]="getFieldError('billingZipCode')">
+                <div class="error-message" *ngIf="getFieldError('billingZipCode')">
+                  {{ getFieldError('billingZipCode') }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Shipping & Additional Info -->
+        <div class="form-step" *ngIf="currentStep === 3">
+          <div class="step-header">
+            <h2><i class="fas fa-truck"></i> Shipping & Additional Information</h2>
+            <p>Choose your delivery preferences</p>
+          </div>
+
+          <!-- Shipping Options -->
+          <div class="shipping-options">
+            <h3>Delivery Method</h3>
+            <div class="shipping-methods">
+              <label *ngFor="let option of shippingOptions" class="shipping-option">
+                <input type="radio" formControlName="shippingMethod" [value]="option.id">
+                <div class="option-content">
+                  <div class="option-header">
+                    <span class="option-name">{{ option.name }}</span>
+                    <span class="option-price">{{ formatPrice(option.price) }}</span>
+                  </div>
+                  <div class="option-details">
+                    <span class="option-description">{{ option.description }}</span>
+                    <span class="option-delivery">Estimated delivery: {{ getEstimatedDeliveryDate(option.estimatedDays) }}</span>
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Additional Information -->
+          <div class="additional-info">
+            <h3>Additional Information</h3>
+            
+            <div class="form-group full-width">
+              <label for="specialInstructions">Special Delivery Instructions (Optional)</label>
+              <textarea
+                id="specialInstructions"
+                formControlName="specialInstructions"
+                placeholder="Leave at front door, ring doorbell, etc."
+                rows="3">
+              </textarea>
+            </div>
+
+            <div class="gift-options">
+              <label class="checkbox-container">
+                <input type="checkbox" formControlName="isGift">
+                <span class="checkmark"></span>
+                This is a gift
+              </label>
+
+              <div class="form-group full-width" *ngIf="checkoutForm.get('isGift')?.value">
+                <label for="giftMessage">Gift Message (Optional)</label>
+                <textarea
+                  id="giftMessage"
+                  formControlName="giftMessage"
+                  placeholder="Happy Birthday! Hope you love this..."
+                  rows="3">
+                </textarea>
+              </div>
+            </div>
+
+            <div class="preferences">
+              <h4>Communication Preferences</h4>
+              <label class="checkbox-container">
+                <input type="checkbox" formControlName="newsletterSubscription">
+                <span class="checkmark"></span>
+                Subscribe to our newsletter for deals and updates
+              </label>
+
+              <label class="checkbox-container">
+                <input type="checkbox" formControlName="smsUpdates">
+                <span class="checkmark"></span>
+                Receive SMS updates about my order
+              </label>
+            </div>
+
+            <div class="legal-agreements">
+              <h4>Terms & Conditions</h4>
+              <label class="checkbox-container">
+                <input type="checkbox" formControlName="acceptTerms">
+                <span class="checkmark"></span>
+                I agree to the <a href="/terms" target="_blank">Terms & Conditions</a> *
+              </label>
+              <div class="error-message" *ngIf="getFieldError('acceptTerms')">
+                {{ getFieldError('acceptTerms') }}
+              </div>
+
+              <label class="checkbox-container">
+                <input type="checkbox" formControlName="acceptPrivacy">
+                <span class="checkmark"></span>
+                I agree to the <a href="/privacy" target="_blank">Privacy Policy</a> *
+              </label>
+              <div class="error-message" *ngIf="getFieldError('acceptPrivacy')">
+                {{ getFieldError('acceptPrivacy') }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Payment -->
+        <div class="form-step" *ngIf="currentStep === 4">
+          <div class="step-header">
+            <h2><i class="fas fa-credit-card"></i> Payment Information</h2>
+            <p>Secure payment processing</p>
+          </div>
+
+          <div class="payment-section">
+            <div class="payment-methods">
+              <h3>Payment Method</h3>
+              <div class="payment-icons">
+                <i class="fab fa-cc-visa"></i>
+                <i class="fab fa-cc-mastercard"></i>
+                <i class="fab fa-cc-amex"></i>
+                <i class="fab fa-cc-discover"></i>
+              </div>
+            </div>
+
+            <div class="stripe-card-wrapper">
+              <label>Card Information *</label>
+              <div id="stripe-card-element" class="stripe-card-element">
+                <!-- Stripe will inject the card element here -->
+              </div>
+              <div class="card-errors" *ngIf="cardError">
+                <i class="fas fa-exclamation-triangle"></i>
+                {{ cardError }}
+              </div>
+              
+              <!-- Debug button for testing -->
+              <div class="debug-section" *ngIf="!cardReady" style="margin-top: 1rem;">
+                <button type="button" class="btn btn-outline" (click)="mountCardElement()">
+                  <i class="fas fa-refresh"></i>
+                  Load Payment Form
+                </button>
+                <small style="display: block; margin-top: 0.5rem; color: #666;">
+                  Click if the payment form doesn't load automatically
+                </small>
+              </div>
+            </div>
+
+            <div class="security-info">
+              <div class="security-badges">
+                <i class="fas fa-lock"></i>
+                <span>Your payment information is encrypted and secure</span>
+              </div>
+              <div class="test-card-info">
+                <small><strong>Test Card:</strong> 4242 4242 4242 4242, 12/25, 123</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Error Message -->
+          <div class="alert alert-danger" *ngIf="errorMessage">
+            <i class="fas fa-exclamation-triangle"></i>
+            {{ errorMessage }}
+          </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="form-navigation">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            *ngIf="currentStep > 1"
+            (click)="previousStep()"
+            [disabled]="paymentProcessing">
+            <i class="fas fa-arrow-left"></i>
+            Previous
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-outline"
+            (click)="router.navigate(['/cart'])"
+            [disabled]="paymentProcessing">
+            Back to Cart
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-primary"
+            *ngIf="currentStep < 4"
+            (click)="nextStep()"
+            [disabled]="paymentProcessing">
+            Next
+            <i class="fas fa-arrow-right"></i>
+          </button>
+
+          <button
+            type="submit"
+            class="btn btn-success"
+            *ngIf="currentStep === 4"
+            [disabled]="paymentProcessing || !cardReady">
+            <span *ngIf="paymentProcessing" class="spinner"></span>
+            <i class="fas fa-credit-card" *ngIf="!paymentProcessing"></i>
+            {{ paymentProcessing ? 'Processing Payment...' : 'Complete Payment' }}
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Right Column - Order Summary -->
+    <div class="order-summary-section">
+      <div class="order-summary">
+        <h3>Order Summary</h3>
+        
+        <!-- Cart Items -->
+        <div class="cart-items">
+          <div class="cart-item" *ngFor="let item of cartItems">
+            <img [src]="item.productImage" [alt]="item.productName" class="item-image">
+            <div class="item-details">
+              <h4>{{ item.productName }}</h4>
+              <p>Quantity: {{ item.quantity }}</p>
+            </div>
+            <div class="item-price">
+              {{ formatPrice(item.productPrice * item.quantity) }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Totals -->
+        <div class="order-totals">
+          <div class="total-line">
+            <span>Subtotal:</span>
+            <span>{{ formatPrice(subtotal) }}</span>
+          </div>
+          
+          <div class="total-line">
+            <span>Shipping:</span>
+            <span *ngIf="!isLoadingShipping">{{ formatPrice(shippingCost) }}</span>
+            <span *ngIf="isLoadingShipping" class="loading">Calculating...</span>
+          </div>
+          
+          <div class="total-line">
+            <span>Tax:</span>
+            <span *ngIf="!isCalculatingTax">{{ formatPrice(tax) }}</span>
+            <span *ngIf="isCalculatingTax" class="loading">Calculating...</span>
+          </div>
+          
+          <div class="total-line total">
+            <span>Total:</span>
+            <span>{{ formatPrice(total) }}</span>
+          </div>
+        </div>
+
+        <!-- Security Badges -->
+        <div class="security-badges">
+          <div class="badge">
+            <i class="fas fa-shield-alt"></i>
+            <span>SSL Secured</span>
+          </div>
+          <div class="badge">
+            <i class="fas fa-undo"></i>
+            <span>30-Day Returns</span>
+          </div>
+          <div class="badge">
+            <i class="fas fa-headset"></i>
+            <span>24/7 Support</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

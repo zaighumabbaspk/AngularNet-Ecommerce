@@ -1,3 +1,4 @@
+using eCommerce.Application.DTOs.Checkouts;
 using eCommerce.Application.DTOs.Order;
 using eCommerce.Application.Services.Interfaces;
 using eCommerce.Domain.Entities;
@@ -159,17 +160,33 @@ namespace eCommerce.Host.Controllers
                     return Unauthorized("User not authenticated");
                 }
 
+                // Log the request for debugging
+                Console.WriteLine($"Creating order from cart for user: {userId}");
+                Console.WriteLine($"Order details - Subtotal: {createOrder.Subtotal}, Tax: {createOrder.Tax}, Shipping: {createOrder.Shipping}, Total: {createOrder.Total}");
+                Console.WriteLine($"Order items count: {createOrder.OrderItems?.Count ?? 0}");
+                Console.WriteLine($"Stripe Session ID: {createOrder.StripeSessionId}");
+
+                if (createOrder.OrderItems == null || !createOrder.OrderItems.Any())
+                {
+                    Console.WriteLine("❌ Order creation failed: No order items provided");
+                    return BadRequest(new { message = "Order items are required" });
+                }
+
                 var result = await _orderService.CreateOrderFromCartAsync(userId, createOrder);
                 
                 if (result.Success)
                 {
+                    Console.WriteLine($"✅ Order created successfully: {result.Data?.Id}");
                     return Ok(result);
                 }
                 
+                Console.WriteLine($"❌ Order creation failed: {result.Message}");
                 return BadRequest(result);
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"❌ Order creation exception: {ex.Message}");
+                Console.WriteLine($"Stack trace: {ex.StackTrace}");
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
@@ -317,5 +334,35 @@ namespace eCommerce.Host.Controllers
                 return StatusCode(500, new { message = "Internal server error", error = ex.Message });
             }
         }
+        [HttpPost("guest-tracking")]
+        public async Task<IActionResult> TrackGuestOrder([FromBody] GuestOrderTrackingRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _orderService.GetGuestOrderAsync(request.Email, request.OrderNumber);
+
+            if (!result.Success)
+                return NotFound(result.Message);
+
+            return Ok(result);
+        }
+
+        [HttpGet("guest-orders/{email}")]
+        public async Task<IActionResult> GetGuestOrdersByEmail(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+                return BadRequest("Email is required");
+
+            var result = await _orderService.GetGuestOrdersByEmailAsync(email);
+
+            if (!result.Success)
+                return BadRequest(result.Message);
+
+            return Ok(result);
+        }
+
     }
 }
+
+    // Guest Order Endpoints

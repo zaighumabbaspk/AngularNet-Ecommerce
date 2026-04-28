@@ -9,6 +9,7 @@ import { ForgotPasswordComponent } from './Shared/Componets/auth/forgot-password
 import { VerifyEmailComponent } from './Shared/Componets/auth/verify-email/verify-email.component';
 import { CartComponent } from './Shared/Componets/cart/cart.component';
 import { StripeCheckoutSimpleComponent } from './Shared/Componets/stripe-checkout/stripe-checkout-simple.component';
+import { EnhancedCheckoutComponent } from './Shared/Componets/enhanced-checkout/enhanced-checkout.component';
 import { CheckoutSuccessComponent } from './Shared/Componets/checkout-success/checkout-success.component';
 import { CheckoutCancelComponent } from './Shared/Componets/checkout-cancel/checkout-cancel.component';
 import { OrdersComponent } from './Shared/Componets/orders/orders.component';
@@ -16,6 +17,9 @@ import { OrderDetailsComponent } from './Shared/Componets/order-details/order-de
 import { AboutUsComponent } from './Shared/Componets/about-us/about-us.component';
 import { AdvancedSearchComponent } from './Shared/Componets/advanced-search/advanced-search.component';
 import { WishlistComponent } from './Shared/Componets/wishlist/wishlist.component';
+import { GuestCheckoutComponent } from './Shared/Componets/guest-checkout/guest-checkout.component';
+import { GuestOrderSuccessComponent } from './Shared/Componets/guest-order-success/guest-order-success.component';
+import { GuestOrderTrackingComponent } from './Shared/Componets/guest-order-tracking/guest-order-tracking.component';
 import { authGuard } from './Core/Guards/auth.guard';
 
 export const routes: Routes = [
@@ -63,11 +67,27 @@ export const routes: Routes = [
   },
   {
     path: 'cart',
-    component: CartComponent,
-    canActivate: [authGuard]
+    component: CartComponent
   },
   {
     path: 'checkout',
+    component: EnhancedCheckoutComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'guest-checkout',
+    component: GuestCheckoutComponent
+  },
+  {
+    path: 'guest-order-success',
+    component: GuestOrderSuccessComponent
+  },
+  {
+    path: 'guest-order-tracking',
+    component: GuestOrderTrackingComponent
+  },
+  {
+    path: 'checkout/simple',
     component: StripeCheckoutSimpleComponent,
     canActivate: [authGuard]
   },

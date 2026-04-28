@@ -21,13 +21,22 @@ export interface CreateOrderItem {
 export interface GetOrder extends OrderBase {
   id: string;
   userId: string;
+  orderNumber: string;
+  orderDate: string;
   createdAt: string;
   updatedAt?: string;
   status: OrderStatus;
+  orderStatus: string;
+  paymentStatus: string;
+  totalAmount: number;
   stripePaymentIntentId?: string;
   stripeSessionId?: string;
   orderItems: GetOrderItem[];
   statusHistory: GetOrderStatusHistory[];
+  // Guest order properties
+  guestEmail?: string;
+  isGuestOrder?: boolean;
+  guestOrderToken?: string;
 }
 
 export interface GetOrderItem {
@@ -35,10 +44,12 @@ export interface GetOrderItem {
   productId: string;
   quantity: number;
   unitPrice: number;
+  price: number;
   totalPrice: number;
   productName: string;
   productDescription: string;
   productImage: string;
+  imageUrl: string;
 }
 
 export interface GetOrderStatusHistory {
