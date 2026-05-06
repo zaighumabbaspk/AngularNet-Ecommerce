@@ -15,7 +15,7 @@ import { GetOrder } from '../Models/order.model';
   providedIn: 'root'
 })
 export class GuestCheckoutService {
-  private baseUrl = `${environment.apiUrl}/api`;
+  private baseUrl = `${environment.apiBaseUrl}`;
 
   constructor(private http: HttpClient) {}
 

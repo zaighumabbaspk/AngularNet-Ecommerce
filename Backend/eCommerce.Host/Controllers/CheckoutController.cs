@@ -324,7 +324,7 @@ namespace eCommerce.Host.Controllers
         }
 
         // Guest Checkout Endpoints
-        [HttpPost("guest/create-payment-intent")]
+        [HttpPost("guest-payment-intent")]
         [AllowAnonymous]
         public async Task<IActionResult> CreateGuestPaymentIntent([FromBody] GuestCheckoutRequest request)
         {
@@ -352,7 +352,7 @@ namespace eCommerce.Host.Controllers
             }
         }
 
-        [HttpPost("guest/confirm-payment")]
+        [HttpPost("confirm-guest-payment")]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmGuestPayment([FromBody] ConfirmGuestPaymentRequest request)
         {

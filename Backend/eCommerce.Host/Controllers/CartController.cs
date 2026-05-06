@@ -77,7 +77,6 @@ namespace eCommerce.Host.Controllers
             return Ok(result);
         }
 
-        // DELETE: api/cart
         [HttpDelete]
         public async Task<IActionResult> ClearCart()
         {

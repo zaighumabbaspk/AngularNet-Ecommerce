@@ -37,8 +37,8 @@ public class Mappingconfig : Profile
             .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
 
         CreateMap<AppUser, LoginResponse>()
-            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
-            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id));
+            .ForMember(dest => dest.email, opt => opt.MapFrom(src => src.Email))
+            .ForMember(dest => dest.userId, opt => opt.MapFrom(src => src.Id));
 
         // ===== CART MAPPINGS =====
         CreateMap<Cart, GetCart>()

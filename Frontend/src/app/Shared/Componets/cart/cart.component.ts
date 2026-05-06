@@ -28,7 +28,6 @@ export class CartComponent extends CartBase {
       return;
     }
 
-    // Show checkout options modal or redirect based on authentication
     if (this.authService.isAuthenticated()) {
       // Authenticated user - go to regular checkout
       this.router.navigate(['/checkout']).then(success => {
@@ -36,14 +35,13 @@ export class CartComponent extends CartBase {
         console.error(' Navigation failed:', error);
       });
     } else {
-      // Guest user - show checkout options
+
       this.showCheckoutOptions();
     }
   }
 
   showCheckoutOptions(): void {
-    // For now, redirect to guest checkout directly
-    // In future, you could show a modal with options: "Login" or "Continue as Guest"
+
     this.router.navigate(['/guest-checkout']);
   }
 }

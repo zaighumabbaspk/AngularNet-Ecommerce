@@ -84,16 +84,6 @@ export class CartDrawerComponent extends CartBase {
   override checkout(): void {
     console.log('🔍 Cart drawer checkout clicked');
     
-    // Check if user is authenticated
-    if (!this.authService.isAuthenticated()) {
-      console.log('🔍 User not authenticated, redirecting to login');
-      this.closeDrawer();
-      this.router.navigate(['/login'], { 
-        queryParams: { returnUrl: '/checkout' } 
-      });
-      return;
-    }
-
     // Check if cart has items
     if (!this.cart || this.cart.cartItems.length === 0) {
       console.log('❌ Cart is empty');
@@ -101,19 +91,34 @@ export class CartDrawerComponent extends CartBase {
       return;
     }
 
-    console.log('✅ Navigating to checkout from drawer');
     this.closeDrawer();
-    
-    // Navigate to checkout page
-    this.router.navigate(['/checkout']).then(success => {
-      console.log('🔍 Navigation result:', success);
-      if (success) {
-        this.notification.success('Redirecting to checkout...', 'Success');
-      }
-    }).catch(error => {
-      console.error('❌ Navigation failed:', error);
-      this.notification.error('Failed to navigate to checkout', 'Navigation Error');
-    });
+
+    // Check if user is authenticated
+    if (this.authService.isAuthenticated()) {
+      console.log('✅ Authenticated user - navigating to regular checkout');
+      // Navigate to regular checkout page
+      this.router.navigate(['/checkout']).then(success => {
+        console.log('🔍 Navigation result:', success);
+        if (success) {
+          this.notification.success('Redirecting to checkout...', 'Success');
+        }
+      }).catch(error => {
+        console.error('❌ Navigation failed:', error);
+        this.notification.error('Failed to navigate to checkout', 'Navigation Error');
+      });
+    } else {
+      console.log('✅ Guest user - navigating to guest checkout');
+      // Navigate to guest checkout page
+      this.router.navigate(['/guest-checkout']).then(success => {
+        console.log('🔍 Guest checkout navigation result:', success);
+        if (success) {
+          this.notification.success('Redirecting to guest checkout...', 'Success');
+        }
+      }).catch(error => {
+        console.error('❌ Guest checkout navigation failed:', error);
+        this.notification.error('Failed to navigate to checkout', 'Navigation Error');
+      });
+    }
   }
 
   override continueShopping(): void {

@@ -91,11 +91,32 @@ export class AuthService {
 
     const user = this.getUserFromToken(token);
     
-    this.authState.next({
-      isAuthenticated: true,
-      user,
-      token,
-      refreshToken
+    // Add small delay to ensure token is available in interceptor
+    setTimeout(() => {
+      this.authState.next({
+        isAuthenticated: true,
+        user,
+        token,
+        refreshToken
+      });
+    }, 100);
+
+    // Transfer guest cart to authenticated user
+    this.transferGuestCart();
+  }
+
+  // Transfer guest cart (will be called by CartService)
+  private transferGuestCart(): void {
+    // Import CartService dynamically to avoid circular dependency
+    import('./cart.service').then(({ CartService }) => {
+      // Get CartService instance from injector
+      // This is a workaround for circular dependency
+      setTimeout(() => {
+        const cartService = (window as any).cartServiceInstance;
+        if (cartService && cartService.transferGuestCartToUser) {
+          cartService.transferGuestCartToUser();
+        }
+      }, 100);
     });
   }
 

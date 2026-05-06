@@ -8,13 +8,20 @@ export interface GuestCheckoutRequest {
   cartItems: CartItemDto[];
   paymentMethodId: string;
   createAccountAfterPurchase?: boolean;
+  shippingMethod?: string;
+  specialInstructions?: string;
+  isGift?: boolean;
+  giftMessage?: string;
+  newsletterSubscription?: boolean;
+  smsUpdates?: boolean;
 }
 
 export interface AddressDto {
-  street: string;
+  addressLine1: string;
+  addressLine2?: string;
   city: string;
-  province: string;
-  postalCode: string;
+  state: string;
+  zipCode: string;
   country: string;
 }
 
@@ -22,8 +29,9 @@ export interface CartItemDto {
   productId: string;
   productName: string;
   quantity: number;
-  price: number;
-  imageUrl?: string;
+  productPrice: number;
+  productImage?: string;
+  subtotal?: number;
 }
 
 export interface GuestOrderTrackingRequest {
@@ -34,12 +42,14 @@ export interface GuestOrderTrackingRequest {
 export interface GuestPaymentIntentResponse {
   clientSecret: string;
   paymentIntentId: string;
-  orderToken: string;
+  guestOrderToken: string;
+  amount: number;
+  currency: string;
 }
 
 export interface ConfirmGuestPaymentRequest {
   paymentIntentId: string;
-  orderToken: string;
+  guestOrderToken: string;
   guestEmail: string;
 }
 

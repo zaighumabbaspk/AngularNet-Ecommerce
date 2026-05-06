@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AuthService } from '../../../Core/Services/auth.service';
 import { CartService } from '../../../Core/Services/cart.service';
 import { WishlistService } from '../../../Core/Services/wishlist.service';
@@ -45,7 +45,15 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.wishlist$ = this.wishlistService.getWishlistWithUpdates();
+    // Only load wishlist when user is authenticated
+    this.authService.authState$.subscribe(authState => {
+      if (authState.isAuthenticated) {
+        this.wishlist$ = this.wishlistService.getWishlistWithUpdates();
+      } else {
+        // Return empty observable for unauthenticated users
+        this.wishlist$ = of({ success: true, data: { items: [] } });
+      }
+    });
   }
 
 
@@ -112,18 +120,12 @@ export class HeaderComponent implements OnInit {
   }
 
   openCartDrawer(): void {
-    if (!this.authService.isAuthenticated()) {
-      this.notification.loginRequired('Please login to view your cart');
-      return;
-    }
+    // Allow both authenticated and guest users to view cart
     this.cartDrawerService.openDrawer();
   }
 
   goToCart(): void {
-    if (!this.authService.isAuthenticated()) {
-      this.notification.loginRequired('Please login to view your cart');
-      return;
-    }
+    // Allow both authenticated and guest users to view cart
     this.router.navigate(['/cart']);
   }
 }

@@ -53,21 +53,19 @@
             </ng-container>
           </div>
 
-           <div class="mobile-cart-icon">
-                <button class="mobile-cart-btn" (click)="openCartDrawer(); closeMobileMenu()" title="View Cart">
-                  <i class="fa-solid fa-cart-plus"></i>
-                  <span class="mobile-cart-badge" *ngIf="(cartService.cart$ | async) as cart">
-                    {{ cart?.totalItems || 0 }}
-                  </span>
-                 </button>
-            </div>
+          <!-- Mobile Cart Icon - Always visible for guest checkout -->
+          <div class="mobile-cart-icon">
+            <button class="mobile-cart-btn" (click)="openCartDrawer(); closeMobileMenu()" title="View Cart">
+              <i class="fa-solid fa-cart-plus"></i>
+              <span class="mobile-cart-badge" *ngIf="(cartService.cart$ | async) as cart">
+                {{ cart?.totalItems || 0 }}
+              </span>
+            </button>
+          </div>
 
-          <!-- Mobile Icons -->
+          <!-- Mobile Icons for authenticated users -->
           <div class="mobile-icons" *ngIf="(authService.authState$ | async) as authState">
             <ng-container *ngIf="authState.isAuthenticated">
-              <!-- Cart Icon -->
-             
-
               <!-- Wishlist Icon -->
               <div class="mobile-wishlist-icon">
                 <button class="mobile-wishlist-btn" routerLink="/wishlist" (click)="closeMobileMenu()" title="My Wishlist">
@@ -139,16 +137,14 @@
         </div>
 
         <!-- Icons -->
-        <!-- Cart Icon -->
-        <div class="cart-icon-wrapper" *ngIf="(authService.authState$ | async) as authState">
-          <ng-container *ngIf="authState.isAuthenticated">
-            <button class=" cart-btn" (click)="openCartDrawer()" title="View Cart">
-              <i class="fa-solid fa-cart-plus"></i>
-              <span class="cart-badge" *ngIf="(cartService.cart$ | async) as cart">
-                {{ cart?.totalItems || 0 }}
-              </span>
-            </button>
-          </ng-container>
+        <!-- Cart Icon - Always visible for guest checkout -->
+        <div class="cart-icon-wrapper">
+          <button class="cart-btn" (click)="openCartDrawer()" title="View Cart">
+            <i class="fa-solid fa-cart-plus"></i>
+            <span class="cart-badge" *ngIf="(cartService.cart$ | async) as cart">
+              {{ cart?.totalItems || 0 }}
+            </span>
+          </button>
         </div>
 
         <!-- Wishlist Icon -->

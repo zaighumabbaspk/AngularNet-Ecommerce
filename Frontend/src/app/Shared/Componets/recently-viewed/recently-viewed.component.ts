@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { RecentlyViewedService } from '../../../Core/Services/recently-viewed.service';
 import { RecentlyViewedItem } from '../../../Core/Models/recently-viewed.models';
+import { AuthService } from '../../../Core/Services/auth.service';
 
 @Component({
   selector: 'app-recently-viewed',
@@ -20,11 +21,19 @@ export class RecentlyViewedComponent implements OnInit {
 
   constructor(
     private recentlyViewedService: RecentlyViewedService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
-    this.loadRecentlyViewed();
+    // Only load recently viewed when user is authenticated
+    this.authService.authState$.subscribe(authState => {
+      if (authState.isAuthenticated) {
+        this.loadRecentlyViewed();
+      } else {
+        this.recentlyViewedItems = [];
+      }
+    });
   }
 
   loadRecentlyViewed() {

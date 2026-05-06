@@ -3,36 +3,36 @@
     public class LoginResponse
     {
         public bool success { get; set; }
-        public string Message { get; set; } = string.Empty;
-        public string? Token { get; set; }
-        public string? RefreshToken { get; set; }
-        public string? Email { get; set; }
-        public string? UserId { get; set; }
+        public string message { get; set; } = string.Empty;
+        public string? token { get; set; }
+        public string? refreshToken { get; set; }
+        public string? email { get; set; }
+        public string? userId { get; set; }
 
         // Default constructor
         public LoginResponse() { }
 
         // Constructor for error messages
-        public LoginResponse(string Message)
+        public LoginResponse(string message)
         {
             this.success = false;
-            this.Message = Message;
+            this.message = message;
         }
 
         // Constructor for success/failure with message
-        public LoginResponse(bool success, string Message)
+        public LoginResponse(bool success, string message)
         {
             this.success = success;
-            this.Message = Message;
+            this.message = message;
         }
 
         // Full constructor with tokens
-        public LoginResponse(bool success, string Message, string Token, string RefreshToken)
+        public LoginResponse(bool success, string message, string token, string refreshToken)
         {
             this.success = success;
-            this.Message = Message;
-            this.Token = Token;
-            this.RefreshToken = RefreshToken;
+            this.message = message;
+            this.token = token;
+            this.refreshToken = refreshToken;
         }
     }
 }

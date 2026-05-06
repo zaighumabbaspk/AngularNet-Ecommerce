@@ -11,24 +11,33 @@ export abstract class CartBase implements OnInit {
   constructor(protected cartService: CartService) {}
 
   ngOnInit(): void {
+    // Subscribe to cart changes
     this.cartService.cart$.subscribe(cart => {
       this.cart = cart;
+      this.isLoading = false;
     });
 
-    this.loadCart();
   }
 
   public loadCart(): void {
     this.isLoading = true;
+    
+    const currentCart = this.cartService.getCurrentCart();
+    if (currentCart) {
+      this.cart = currentCart;
+      this.isLoading = false;
+      return;
+    }
+
     this.cartService.reloadCart().subscribe({
       next: (cart) => {
         this.cart = cart;
         this.isLoading = false;
       },
       error: (error) => {
-        this.errorMessage = 'Failed to load cart';
+        this.cart = this.cartService.getCurrentCart();
         this.isLoading = false;
-        console.error('Error loading cart:', error);
+        console.log('Using local cart for guest user');
       }
     });
   }

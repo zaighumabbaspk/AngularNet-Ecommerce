@@ -98,11 +98,51 @@ namespace eCommerce.Application.Services.implementation
         {
             try
             {
+                Console.WriteLine($"🔍 Creating guest payment intent for: {request.GuestEmail}");
+                Console.WriteLine($"🔍 Cart items count: {request.CartItems?.Count ?? 0}");
+                
+                // Validate cart items
+                if (request.CartItems == null || !request.CartItems.Any())
+                {
+                    return new ServiceResponse<GuestPaymentIntentResponse>(false, "Cart is empty");
+                }
+
                 var guestToken = Guid.NewGuid().ToString("N")[..10].ToUpper();
                 var totalAmount = request.TotalAmount;
                 var tax = totalAmount * 0.17m; // 17% GST
                 var shipping = request.ShippingMethod == "express" ? 500 : 250; // PKR
                 var finalAmount = totalAmount + tax + shipping;
+
+                Console.WriteLine($"🔍 Order totals - Subtotal: {totalAmount}, Tax: {tax}, Shipping: {shipping}, Final: {finalAmount}");
+
+                // Store complete checkout data in metadata (Stripe has 500 char limit per key, so we'll use JSON)
+                var cartItemsJson = System.Text.Json.JsonSerializer.Serialize(request.CartItems.Select(item => new {
+                    ProductId = item.ProductId,
+                    ProductName = item.ProductName,
+                    ProductImage = item.ProductImage,
+                    ProductPrice = item.ProductPrice,
+                    Quantity = item.Quantity,
+                    Subtotal = item.Subtotal
+                }));
+
+                var shippingAddressJson = System.Text.Json.JsonSerializer.Serialize(new {
+                    AddressLine1 = request.ShippingAddress.AddressLine1,
+                    AddressLine2 = request.ShippingAddress.AddressLine2,
+                    City = request.ShippingAddress.City,
+                    State = request.ShippingAddress.State,
+                    ZipCode = request.ShippingAddress.ZipCode,
+                    Country = request.ShippingAddress.Country
+                });
+
+                var billingAddressJson = request.BillingAddress != null ? 
+                    System.Text.Json.JsonSerializer.Serialize(new {
+                        AddressLine1 = request.BillingAddress.AddressLine1,
+                        AddressLine2 = request.BillingAddress.AddressLine2,
+                        City = request.BillingAddress.City,
+                        State = request.BillingAddress.State,
+                        ZipCode = request.BillingAddress.ZipCode,
+                        Country = request.BillingAddress.Country
+                    }) : shippingAddressJson;
 
                 var options = new PaymentIntentCreateOptions
                 {
@@ -114,8 +154,23 @@ namespace eCommerce.Application.Services.implementation
                         { "guest_email", request.GuestEmail },
                         { "guest_token", guestToken },
                         { "is_guest_order", "true" },
-                        { "customer_name", request.FullName },
-                        { "phone", request.Phone }
+                        { "first_name", request.FirstName },
+                        { "last_name", request.LastName },
+                        { "phone", request.Phone },
+                        { "shipping_method", request.ShippingMethod },
+                        { "special_instructions", request.SpecialInstructions ?? "" },
+                        { "is_gift", request.IsGift.ToString() },
+                        { "gift_message", request.GiftMessage ?? "" },
+                        { "newsletter_subscription", request.NewsletterSubscription.ToString() },
+                        { "sms_updates", request.SmsUpdates.ToString() },
+                        { "create_account", request.CreateAccountAfterPurchase.ToString() },
+                        { "subtotal", totalAmount.ToString("F2") },
+                        { "tax", tax.ToString("F2") },
+                        { "shipping", shipping.ToString("F2") },
+                        { "total", finalAmount.ToString("F2") },
+                        { "cart_items", cartItemsJson },
+                        { "shipping_address", shippingAddressJson },
+                        { "billing_address", billingAddressJson }
                     }
                 };
 
@@ -131,10 +186,12 @@ namespace eCommerce.Application.Services.implementation
                     GuestOrderToken = guestToken
                 };
 
+                Console.WriteLine($"✅ Guest payment intent created: {paymentIntent.Id}");
                 return new ServiceResponse<GuestPaymentIntentResponse>(true, "Payment intent created successfully", response);
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"❌ Error creating guest payment intent: {ex.Message}");
                 return new ServiceResponse<GuestPaymentIntentResponse>(false, $"Error creating payment intent: {ex.Message}");
             }
         }
@@ -143,8 +200,13 @@ namespace eCommerce.Application.Services.implementation
         {
             try
             {
+                Console.WriteLine($"🔍 Confirming guest payment for: {request.GuestEmail}");
+                Console.WriteLine($"🔍 Payment Intent ID: {request.PaymentIntentId}");
+                
                 var service = new PaymentIntentService();
                 var paymentIntent = await service.GetAsync(request.PaymentIntentId);
+
+                Console.WriteLine($"🔍 Payment intent status: {paymentIntent.Status}");
 
                 if (paymentIntent.Status != "succeeded")
                 {
@@ -152,39 +214,114 @@ namespace eCommerce.Application.Services.implementation
                 }
 
                 // Extract guest info from payment intent metadata
-                var guestEmail = paymentIntent.Metadata["guest_email"];
-                var guestToken = paymentIntent.Metadata["guest_token"];
+                var metadata = paymentIntent.Metadata;
+                var guestEmail = metadata["guest_email"];
+                var guestToken = metadata["guest_token"];
 
                 if (guestEmail != request.GuestEmail || guestToken != request.GuestOrderToken)
                 {
                     return new ServiceResponse<CreateOrderResponse>(false, "Invalid payment verification");
                 }
 
-                // Create guest checkout request from payment intent
+                Console.WriteLine($"🔍 Payment verification successful");
+
+                // Deserialize cart items and addresses from metadata
+                var cartItemsJson = metadata.GetValueOrDefault("cart_items", "[]");
+                var shippingAddressJson = metadata.GetValueOrDefault("shipping_address", "{}");
+                var billingAddressJson = metadata.GetValueOrDefault("billing_address", "{}");
+
+                Console.WriteLine($"🔍 Cart items JSON length: {cartItemsJson.Length}");
+                Console.WriteLine($"🔍 Shipping address JSON length: {shippingAddressJson.Length}");
+
+                // Parse cart items
+                var cartItemsData = System.Text.Json.JsonSerializer.Deserialize<List<dynamic>>(cartItemsJson);
+                var cartItems = new List<CartItemDto>();
+                
+                if (cartItemsData != null)
+                {
+                    foreach (var item in cartItemsData)
+                    {
+                        var itemElement = (System.Text.Json.JsonElement)item;
+                        cartItems.Add(new CartItemDto
+                        {
+                            ProductId = Guid.Parse(itemElement.GetProperty("ProductId").GetString()!),
+                            ProductName = itemElement.GetProperty("ProductName").GetString()!,
+                            ProductImage = itemElement.GetProperty("ProductImage").GetString()!,
+                            ProductPrice = itemElement.GetProperty("ProductPrice").GetDecimal(),
+                            Quantity = itemElement.GetProperty("Quantity").GetInt32()
+                        });
+                    }
+                }
+
+                Console.WriteLine($"🔍 Parsed {cartItems.Count} cart items");
+
+                if (!cartItems.Any())
+                {
+                    return new ServiceResponse<CreateOrderResponse>(false, "No cart items found in payment data");
+                }
+
+                // Parse shipping address
+                var shippingAddressData = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonElement>(shippingAddressJson);
+                var shippingAddress = new AddressDto
+                {
+                    AddressLine1 = shippingAddressData.GetProperty("AddressLine1").GetString()!,
+                    AddressLine2 = shippingAddressData.GetProperty("AddressLine2").GetString()!,
+                    City = shippingAddressData.GetProperty("City").GetString()!,
+                    State = shippingAddressData.GetProperty("State").GetString()!,
+                    ZipCode = shippingAddressData.GetProperty("ZipCode").GetString()!,
+                    Country = shippingAddressData.GetProperty("Country").GetString()!
+                };
+
+                // Parse billing address
+                var billingAddressData = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonElement>(billingAddressJson);
+                var billingAddress = new AddressDto
+                {
+                    AddressLine1 = billingAddressData.GetProperty("AddressLine1").GetString()!,
+                    AddressLine2 = billingAddressData.GetProperty("AddressLine2").GetString()!,
+                    City = billingAddressData.GetProperty("City").GetString()!,
+                    State = billingAddressData.GetProperty("State").GetString()!,
+                    ZipCode = billingAddressData.GetProperty("ZipCode").GetString()!,
+                    Country = billingAddressData.GetProperty("Country").GetString()!
+                };
+
+                // Create guest checkout request from payment intent metadata
                 var guestCheckoutRequest = new GuestCheckoutRequest
                 {
                     GuestEmail = guestEmail,
-                    FirstName = paymentIntent.Metadata.GetValueOrDefault("customer_name", "").Split(' ').FirstOrDefault() ?? "",
-                    LastName = paymentIntent.Metadata.GetValueOrDefault("customer_name", "").Split(' ').Skip(1).FirstOrDefault() ?? "",
-                    Phone = paymentIntent.Metadata.GetValueOrDefault("phone", ""),
+                    FirstName = metadata.GetValueOrDefault("first_name", ""),
+                    LastName = metadata.GetValueOrDefault("last_name", ""),
+                    Phone = metadata.GetValueOrDefault("phone", ""),
                     PaymentMethodId = paymentIntent.Id,
-                    CartItems = new List<CartItemDto>(), // This should be stored somewhere or passed differently
-                    ShippingAddress = new AddressDto(), // This should be stored somewhere or passed differently
-                    CreateAccountAfterPurchase = false
+                    CartItems = cartItems,
+                    ShippingAddress = shippingAddress,
+                    BillingAddress = billingAddress,
+                    ShippingMethod = metadata.GetValueOrDefault("shipping_method", "standard"),
+                    SpecialInstructions = metadata.GetValueOrDefault("special_instructions", ""),
+                    IsGift = bool.Parse(metadata.GetValueOrDefault("is_gift", "false")),
+                    GiftMessage = metadata.GetValueOrDefault("gift_message", ""),
+                    NewsletterSubscription = bool.Parse(metadata.GetValueOrDefault("newsletter_subscription", "false")),
+                    SmsUpdates = bool.Parse(metadata.GetValueOrDefault("sms_updates", "false")),
+                    CreateAccountAfterPurchase = bool.Parse(metadata.GetValueOrDefault("create_account", "false"))
                 };
+
+                Console.WriteLine($"🔍 Guest checkout request created with {guestCheckoutRequest.CartItems.Count} items");
 
                 // Create the order using OrderService
                 var orderResult = await _orderService.CreateGuestOrderAsync(guestCheckoutRequest);
 
                 if (!orderResult.Success)
                 {
+                    Console.WriteLine($"❌ Order creation failed: {orderResult.Message}");
                     return new ServiceResponse<CreateOrderResponse>(false, orderResult.Message);
                 }
 
+                Console.WriteLine($"✅ Guest order created successfully: {orderResult.Data?.OrderId}");
                 return new ServiceResponse<CreateOrderResponse>(true, "Guest order confirmed successfully", orderResult.Data);
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"❌ Error confirming guest payment: {ex.Message}");
+                Console.WriteLine($"❌ Stack trace: {ex.StackTrace}");
                 return new ServiceResponse<CreateOrderResponse>(false, $"Error confirming guest payment: {ex.Message}");
             }
         }

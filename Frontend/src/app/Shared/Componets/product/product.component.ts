@@ -75,10 +75,14 @@ export class ProductComponent implements OnInit {
     this.loadProducts();
     this.loadCategories();
     
-    // Load wishlist if user is authenticated
-    if (this.authService.isAuthenticated()) {
-      this.loadWishlistItems();
-    }
+    // Only load wishlist when user is authenticated
+    this.authService.authState$.subscribe(authState => {
+      if (authState.isAuthenticated) {
+        this.loadWishlistItems();
+      } else {
+        this.wishlistItems.clear();
+      }
+    });
   }
 
   loadProducts(): void {
@@ -86,7 +90,6 @@ export class ProductComponent implements OnInit {
     this.productService.getAllProducts().subscribe({
       next: (res) => {
         this.products = res;
-        console.log('Products loaded:', this.products);
         this.setPriceLimits();
         this.applyFilters();
         this.isLoading = false;
@@ -277,8 +280,6 @@ export class ProductComponent implements OnInit {
       next: (res) => {
         console.log('Add to cart response:', res);
         this.notification.cartSuccess(`${product.name} added to cart!`, 'Success');
-        // Reload cart to update badge
-        this.CartService.loadCart();
       },
       error: (err) => {
         this.notification.error('Failed to add item to cart', 'Error');

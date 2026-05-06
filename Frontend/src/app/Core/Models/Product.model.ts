@@ -1,3 +1,5 @@
+import { model } from "@angular/core";
+
 export interface Product {
   id: string;
   name: string;

@@ -53,7 +53,10 @@ export class LoginComponent {
       next: (response) => {
         if (response.success) {
           this.notification.authSuccess('Welcome back! Logging you in...', 'Login Successful');
-          this.router.navigate([this.returnUrl]);
+          // Add small delay to ensure auth state is fully propagated before navigation
+          setTimeout(() => {
+            this.router.navigate([this.returnUrl]);
+          }, 150);
         } else {
           this.notification.authError(response.message || 'Login failed');
           this.errorMessage = response.message || 'Login failed';

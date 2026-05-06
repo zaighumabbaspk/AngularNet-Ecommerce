@@ -5,6 +5,7 @@ import { FooterComponent } from './Shared/Componets/footer/footer.component';
 import { CartDrawerComponent } from './Shared/Componets/cart-drawer/cart-drawer.component';
 import { NotificationContainerComponent } from './Shared/Componets/notification-container/notification-container.component';
 import { environment } from './environment/environment';
+import { CartService } from './Core/Services/cart.service';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,10 @@ import { environment } from './environment/environment';
 })
 export class AppComponent implements AfterViewInit {
   title = 'e-commerce-angular';
+
+  constructor(private cartService: CartService) {
+    // CartService will initialize automatically through constructor
+  }
 
   ngAfterViewInit(): void {
 

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, firstValueFrom } from 'rxjs';
 
 import { GuestCheckoutService } from '../../../Core/Services/guest-checkout.service';
 import { CartService } from '../../../Core/Services/cart.service';
@@ -60,6 +60,15 @@ export class GuestCheckoutComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadCart();
     this.initializeStripe();
+    
+    // Ensure cart is loaded after a short delay
+    setTimeout(() => {
+      if (!this.cart || this.cart.cartItems.length === 0) {
+        console.log('🔍 Cart not loaded, trying to reload...');
+        this.cart = this.cartService.getCurrentCart();
+        console.log('🔍 Reloaded cart:', this.cart);
+      }
+    }, 100);
   }
 
   ngOnDestroy(): void {
@@ -92,12 +101,19 @@ export class GuestCheckoutComponent implements OnInit, OnDestroy {
     });
   }
 
-  private loadCart(): void {
-    const cartSub = this.cartService.getCart().subscribe({
+  public loadCart(): void {
+    // Get current cart state immediately for guest users
+    this.cart = this.cartService.getCurrentCart();
+    console.log('🔍 Initial cart loaded:', this.cart);
+    
+    // Subscribe to cart changes
+    const cartSub = this.cartService.cart$.subscribe({
       next: (cart) => {
         this.cart = cart;
+        console.log('🔍 Cart updated:', this.cart);
       },
       error: (error) => {
+        console.error('❌ Cart subscription error:', error);
         this.notificationService.error('Failed to load cart');
       }
     });
@@ -106,8 +122,12 @@ export class GuestCheckoutComponent implements OnInit, OnDestroy {
 
   private async initializeStripe(): Promise<void> {
     try {
-      this.stripe = await this.stripeService.getStripe();
+      console.log('🔍 Initializing Stripe for guest checkout...');
+      await this.stripeService.initializeStripe();
+      this.stripe = this.stripeService.getStripe();
+      console.log('✅ Stripe initialized successfully:', !!this.stripe);
     } catch (error) {
+      console.error('❌ Failed to initialize Stripe:', error);
       this.notificationService.error('Failed to initialize payment system');
     }
   }
@@ -157,31 +177,109 @@ export class GuestCheckoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  private setupStripeCardElement(): void {
+  public setupStripeCardElement(): void {
+    console.log('🔍 Setting up Stripe card element...');
+    
+    // Wait a bit for DOM to be ready
     setTimeout(() => {
       const cardContainer = document.getElementById('guest-card-element');
+      console.log('🔍 Card container found:', !!cardContainer);
+      console.log('🔍 Stripe instance:', !!this.stripe);
+      
       if (cardContainer && this.stripe) {
-        const elements = this.stripe.elements();
-        this.cardElement = elements.create('card', {
-          style: {
-            base: {
-              fontSize: '16px',
-              color: '#424770',
-              '::placeholder': { color: '#aab7c4' }
+        try {
+          // Clear any existing content
+          cardContainer.innerHTML = '';
+          
+          const elements = this.stripe.elements();
+          this.cardElement = elements.create('card', {
+            style: {
+              base: {
+                fontSize: '16px',
+                color: '#424770',
+                fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                '::placeholder': { color: '#aab7c4' },
+                padding: '12px'
+              },
+              invalid: {
+                color: '#e74c3c'
+              }
+            },
+            hidePostalCode: true
+          });
+          
+          this.cardElement.mount('#guest-card-element');
+          
+          // Add event listeners
+          this.cardElement.on('ready', () => {
+            console.log('✅ Stripe card element ready');
+          });
+          
+          this.cardElement.on('change', (event: any) => {
+            if (event.error) {
+              console.error('❌ Card element error:', event.error);
+            } else if (event.complete) {
+              console.log('✅ Card element complete');
             }
-          }
-        });
-        this.cardElement.mount('#guest-card-element');
+          });
+          
+          console.log('✅ Card element mounted successfully');
+        } catch (error) {
+          console.error('❌ Error setting up card element:', error);
+          this.notificationService.error('Failed to setup payment form');
+        }
+      } else {
+        console.error('❌ Missing card container or Stripe instance');
+        if (!cardContainer) {
+          console.error('Card container not found');
+        }
+        if (!this.stripe) {
+          console.error('Stripe not initialized');
+        }
       }
-    }, 100);
+    }, 200);
+  }
+
+  private debugCart(): void {
+    console.log('🔍 Debug Cart Info:');
+    console.log('- this.cart:', this.cart);
+    console.log('- cartService.getCurrentCart():', this.cartService.getCurrentCart());
+    console.log('- localStorage guest_cart:', localStorage.getItem('guest_cart'));
   }
 
   async processGuestCheckout(): Promise<void> {
-    if (!this.cart || !this.cardElement) return;
+    this.debugCart(); // Debug cart state
+    
+    console.log('🔍 Starting guest checkout process...');
+    
+    // Validation checks
+    if (!this.cart || this.cart.cartItems.length === 0) {
+      console.error('❌ Cart validation failed:', {
+        cart: this.cart,
+        hasCart: !!this.cart,
+        itemCount: this.cart?.cartItems?.length || 0
+      });
+      this.notificationService.error('Your cart is empty');
+      return;
+    }
+    
+    if (!this.cardElement) {
+      console.error('❌ Card element not available');
+      this.notificationService.error('Payment form not ready. Please refresh and try again.');
+      return;
+    }
+    
+    if (!this.stripe) {
+      console.error('❌ Stripe not initialized');
+      this.notificationService.error('Payment system not ready. Please refresh and try again.');
+      return;
+    }
 
     this.isProcessing = true;
 
     try {
+      console.log('🔍 Preparing checkout request...');
+      
       // Prepare checkout request
       const checkoutRequest: GuestCheckoutRequest = {
         guestEmail: this.checkoutForm.get('guestEmail')?.value,
@@ -192,17 +290,29 @@ export class GuestCheckoutComponent implements OnInit, OnDestroy {
         billingAddress: this.getBillingAddress(),
         cartItems: this.getCartItems(),
         paymentMethodId: '', // Will be set after Stripe confirmation
-        createAccountAfterPurchase: this.checkoutForm.get('createAccountAfterPurchase')?.value
+        createAccountAfterPurchase: this.checkoutForm.get('createAccountAfterPurchase')?.value || false,
+        shippingMethod: 'standard',
+        specialInstructions: '',
+        isGift: false,
+        giftMessage: '',
+        newsletterSubscription: false,
+        smsUpdates: false
       };
 
+      console.log('🔍 Checkout request prepared:', checkoutRequest);
+
       // Create payment intent
-      const paymentIntentResponse = await this.guestCheckoutService.createGuestPaymentIntent(checkoutRequest).toPromise();
+      console.log('🔍 Creating payment intent...');
+      const paymentIntentResponse = await firstValueFrom(this.guestCheckoutService.createGuestPaymentIntent(checkoutRequest));
+      
+      console.log('🔍 Payment intent response:', paymentIntentResponse);
       
       if (!paymentIntentResponse?.flag) {
         throw new Error(paymentIntentResponse?.message || 'Failed to create payment intent');
       }
 
       // Confirm payment with Stripe
+      console.log('🔍 Confirming payment with Stripe...');
       const { error, paymentIntent } = await this.stripe.confirmCardPayment(
         paymentIntentResponse.data.clientSecret,
         {
@@ -218,20 +328,31 @@ export class GuestCheckoutComponent implements OnInit, OnDestroy {
       );
 
       if (error) {
+        console.error('❌ Stripe payment error:', error);
         throw new Error(error.message);
       }
 
+      console.log('✅ Payment confirmed with Stripe:', paymentIntent);
+
       // Confirm payment on backend
+      console.log('🔍 Confirming payment on backend...');
       const confirmRequest = {
         paymentIntentId: paymentIntent.id,
-        orderToken: paymentIntentResponse.data.orderToken,
+        guestOrderToken: paymentIntentResponse.data.guestOrderToken,
         guestEmail: checkoutRequest.guestEmail
       };
 
-      const orderResponse = await this.guestCheckoutService.confirmGuestPayment(confirmRequest).toPromise();
+      const orderResponse = await firstValueFrom(this.guestCheckoutService.confirmGuestPayment(confirmRequest));
+      
+      console.log('🔍 Order confirmation response:', orderResponse);
       
       if (orderResponse?.flag) {
+        console.log('✅ Order placed successfully!');
         this.notificationService.success('Order placed successfully!');
+        
+        // Clear guest cart after successful order
+        localStorage.removeItem('guest_cart');
+        
         this.router.navigate(['/guest-order-success'], { 
           queryParams: { 
             orderNumber: orderResponse.data.orderNumber,
@@ -243,7 +364,8 @@ export class GuestCheckoutComponent implements OnInit, OnDestroy {
       }
 
     } catch (error: any) {
-      this.notificationService.error(error.message || 'Payment failed');
+      console.error('❌ Guest checkout error:', error);
+      this.notificationService.error(error.message || 'Payment failed. Please try again.');
     } finally {
       this.isProcessing = false;
     }
@@ -251,10 +373,11 @@ export class GuestCheckoutComponent implements OnInit, OnDestroy {
 
   private getShippingAddress(): AddressDto {
     return {
-      street: this.checkoutForm.get('shippingStreet')?.value,
+      addressLine1: this.checkoutForm.get('shippingStreet')?.value,
+      addressLine2: '',
       city: this.checkoutForm.get('shippingCity')?.value,
-      province: this.checkoutForm.get('shippingProvince')?.value,
-      postalCode: this.checkoutForm.get('shippingPostalCode')?.value,
+      state: this.checkoutForm.get('shippingProvince')?.value,
+      zipCode: this.checkoutForm.get('shippingPostalCode')?.value,
       country: this.checkoutForm.get('shippingCountry')?.value
     };
   }
@@ -265,10 +388,11 @@ export class GuestCheckoutComponent implements OnInit, OnDestroy {
     }
     
     return {
-      street: this.checkoutForm.get('billingStreet')?.value,
+      addressLine1: this.checkoutForm.get('billingStreet')?.value,
+      addressLine2: '',
       city: this.checkoutForm.get('billingCity')?.value,
-      province: this.checkoutForm.get('billingProvince')?.value,
-      postalCode: this.checkoutForm.get('billingPostalCode')?.value,
+      state: this.checkoutForm.get('billingProvince')?.value,
+      zipCode: this.checkoutForm.get('billingPostalCode')?.value,
       country: this.checkoutForm.get('billingCountry')?.value
     };
   }
@@ -280,8 +404,9 @@ export class GuestCheckoutComponent implements OnInit, OnDestroy {
       productId: item.productId,
       productName: item.productName,
       quantity: item.quantity,
-      price: item.price,
-      imageUrl: item.imageUrl
+      productPrice: item.price,
+      productImage: item.imageUrl || item.productImage,
+      subtotal: item.price * item.quantity
     }));
   }
 
