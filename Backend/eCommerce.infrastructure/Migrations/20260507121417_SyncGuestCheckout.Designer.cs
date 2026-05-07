@@ -12,7 +12,7 @@ using eCommerce.Infrastructure.Data;
 namespace eCommerce.infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260427122920_SyncGuestCheckout")]
+    [Migration("20260507121417_SyncGuestCheckout")]
     partial class SyncGuestCheckout
     {
         /// <inheritdoc />
@@ -54,13 +54,13 @@ namespace eCommerce.infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ea648fdb-1609-4fba-b5fc-5bd72d5c19b1",
+                            Id = "1a8b78f5-9238-4c92-a61e-21b35fbbe81a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "cd4b9e90-48fc-4262-b8f9-1f9936737876",
+                            Id = "d447b6fb-56cc-45e5-89df-6211634ecd1a",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -513,15 +513,12 @@ namespace eCommerce.infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Price")

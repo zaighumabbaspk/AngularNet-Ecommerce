@@ -12,8 +12,8 @@ using eCommerce.Infrastructure.Data;
 namespace eCommerce.infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260423123634_EnhancedCheckout")]
-    partial class EnhancedCheckout
+    [Migration("20260507121302_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,13 @@ namespace eCommerce.infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fce134e1-425c-4ea8-a51a-95cf9fa1c805",
+                            Id = "68f2fad9-f402-4586-9c14-16f4c22619f5",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "7d73e2d9-befd-4bbc-8b20-5106fb4e419f",
+                            Id = "26d300da-073c-4a8e-973b-f1a2f8c3f0be",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -349,7 +349,18 @@ namespace eCommerce.infrastructure.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
+                    b.Property<string>("GuestEmail")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("GuestOrderToken")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<bool>("IsGift")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsGuestOrder")
                         .HasColumnType("bit");
 
                     b.Property<bool>("NewsletterSubscription")
@@ -401,7 +412,6 @@ namespace eCommerce.infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -503,15 +513,12 @@ namespace eCommerce.infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Price")
@@ -709,11 +716,12 @@ namespace eCommerce.infrastructure.Migrations
 
             modelBuilder.Entity("eCommerce.Domain.Entities.Order", b =>
                 {
-                    b.HasOne("eCommerce.Domain.Entities.Identity.AppUser", null)
+                    b.HasOne("eCommerce.Domain.Entities.Identity.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("eCommerce.Domain.Entities.OrderItem", b =>
