@@ -9,6 +9,7 @@ using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add Azure Key Vault configuration (works in both Development and Production)
 var keyVaultUrl = "https://ecommerce-zaighum-kv.vault.azure.net/";
 builder.Configuration.AddAzureKeyVault(
     new Uri(keyVaultUrl),
@@ -16,7 +17,7 @@ builder.Configuration.AddAzureKeyVault(
 );
 
 // ---------------------
-// Serilog
+// Serilog Configuration
 // ---------------------
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
@@ -27,16 +28,31 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
+// ---------------------
+// Stripe Configuration
+// ---------------------
 builder.Services.Configure<StripeSettings>(
     builder.Configuration.GetSection("Stripe"));
 
-Stripe.StripeConfiguration.ApiKey =
-    builder.Configuration["Stripe:SecretKey"];
+Stripe.StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
-builder.Configuration.AddUserSecrets<Program>();
+// ---------------------
+// User Secrets - Development ONLY
+// ---------------------
+if (builder.Environment.IsDevelopment())
+{
+    builder.Configuration.AddUserSecrets<Program>();
+}
+
+// ---------------------
+// Service Registrations
+// ---------------------
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices(builder.Configuration);
 
+// ---------------------
+// Controllers Configuration
+// ---------------------
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -46,9 +62,9 @@ builder.Services.AddControllers()
 
 builder.Services.AddEndpointsApiExplorer();
 
-
-
-
+// ---------------------
+// Swagger Configuration
+// ---------------------
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -83,6 +99,9 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+// ---------------------
+// CORS Configuration
+// ---------------------
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -93,15 +112,17 @@ builder.Services.AddCors(options =>
     });
 });
 
-
+// ---------------------
+// Application Pipeline
+// ---------------------
 try
 {
     var app = builder.Build();
 
+    // Seed Roles
     using (var scope = app.Services.CreateScope())
     {
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
         string[] roles = { "User", "Admin" };
 
         foreach (var role in roles)
@@ -113,9 +134,8 @@ try
         }
     }
 
-    // ❌ NO Database.Migrate() here
+    // Middleware Pipeline
     app.UseSerilogRequestLogging();
-
     app.UseCors("AllowAll");
 
     if (app.Environment.IsDevelopment())
@@ -127,7 +147,6 @@ try
     app.UseHttpsRedirection();
     app.UseAuthentication();
     app.UseAuthorization();
-
     app.MapControllers();
 
     app.Run();
