@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { switchMap, startWith, tap } from 'rxjs/operators';
-import { environment } from '../../environment/environment';
+import { environment } from '../../../environments/environment';
 import { AddToWishlistRequest, WishlistResponse } from '../Models/wishlist.models';
 
 @Injectable({

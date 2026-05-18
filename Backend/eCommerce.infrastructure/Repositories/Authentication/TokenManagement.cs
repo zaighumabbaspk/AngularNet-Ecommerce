@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.Extensions.Logging;
 
 namespace eCommerce.infrastructure.Repositories.Authentication
 {
@@ -16,11 +17,13 @@ namespace eCommerce.infrastructure.Repositories.Authentication
 
         private readonly IConfiguration _configuration;
         private readonly AppDbContext _context;
+        private readonly Microsoft.Extensions.Logging.ILogger<TokenManagement> _logger;
 
-        public TokenManagement(IConfiguration configuration, AppDbContext context)
+        public TokenManagement(IConfiguration configuration, AppDbContext context, Microsoft.Extensions.Logging.ILogger<TokenManagement> logger)
         {
             _configuration = configuration;
             _context = context;
+            _logger = logger;
         }
         public async Task<int> AddRefreshToken(string userId, string refreshToken)
         {
@@ -29,14 +32,8 @@ namespace eCommerce.infrastructure.Repositories.Authentication
                 UserId = userId,
                 Token = refreshToken,
             });
-
-
             return await _context.SaveChangesAsync();
-
-           
         }
-
-
         public string GenerateToken(List<Claim> claims)
         {
             var key = new SymmetricSecurityKey(
@@ -73,11 +70,12 @@ namespace eCommerce.infrastructure.Repositories.Authentication
             var tokenHandler = new JwtSecurityTokenHandler();
             var jwtToken = tokenHandler.ReadJwtToken(token);
 
-            if(jwtToken != null)
+            if (jwtToken != null)
             {
                 return jwtToken.Claims.ToList();
             }
-            return [];
+
+            return new List<Claim>();
 
         }
 
@@ -106,7 +104,20 @@ namespace eCommerce.infrastructure.Repositories.Authentication
             
             }
 
-            return await _context.SaveChangesAsync();
+            try
+            {
+                return await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                try
+                {
+                    _logger?.LogError(ex, "Failed SaveChanges while updating refresh token for UserId={UserId}. ExistingTokenId={ExistingId}", userId, existingToken?.Id);
+                }
+                catch { }
+
+                throw; // rethrow for upstream handling
+            }
         }
 
 

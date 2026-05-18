@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, of, throwError, tap, switchMap } from 'rxjs';
-import { environment } from '../../environment/environment';
+import { environment } from '../../../environments/environment';
 import { AddToCartRequest, UpdateCartItemRequest, GetCart, GetCartItem } from '../Models/cart.model';
 import { AuthService } from './auth.service';
 import { ProductService } from './product.service';

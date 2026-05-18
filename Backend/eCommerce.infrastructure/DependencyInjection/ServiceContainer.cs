@@ -35,12 +35,12 @@ namespace eCommerce.Infrastructure.DependencyInjection
             // -------------------- DbContext --------------------
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlServer(
+                options.UseSqlite(
                     connectionString,
-                    sqlOptions =>
+                    sqliteOptions =>
                     {
-                        sqlOptions.MigrationsAssembly("eCommerce.Infrastructure");
-                        sqlOptions.EnableRetryOnFailure();
+                        sqliteOptions.MigrationsAssembly("eCommerce.Infrastructure");
+                        sqliteOptions.CommandTimeout(60);
                     });
 
                 options.UseExceptionProcessor();

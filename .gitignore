@@ -4,6 +4,14 @@
 **/bin/
 **/obj/
 **/.vs/
+**/_verify_build/
+
+# ==================================
+# Database files (SQLite)
+# ==================================
+*.db
+*.db-shm
+*.db-wal
 
 # ==================================
 # Environment / Secrets - Backend Only

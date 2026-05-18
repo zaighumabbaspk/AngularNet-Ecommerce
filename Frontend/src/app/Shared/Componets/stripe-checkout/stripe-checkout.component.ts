@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { StripeService } from '../../../Core/Services/stripe.service';
 import { CheckoutService } from '../../../Core/Services/checkout.service';
 import { CreatePaymentIntentRequest, ConfirmPaymentRequest } from '../../../Core/Models/checkout.model';
-import { environment } from '../../../environment/environment';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-stripe-checkout',

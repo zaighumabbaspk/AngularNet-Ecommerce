@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { environment } from '../../environment/environment';
+import { environment } from '../../../environments/environment';
 import { LoginRequest, SignupRequest, LoginResponse, User, AuthState } from '../Models/auth.model';
 import { jwtDecode } from 'jwt-decode';
 

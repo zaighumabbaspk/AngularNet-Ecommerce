@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { environment } from '../../../environment/environment';
+import { environment } from '../../../../environments/environment';
 import { CheckoutService } from '../../../Core/Services/checkout.service';
 import { CartService } from '../../../Core/Services/cart.service';
 import { OrderService } from '../../../Core/Services/order.service';

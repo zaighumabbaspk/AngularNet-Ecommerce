@@ -4,7 +4,7 @@ import { HeaderComponent } from './Shared/Componets/header/header.component';
 import { FooterComponent } from './Shared/Componets/footer/footer.component';
 import { CartDrawerComponent } from './Shared/Componets/cart-drawer/cart-drawer.component';
 import { NotificationContainerComponent } from './Shared/Componets/notification-container/notification-container.component';
-import { environment } from './environment/environment';
+import { environment } from '../environments/environment';
 import { CartService } from './Core/Services/cart.service';
 
 @Component({

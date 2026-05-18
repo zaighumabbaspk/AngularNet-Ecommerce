@@ -119,7 +119,7 @@ A sophisticated, production-ready eCommerce application built with modern techno
    ```bash
    dotnet run
    ```
-   API will be available at `https://localhost:7139`
+   API will be available at `https://localhost:7138`
 
 ### Frontend Setup
 
