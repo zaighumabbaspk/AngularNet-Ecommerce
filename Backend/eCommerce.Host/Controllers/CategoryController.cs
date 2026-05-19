@@ -14,7 +14,7 @@ namespace eCommerce.Host.Controllers
         [AllowAnonymous]  // Everyone can view categories
         public async Task<IActionResult> GetAll()
         {
-            var data = await categoryService.GetAllAsync();
+        var data = await categoryService.GetAllAsync();
             return data.Any() ? Ok(data) : NotFound(data);
         }
 
