@@ -1,28 +1,30 @@
-﻿using eCommerce.Application.Configuration;
+﻿using Azure.Identity;
+using eCommerce.Application.Configuration;
 using eCommerce.Application.DependencyInjection;
 using eCommerce.Infrastructure.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Text.Json.Serialization;
-using Azure.Identity;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add Azure Key Vault configuration (Production only)
+// Key Vault - only in Production
 //if (builder.Environment.IsProduction())
 //{
-//    var keyVaultUrl = "https://ecommerce-zaighum-kv.vault.azure.net/";
-//    builder.Configuration.AddAzureKeyVault(
-//        new Uri(keyVaultUrl),
-//        new DefaultAzureCredential()
-//    );
+//    var keyVaultUrl = builder.Configuration["KeyVault:Url"];
+
+//    if (!string.IsNullOrWhiteSpace(keyVaultUrl))
+//    {
+//        builder.Configuration.AddAzureKeyVault(
+//            new Uri(keyVaultUrl),
+//            new DefaultAzureCredential()
+//        );
+//    }
 //}
 
-// ---------------------
-// Serilog Configuration
-// ---------------------
+// Serilog
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
@@ -32,43 +34,24 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-Log.Information("Application starting...");
-Log.Information("Environment: {Environment}", builder.Environment.EnvironmentName);
-
-// ---------------------
-// Stripe Configuration
-// ---------------------
 builder.Services.Configure<StripeSettings>(
     builder.Configuration.GetSection("Stripe"));
 
 var stripeSecretKey = builder.Configuration["Stripe:SecretKey"];
-if (!string.IsNullOrEmpty(stripeSecretKey))
+if (!string.IsNullOrWhiteSpace(stripeSecretKey))
 {
     Stripe.StripeConfiguration.ApiKey = stripeSecretKey;
-    Log.Information("✓ Stripe configured successfully");
-}
-else
-{
-    Log.Warning("⚠ Stripe:SecretKey not found - Stripe functionality will be disabled");
 }
 
-// ---------------------
-// Service Registrations
-// ---------------------
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices(builder.Configuration);
 
-// ---------------------
-// Controllers Configuration
-// ---------------------
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-        options.JsonSerializerOptions.WriteIndented = true;
     });
 
-// Configure routing
 builder.Services.Configure<RouteOptions>(options =>
 {
     options.LowercaseUrls = true;
@@ -76,9 +59,6 @@ builder.Services.Configure<RouteOptions>(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 
-// ---------------------
-// Swagger Configuration
-// ---------------------
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -93,8 +73,7 @@ builder.Services.AddSwaggerGen(options =>
         Type = SecuritySchemeType.Http,
         Scheme = "bearer",
         BearerFormat = "JWT",
-        In = ParameterLocation.Header,
-        Description = "Enter 'Bearer' followed by a space and your token"
+        In = ParameterLocation.Header
     });
 
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -108,121 +87,75 @@ builder.Services.AddSwaggerGen(options =>
                     Id = "Bearer"
                 }
             },
-            new string[] {}
+            Array.Empty<string>()
         }
     });
 });
 
-// ---------------------
-// CORS Configuration
-// ---------------------
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
-              .AllowAnyMethod()
-              .AllowAnyHeader()
-              .AllowCredentials();
-    });
-    
-    // Keep AllowAll for development
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
+        policy.WithOrigins(
+                "http://localhost:4200",
+                "https://localhost:4200",
+                "https://angular-net-ecommerce.vercel.app"
+            )
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
     });
 });
 
-// ---------------------
-// Application Pipeline
-// ---------------------
-try
+var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
 {
-    var app = builder.Build();
-
-    Log.Information("Building application pipeline...");
-
-    // Ensure database is migrated and seed Roles
-    using (var scope = app.Services.CreateScope())
+    try
     {
-        try
+        var db = scope.ServiceProvider.GetRequiredService<eCommerce.Infrastructure.Data.AppDbContext>();
+        await db.Database.MigrateAsync();
+
+        db.Database.ExecuteSqlRaw("PRAGMA journal_mode=WAL;");
+        db.Database.ExecuteSqlRaw("PRAGMA busy_timeout=30000;");
+
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        string[] roles = { "User", "Admin" };
+
+        foreach (var role in roles)
         {
-            // Apply any pending EF Core migrations (creates missing tables like RefreshToken)
-            var db = scope.ServiceProvider.GetRequiredService<eCommerce.Infrastructure.Data.AppDbContext>();
-            await db.Database.MigrateAsync();
-
-            try
+            if (!await roleManager.RoleExistsAsync(role))
             {
-                // Enable WAL mode and set a busy timeout to reduce "database is locked" errors when using SQLite
-                db.Database.ExecuteSqlRaw("PRAGMA journal_mode=WAL;");
-                db.Database.ExecuteSqlRaw("PRAGMA busy_timeout=30000;");
-                Log.Information("✓ SQLite PRAGMA applied: WAL + busy_timeout");
+                await roleManager.CreateAsync(new IdentityRole(role));
             }
-            catch (Exception ex)
-            {
-                Log.Warning(ex, "Could not apply SQLite PRAGMA settings");
-            }
-
-            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            string[] roles = { "User", "Admin" };
-
-            foreach (var role in roles)
-            {
-                if (!await roleManager.RoleExistsAsync(role))
-                {
-                    Log.Information("Creating role: {Role}", role);
-                    await roleManager.CreateAsync(new IdentityRole(role));
-                }
-            }
-
-            Log.Information("✓ Database migrated and roles seeded successfully");
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "Error applying migrations or seeding roles");
         }
     }
-
-    // Middleware Pipeline
-    // Register custom infrastructure middleware (ExceptionMiddleware)
-    app.UseInfrastructureService();
-
-    app.UseSerilogRequestLogging();
-    app.UseCors("AllowFrontend");
-
-    if (app.Environment.IsDevelopment())
+    catch (Exception ex)
     {
-        Log.Information("✓ Swagger UI enabled (Development mode)");
-        app.UseSwagger();
-        app.UseSwaggerUI(options =>
-        {
-            options.SwaggerEndpoint("/swagger/v1/swagger.json", "eCommerce API v1");
-            options.RoutePrefix = "swagger"; // Swagger at: /swagger
-        });
+        Log.Error(ex, "Database migration or role seeding failed");
     }
-
-    app.UseHttpsRedirection();
-    app.UseAuthentication();
-    app.UseAuthorization();
-    
-    // Map controllers
-    app.MapControllers();
-
-    Log.Information("Application pipeline built successfully");
-    Log.Information("====================================");
-    Log.Information("✓ Application ready!");
-    Log.Information("✓ Swagger UI: https://localhost:7138/swagger (HTTPS) or http://localhost:5217/swagger (HTTP)");
-    Log.Information("====================================");
-
-    app.Run();
 }
-catch (Exception ex)
+
+app.UseInfrastructureService();
+
+app.UseSerilogRequestLogging();
+
+app.UseSwagger();
+app.UseSwaggerUI(options =>
 {
-    Log.Fatal(ex, "Application startup failed");
-}
-finally
-{
-    Log.CloseAndFlush();
-}
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "eCommerce API v1");
+    options.RoutePrefix = "swagger";
+});
+
+app.UseHttpsRedirection();
+
+app.UseCors("AllowFrontend");
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Urls.Add("http://0.0.0.0:8080");
+
+app.Run();
