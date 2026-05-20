@@ -24,10 +24,10 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Build with dotnet
-        run: dotnet build ./Backend/eCommerce.Host/eCommerce.Host.csproj --configuration Release
+        run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish ./Backend/eCommerce.Host/eCommerce.Host.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -51,9 +51,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_7C0422B575DE46429C9EF09B496FA52F }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D42BB08AFD6F49428935013FE0E8A2FE }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_5A4617DD331143D399C32C3979F7C4E1 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B53B76EA9BA644B0B437DC2D8470090D }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_0C6A0319606F44458CAE4360F60DC06A }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_64683FA06BC6485DA010495D45F38AC3 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
