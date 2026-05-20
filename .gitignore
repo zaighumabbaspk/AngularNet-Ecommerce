@@ -17,8 +17,6 @@
 # Environment / Secrets - Backend Only
 # ==================================
 # Backend sensitive files
-appsettings.Development.json
-appsettings.Production.json
 appsettings.Local.json
 *.env
 

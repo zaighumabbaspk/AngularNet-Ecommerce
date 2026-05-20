@@ -99,7 +99,7 @@ builder.Services.AddCors(options =>
         policy.WithOrigins(
                 "http://localhost:4200",
                 "https://localhost:4200",
-                "https://angular-net-ecommerce.vercel.app"
+                "https://luxelivingwebzaighum.z23.web.core.windows.net/"
             )
             .AllowAnyMethod()
             .AllowAnyHeader()
