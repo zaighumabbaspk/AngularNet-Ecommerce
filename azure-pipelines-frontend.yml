@@ -5,58 +5,17 @@ trigger:
   paths:
     include:
       - Frontend/*
+    exclude:
       - Backend/*
 
 variables:
-  azureSubscription: 'azure-subscription-connection'   # your service connection name
-  backendAppName: 'ecommerce-prod-api'                 # confirmed App Service name
-  storageAccountName: 'ecommerceprodstore'             # confirmed Storage account name
-  buildConfiguration: 'Release'
+  azureSubscription: 'azure-subscription-connection'
+  storageAccountName: 'ecommerceprodstore'
   vmImageName: 'ubuntu-latest'
 
 stages:
-- stage: Build_Backend
-  displayName: 'Build Backend (.NET)'
-  jobs:
-  - job: BuildBackend
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: UseDotNet@2
-      inputs:
-        packageType: 'sdk'
-        version: '8.x'
-
-    - task: DotNetCoreCLI@2
-      displayName: 'Restore'
-      inputs:
-        command: 'restore'
-        projects: 'Backend/**/*.csproj'
-
-    - task: DotNetCoreCLI@2
-      displayName: 'Build'
-      inputs:
-        command: 'build'
-        projects: 'Backend/**/*.csproj'
-        arguments: '--configuration $(buildConfiguration) --no-restore'
-
-    - task: DotNetCoreCLI@2
-      displayName: 'Publish'
-      inputs:
-        command: 'publish'
-        publishWebProjects: false
-        projects: 'Backend/eCommerce.Host/eCommerce.Host.csproj'
-        arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/backend'
-        zipAfterPublish: true
-
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)/backend'
-        ArtifactName: 'backend-drop'
-
 - stage: Build_Frontend
   displayName: 'Build Frontend (Angular)'
-  dependsOn: []
   jobs:
   - job: BuildFrontend
     pool:
@@ -80,26 +39,6 @@ stages:
       inputs:
         PathtoPublish: 'Frontend/dist'
         ArtifactName: 'frontend-drop'
-
-- stage: Deploy_Backend
-  displayName: 'Deploy Backend'
-  dependsOn: Build_Backend
-  condition: succeeded()
-  jobs:
-  - deployment: DeployBackend
-    pool:
-      vmImage: $(vmImageName)
-    environment: 'production'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: AzureWebApp@1
-            inputs:
-              azureSubscription: '$(azureSubscription)'
-              appType: 'webApp'
-              appName: '$(backendAppName)'
-              package: '$(Pipeline.Workspace)/backend-drop/**/*.zip'
 
 - stage: Deploy_Frontend
   displayName: 'Deploy Frontend'
