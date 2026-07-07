@@ -99,7 +99,7 @@ builder.Services.AddCors(options =>
         policy.WithOrigins(
                 "http://localhost:4200",
                 "https://localhost:4200",
-                "https://ecommerceprodstore.z23.web.core.windows.net/"
+                "https://ecommerceprodstore.z23.web.core.windows.net"
             )
             .AllowAnyMethod()
             .AllowAnyHeader()
