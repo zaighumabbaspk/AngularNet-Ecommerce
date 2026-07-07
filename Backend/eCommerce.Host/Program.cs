@@ -99,7 +99,7 @@ builder.Services.AddCors(options =>
         policy.WithOrigins(
                 "http://localhost:4200",
                 "https://localhost:4200",
-                "https://luxelivingwebzaighum.z23.web.core.windows.net"
+                "https://ecommerceprodstore.z23.web.core.windows.net/"
             )
             .AllowAnyMethod()
             .AllowAnyHeader()
@@ -155,5 +155,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.Urls.Add("http://0.0.0.0:8080");
 
 app.Run();
