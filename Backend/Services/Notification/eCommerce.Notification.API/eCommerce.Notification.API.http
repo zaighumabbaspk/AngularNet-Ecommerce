@@ -1,6 +1,0 @@
-@eCommerce.Notification.API_HostAddress = http://localhost:5237
-
-GET {{eCommerce.Notification.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
